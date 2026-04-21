@@ -2,6 +2,7 @@ import { useState } from 'react';
 import reactLogo from '@/assets/react.svg';
 import wxtLogo from '/wxt.svg';
 import './App.css';
+import '@/assets/tailwind.css';
 
 function App() {
   const [count, setCount] = useState(0);
