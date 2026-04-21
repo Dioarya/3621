@@ -6,4 +6,6 @@ export default defineConfig({
   suppressWarnings: {
     firefoxDataCollection: true,
   },
+
+  srcDir: "src",
 });
