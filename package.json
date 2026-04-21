@@ -1,6 +1,6 @@
 {
-  "name": "ae621",
-  "description": "Arxhield's e621 extension.",
+  "name": "e6hancer",
+  "description": "Arxhield's e621 enhanced.",
   "private": true,
   "version": "0.0.1",
   "type": "module",
