@@ -7,5 +7,11 @@ export default defineConfig({
     firefoxDataCollection: true,
   },
 
+  webExt: {
+    binaries: {
+      firefox: "firefoxdeveloperedition", // Use Firefox Developer Edition instead of regular Firefox
+    },
+  },
+
   srcDir: "src",
 });
