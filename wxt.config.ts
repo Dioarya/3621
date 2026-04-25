@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { defineConfig } from "wxt";
 import tailwindcss from "@tailwindcss/vite";
+import icong from "./scripts/vitePlugins/icong.ts";
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
@@ -10,7 +11,7 @@ export default defineConfig({
   },
 
   vite: () => ({
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), icong()],
   }),
 
   webExt: {
