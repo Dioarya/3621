@@ -10,6 +10,10 @@ export default defineConfig({
     firefoxDataCollection: true,
   },
 
+  manifest: {
+    permissions: ["storage"],
+  },
+
   vite: () => ({
     plugins: [tailwindcss(), icong()],
   }),

@@ -1,0 +1,242 @@
+/* ============================================
+   Design Tokens & Theme Switching
+   Light mode values are the defaults.
+   Dark mode is handled via:
+     - @media (prefers-color-scheme: dark) for system preference
+     - :root.dark / :root.light for manual override
+   ============================================ */
+
+/* Light mode defaults */
+:root {
+  /* Primary Brand — Red */
+  --color-brand-primary: #ff312e;
+  --color-brand-primary-hover: #e82b28;
+  --color-brand-primary-active: #cc2522;
+  --color-brand-primary-subtle: #ffe8e8; /* Tinted background for primary brand elements */
+  --color-brand-primary-text: #fff; /* Text on primary brand-colored backgrounds */
+
+  /* Secondary Brand — Purple */
+  --color-brand-secondary: #8884ff;
+  --color-brand-secondary-hover: #7a76f0;
+  --color-brand-secondary-active: #6c68e0;
+  --color-brand-secondary-subtle: #e8e7ff; /* Tinted background for secondary brand elements */
+  --color-brand-secondary-text: #fff; /* Text on secondary brand-colored backgrounds */
+
+  /* Primary Surface — Neutral with a very subtle warm/red tint to complement the primary brand */
+  --color-surface-primary-50: #fafafa; /* Near white — lightest backgrounds */
+  --color-surface-primary-100: #f5f4f4; /* Page background */
+  --color-surface-primary-200: #e8e6e6; /* Card / panel background */
+  --color-surface-primary-300: #d0cdcd; /* Hover states */
+  --color-surface-primary-400: #b0acac; /* Disabled elements */
+  --color-surface-primary-500: #8a8585; /* Mid-tone — true neutral */
+  --color-surface-primary-600: #6a6565; /* Muted elements */
+  --color-surface-primary-700: #4a4646; /* Secondary text */
+  --color-surface-primary-800: #2e2b2b; /* Primary text on light */
+  --color-surface-primary-900: #1a1818; /* Near black — deep backgrounds */
+  --color-surface-primary-950: #0d0c0c; /* Deepest — used for overlays */
+
+  /* Secondary Surface — Neutral with a very subtle cool/purple tint to complement the secondary brand */
+  --color-surface-secondary-50: #fafaff; /* Near white — lightest backgrounds */
+  --color-surface-secondary-100: #f4f4f9; /* Page background */
+  --color-surface-secondary-200: #e6e5f0; /* Card / panel background */
+  --color-surface-secondary-300: #cccce0; /* Hover states */
+  --color-surface-secondary-400: #acabc8; /* Disabled elements */
+  --color-surface-secondary-500: #8685a8; /* Mid-tone — true neutral */
+  --color-surface-secondary-600: #636280; /* Muted elements */
+  --color-surface-secondary-700: #444360; /* Secondary text */
+  --color-surface-secondary-800: #2a2940; /* Primary text on light */
+  --color-surface-secondary-900: #181828; /* Near black — deep backgrounds */
+  --color-surface-secondary-950: #0c0c18; /* Deepest — used for overlays */
+
+  /* Primary Text */
+  --color-text-primary: #1a1818; /* Primary text */
+  --color-text-primary-muted: #6a6565; /* Secondary / placeholder text */
+  --color-text-primary-inverted: #fff; /* Text on dark backgrounds */
+
+  /* Secondary Text — slightly purple-tinted */
+  --color-text-secondary: #181828; /* Primary text */
+  --color-text-secondary-muted: #636280; /* Secondary / placeholder text */
+  --color-text-secondary-inverted: #fff; /* Text on dark backgrounds */
+
+  /* Primary Border */
+  --color-border-primary: #d0cdcd; /* Default border */
+  --color-border-primary-subtle: #e8e6e6; /* Subtle / hairline border */
+
+  /* Secondary Border — slightly purple-tinted */
+  --color-border-secondary: #cccce0; /* Default border */
+  --color-border-secondary-subtle: #e6e5f0; /* Subtle / hairline border */
+}
+
+/* ============================================
+   System Dark Mode
+   Only applies when neither .dark nor .light
+   is set on :root — defers to OS preference.
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root:not(.dark, .light) {
+    /* Primary surface scale inverted for dark mode */
+    --color-surface-primary-50: #0d0c0c;
+    --color-surface-primary-100: #1a1818;
+    --color-surface-primary-200: #2e2b2b;
+    --color-surface-primary-300: #4a4646;
+    --color-surface-primary-400: #6a6565;
+    --color-surface-primary-500: #8a8585;
+    --color-surface-primary-600: #b0acac;
+    --color-surface-primary-700: #d0cdcd;
+    --color-surface-primary-800: #e8e6e6;
+    --color-surface-primary-900: #f5f4f4;
+    --color-surface-primary-950: #fafafa;
+
+    /* Secondary surface scale inverted for dark mode */
+    --color-surface-secondary-50: #0c0c18;
+    --color-surface-secondary-100: #181828;
+    --color-surface-secondary-200: #2a2940;
+    --color-surface-secondary-300: #444360;
+    --color-surface-secondary-400: #636280;
+    --color-surface-secondary-500: #8685a8;
+    --color-surface-secondary-600: #acabc8;
+    --color-surface-secondary-700: #cccce0;
+    --color-surface-secondary-800: #e6e5f0;
+    --color-surface-secondary-900: #f4f4f9;
+    --color-surface-secondary-950: #fafaff;
+
+    /* Primary brand subtle darkened to avoid blinding on dark backgrounds */
+    --color-brand-primary-subtle: #3d0c0b;
+
+    /* Secondary brand subtle darkened to avoid blinding on dark backgrounds */
+    --color-brand-secondary-subtle: #1e1d52;
+
+    /* Primary text inverted */
+    --color-text-primary: #f5f4f4;
+    --color-text-primary-muted: #b0acac;
+    --color-text-primary-inverted: #0d0c0c;
+
+    /* Secondary text inverted */
+    --color-text-secondary: #f4f4f9;
+    --color-text-secondary-muted: #acabc8;
+    --color-text-secondary-inverted: #0c0c18;
+
+    /* Primary border darkened */
+    --color-border-primary: #4a4646;
+    --color-border-primary-subtle: #2e2b2b;
+
+    /* Secondary border darkened */
+    --color-border-secondary: #444360;
+    --color-border-secondary-subtle: #2a2940;
+  }
+}
+
+/* ============================================
+   Manual Dark Mode
+   Applied by adding .dark to <html> via JS.
+   Overrides system preference.
+   ============================================ */
+:root.dark {
+  /* Primary surface scale inverted for dark mode */
+  --color-surface-primary-50: #0d0c0c;
+  --color-surface-primary-100: #1a1818;
+  --color-surface-primary-200: #2e2b2b;
+  --color-surface-primary-300: #4a4646;
+  --color-surface-primary-400: #6a6565;
+  --color-surface-primary-500: #8a8585;
+  --color-surface-primary-600: #b0acac;
+  --color-surface-primary-700: #d0cdcd;
+  --color-surface-primary-800: #e8e6e6;
+  --color-surface-primary-900: #f5f4f4;
+  --color-surface-primary-950: #fafafa;
+
+  /* Secondary surface scale inverted for dark mode */
+  --color-surface-secondary-50: #0c0c18;
+  --color-surface-secondary-100: #181828;
+  --color-surface-secondary-200: #2a2940;
+  --color-surface-secondary-300: #444360;
+  --color-surface-secondary-400: #636280;
+  --color-surface-secondary-500: #8685a8;
+  --color-surface-secondary-600: #acabc8;
+  --color-surface-secondary-700: #cccce0;
+  --color-surface-secondary-800: #e6e5f0;
+  --color-surface-secondary-900: #f4f4f9;
+  --color-surface-secondary-950: #fafaff;
+
+  /* Primary brand subtle darkened to avoid blinding on dark backgrounds */
+  --color-brand-primary-subtle: #3d0c0b;
+
+  /* Secondary brand subtle darkened to avoid blinding on dark backgrounds */
+  --color-brand-secondary-subtle: #1e1d52;
+
+  /* Primary text inverted */
+  --color-text-primary: #f5f4f4;
+  --color-text-primary-muted: #b0acac;
+  --color-text-primary-inverted: #0d0c0c;
+
+  /* Secondary text inverted */
+  --color-text-secondary: #f4f4f9;
+  --color-text-secondary-muted: #acabc8;
+  --color-text-secondary-inverted: #0c0c18;
+
+  /* Primary border darkened */
+  --color-border-primary: #4a4646;
+  --color-border-primary-subtle: #2e2b2b;
+
+  /* Secondary border darkened */
+  --color-border-secondary: #444360;
+  --color-border-secondary-subtle: #2a2940;
+}
+
+/* ============================================
+   Manual Light Mode
+   Applied by adding .light to <html> via JS.
+   Explicitly restores light values when OS is
+   in dark mode but user prefers light.
+   ============================================ */
+:root.light {
+  /* Primary surface scale restored to light defaults */
+  --color-surface-primary-50: #fafafa;
+  --color-surface-primary-100: #f5f4f4;
+  --color-surface-primary-200: #e8e6e6;
+  --color-surface-primary-300: #d0cdcd;
+  --color-surface-primary-400: #b0acac;
+  --color-surface-primary-500: #8a8585;
+  --color-surface-primary-600: #6a6565;
+  --color-surface-primary-700: #4a4646;
+  --color-surface-primary-800: #2e2b2b;
+  --color-surface-primary-900: #1a1818;
+  --color-surface-primary-950: #0d0c0c;
+
+  /* Secondary surface scale restored to light defaults */
+  --color-surface-secondary-50: #fafaff;
+  --color-surface-secondary-100: #f4f4f9;
+  --color-surface-secondary-200: #e6e5f0;
+  --color-surface-secondary-300: #cccce0;
+  --color-surface-secondary-400: #acabc8;
+  --color-surface-secondary-500: #8685a8;
+  --color-surface-secondary-600: #636280;
+  --color-surface-secondary-700: #444360;
+  --color-surface-secondary-800: #2a2940;
+  --color-surface-secondary-900: #181828;
+  --color-surface-secondary-950: #0c0c18;
+
+  /* Primary brand subtle restored */
+  --color-brand-primary-subtle: #ffe8e8;
+
+  /* Secondary brand subtle restored */
+  --color-brand-secondary-subtle: #e8e7ff;
+
+  /* Primary text restored */
+  --color-text-primary: #1a1818;
+  --color-text-primary-muted: #6a6565;
+  --color-text-primary-inverted: #fff;
+
+  /* Secondary text restored */
+  --color-text-secondary: #181828;
+  --color-text-secondary-muted: #636280;
+  --color-text-secondary-inverted: #fff;
+
+  /* Primary border restored */
+  --color-border-primary: #d0cdcd;
+  --color-border-primary-subtle: #e8e6e6;
+
+  /* Secondary border restored */
+  --color-border-secondary: #cccce0;
+  --color-border-secondary-subtle: #e6e5f0;
+}

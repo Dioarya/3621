@@ -1,5 +1,83 @@
+/* ============================================
+   Tailwind v4 Entry Point
+   Imports Tailwind layers and global tokens,
+   then bridges CSS variables to Tailwind's
+   @theme system for utility class generation.
+   ============================================ */
+
 @layer theme, base, components, utilities;
 
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css" layer(utilities);
+@import url("tailwindcss/theme.css") layer(theme);
+@import url("tailwindcss/preflight.css") layer(base);
+@import url("tailwindcss/utilities.css") layer(utilities);
+
+/* Global design tokens — defines the actual CSS variable values */
+@import "./global.css";
+
+@theme {
+  /* Primary Brand — mapped from global.css tokens
+     Generates: bg-brand-primary, text-brand-primary, border-brand-primary etc. */
+  --color-brand-primary: var(--color-brand-primary);
+  --color-brand-primary-hover: var(--color-brand-primary-hover);
+  --color-brand-primary-active: var(--color-brand-primary-active);
+  --color-brand-primary-subtle: var(--color-brand-primary-subtle);
+  --color-brand-primary-text: var(--color-brand-primary-text);
+
+  /* Secondary Brand — mapped from global.css tokens
+     Generates: bg-brand-secondary, text-brand-secondary, border-brand-secondary etc. */
+  --color-brand-secondary: var(--color-brand-secondary);
+  --color-brand-secondary-hover: var(--color-brand-secondary-hover);
+  --color-brand-secondary-active: var(--color-brand-secondary-active);
+  --color-brand-secondary-subtle: var(--color-brand-secondary-subtle);
+  --color-brand-secondary-text: var(--color-brand-secondary-text);
+
+  /* Primary Surface — red-tinted neutral scale
+     Generates: bg-surface-primary-50 through bg-surface-primary-950 etc. */
+  --color-surface-primary-50: var(--color-surface-primary-50);
+  --color-surface-primary-100: var(--color-surface-primary-100);
+  --color-surface-primary-200: var(--color-surface-primary-200);
+  --color-surface-primary-300: var(--color-surface-primary-300);
+  --color-surface-primary-400: var(--color-surface-primary-400);
+  --color-surface-primary-500: var(--color-surface-primary-500);
+  --color-surface-primary-600: var(--color-surface-primary-600);
+  --color-surface-primary-700: var(--color-surface-primary-700);
+  --color-surface-primary-800: var(--color-surface-primary-800);
+  --color-surface-primary-900: var(--color-surface-primary-900);
+  --color-surface-primary-950: var(--color-surface-primary-950);
+
+  /* Secondary Surface — purple-tinted neutral scale
+     Generates: bg-surface-secondary-50 through bg-surface-secondary-950 etc. */
+  --color-surface-secondary-50: var(--color-surface-secondary-50);
+  --color-surface-secondary-100: var(--color-surface-secondary-100);
+  --color-surface-secondary-200: var(--color-surface-secondary-200);
+  --color-surface-secondary-300: var(--color-surface-secondary-300);
+  --color-surface-secondary-400: var(--color-surface-secondary-400);
+  --color-surface-secondary-500: var(--color-surface-secondary-500);
+  --color-surface-secondary-600: var(--color-surface-secondary-600);
+  --color-surface-secondary-700: var(--color-surface-secondary-700);
+  --color-surface-secondary-800: var(--color-surface-secondary-800);
+  --color-surface-secondary-900: var(--color-surface-secondary-900);
+  --color-surface-secondary-950: var(--color-surface-secondary-950);
+
+  /* Primary Text — mapped from global.css tokens
+     Generates: text-text-primary, text-text-primary-muted, text-text-primary-inverted */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-primary-muted: var(--color-text-primary-muted);
+  --color-text-primary-inverted: var(--color-text-primary-inverted);
+
+  /* Secondary Text — mapped from global.css tokens
+     Generates: text-text-secondary, text-text-secondary-muted, text-text-secondary-inverted */
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-secondary-muted: var(--color-text-secondary-muted);
+  --color-text-secondary-inverted: var(--color-text-secondary-inverted);
+
+  /* Primary Border — mapped from global.css tokens
+     Generates: border-border-primary, border-border-primary-subtle */
+  --color-border-primary: var(--color-border-primary);
+  --color-border-primary-subtle: var(--color-border-primary-subtle);
+
+  /* Secondary Border — mapped from global.css tokens
+     Generates: border-border-secondary, border-border-secondary-subtle */
+  --color-border-secondary: var(--color-border-secondary);
+  --color-border-secondary-subtle: var(--color-border-secondary-subtle);
+}
