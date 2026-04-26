@@ -11,8 +11,10 @@
     "build:firefox": "wxt build -b firefox",
     "zip": "wxt zip",
     "zip:firefox": "wxt zip -b firefox",
-    "lint": "oxlint",
-    "lint:fix": "oxlint --fix",
+    "lint": "oxlint src/",
+    "lint:fix": "oxlint src/ --fix",
+    "lint:css": "stylelint \"src/**/*.css\"",
+    "lint:css:fix": "stylelint --fix",
     "generate:icon": "node scripts/generateIcon.ts",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare"
@@ -30,6 +32,10 @@
     "app-root-path": "^3.1.0",
     "oxlint": "^1.61.0",
     "sharp": "^0.34.5",
+    "stylelint": "^17.9.0",
+    "stylelint-config-recess-order": "^7.7.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1",
     "typescript": "^5.9.3",
     "vite": "^8.0.10",
     "wxt": "^0.20.25"

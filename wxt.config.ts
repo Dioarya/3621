@@ -22,6 +22,8 @@ export default defineConfig({
     // On Windows, the path must be absolute and exists
     chromiumProfile: resolve(".wxt/chrome-data"),
     keepProfileChanges: true,
+
+    startUrls: ["https://e621.net/posts/5239172", "about:blank"],
   },
 
   srcDir: "src",
