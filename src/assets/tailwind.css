@@ -5,7 +5,7 @@
    @theme system for utility class generation.
    ============================================ */
 
-@layer theme, base, components, utilities;
+@layer base, theme, components, utilities;
 
 @import url("tailwindcss/theme.css") layer(theme);
 @import url("tailwindcss/preflight.css") layer(base);

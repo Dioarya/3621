@@ -42,9 +42,7 @@ async function script() {
   }
 
   {
-    const { data: _, error } = await tryCatch(
-      mkdir(iconDirectory, { recursive: true }),
-    );
+    const { data: _, error } = await tryCatch(mkdir(iconDirectory, { recursive: true }));
     if (error != null) {
       throw new Error("could not create public/icon directory.");
     }
@@ -57,16 +55,11 @@ async function script() {
     const outputFilename = `${size}.png`;
     const outputPath = join(iconDirectory, outputFilename);
     if (!silent) console.log(`Icon ${size}: Creating icon.`);
-    let promise: Promise<any> = createSizedIcon(
-      image.clone(),
-      size,
-      outputPath,
-    );
+    let promise: Promise<any> = createSizedIcon(image.clone(), size, outputPath);
 
     if (!silent)
       promise = promise.then(
-        () =>
-          console.log(`Icon ${size}: Created public/icon/${outputFilename}`),
+        () => console.log(`Icon ${size}: Created public/icon/${outputFilename}`),
         (reason) =>
           console.warn(
             `Icon ${size}: public/icon/${outputFilename} errored with reason: ${reason}`,

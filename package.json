@@ -1,8 +1,8 @@
 {
   "name": "e6hancer",
-  "description": "Arxhield's e621 enhanced.",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
+  "description": "Arxhield's e621 enhanced.",
   "type": "module",
   "scripts": {
     "dev": "wxt",

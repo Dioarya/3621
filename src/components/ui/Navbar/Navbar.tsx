@@ -1,18 +1,20 @@
 import { ReactNode } from "react";
 import styles from "./Navbar.module.css";
 
-type NavbarProps = {
-  left?: ReactNode;
-  center?: ReactNode;
-  right?: ReactNode;
+function Navbar({ children }: { children: ReactNode }) {
+  return <nav className={styles.navbar}>{children}</nav>;
+}
+
+Navbar.Left = function NavbarLeft({ children }: { children: ReactNode }) {
+  return <div>{children}</div>;
 };
 
-export default function Navbar({ left, center, right }: NavbarProps) {
-  return (
-    <nav className={styles.navbar}>
-      <div>{left}</div>
-      <div className={styles.center}>{center}</div>
-      <div>{right}</div>
-    </nav>
-  );
-}
+Navbar.Center = function NavbarCenter({ children }: { children: ReactNode }) {
+  return <div className={styles.center}>{children}</div>;
+};
+
+Navbar.Right = function NavbarRight({ children }: { children: ReactNode }) {
+  return <div>{children}</div>;
+};
+
+export default Navbar;

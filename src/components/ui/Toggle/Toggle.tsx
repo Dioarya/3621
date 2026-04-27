@@ -3,12 +3,13 @@ import styles from "./Toggle.module.css";
 type ToggleProps = {
   checked: boolean;
   onChange?: (checked: boolean) => void;
+  className?: string;
 };
 
-export default function Toggle({ checked, onChange }: ToggleProps) {
+export default function Toggle({ checked, onChange, className }: ToggleProps) {
   return (
     <input
-      className={styles.toggle}
+      className={`${styles.toggle} ${className ?? ""}`}
       role="switch"
       type="checkbox"
       checked={checked}

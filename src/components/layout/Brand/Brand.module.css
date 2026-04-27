@@ -1,18 +1,17 @@
 .brand {
   display: flex;
   flex-direction: row;
-  gap: 0.5em;
+  gap: 1em;
   align-items: center;
 }
 
 .logo {
-  width: 2em;
-  height: 2em;
-  aspect-ratio: 1 / 1;
+  width: 2.5em;
+  height: 2.5em;
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em var(--color-brand-hover));
+  filter: drop-shadow(0 0 2em var(--color-brand-primary-hover));
 }
 
 .title {

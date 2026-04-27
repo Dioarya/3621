@@ -30,5 +30,9 @@ export default defineConfig({
     startUrls: ["https://e621.net/posts/5239172", "about:blank"],
   },
 
+  imports: {
+    dirs: ["composables"],
+  },
+
   srcDir: "src",
 });
