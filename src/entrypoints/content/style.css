@@ -1,0 +1,18 @@
+#image {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+#image-and-nav.align-left {
+  align-self: start !important;
+}
+
+#image-and-nav.align-center {
+  align-self: center !important;
+}
+
+#image-and-nav.align-right {
+  align-self: end !important;
+}
