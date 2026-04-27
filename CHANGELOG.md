@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.5
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.4...v0.0.5)
+
+### 🏡 Chore
+
+- Add .env.example ([857c341](https://github.com/Dioarya/3621/commit/857c341))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.4
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.3...v0.0.4)

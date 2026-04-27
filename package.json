@@ -1,6 +1,6 @@
 {
   "name": "e6hancer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "description": "Arxhield's e621 enhanced.",
   "type": "module",
@@ -19,7 +19,7 @@
     "generate:icon": "node scripts/generateIcon.ts",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
-    "release": "dotenv -- changelogen --bump --commit --tag --push --release"
+    "release": "dotenv -- changelogen --release --no-push"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.3",
