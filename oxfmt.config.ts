@@ -6,4 +6,5 @@ export default defineConfig({
     stylesheet: "./src/assets/tailwind.css",
     functions: ["cn", "clsx"],
   },
+  ignorePatterns: ["CHANGELOG.md"],
 });

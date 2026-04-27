@@ -15,6 +15,7 @@
     "lint:fix": "oxlint src/ --fix",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint:css:fix": "stylelint \"src/**/*.css\" --fix",
+    "fmt": "oxfmt",
     "generate:icon": "node scripts/generateIcon.ts",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
