@@ -17,7 +17,8 @@
     "lint:css:fix": "stylelint \"src/**/*.css\" --fix",
     "generate:icon": "node scripts/generateIcon.ts",
     "compile": "tsc --noEmit",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "release": "changelogen --bump --commit --tag"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.3",
@@ -30,6 +31,7 @@
     "@types/react-dom": "^19.2.3",
     "@wxt-dev/module-react": "^1.1.5",
     "app-root-path": "^3.1.0",
+    "changelogen": "^0.6.2",
     "oxfmt": "^0.46.0",
     "oxlint": "^1.61.0",
     "sharp": "^0.34.5",
