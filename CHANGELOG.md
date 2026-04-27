@@ -1,6 +1,29 @@
 # Changelog
 
 
+## v0.0.3
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.2...v0.0.3)
+
+### 🩹 Fixes
+
+- Fix null/undefined runtime error for DarkModeToggle ([53299df](https://github.com/Dioarya/3621/commit/53299df))
+
+### 📦 Build
+
+- Add dotenv-cli for changelogen ([d528743](https://github.com/Dioarya/3621/commit/d528743))
+
+### 🏡 Chore
+
+- Fix changelogen script ([c46cd90](https://github.com/Dioarya/3621/commit/c46cd90))
+- Update oxfmt configuration to ignore CHANGELOG.md ([d6c2238](https://github.com/Dioarya/3621/commit/d6c2238))
+- Add content script starting point (wip) ([c4279ed](https://github.com/Dioarya/3621/commit/c4279ed))
+- Update .gitignore ([7952866](https://github.com/Dioarya/3621/commit/7952866))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.2
 
 
