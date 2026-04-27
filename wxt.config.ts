@@ -31,7 +31,7 @@ export default defineConfig({
   },
 
   imports: {
-    dirs: ["composables"],
+    dirs: ["components", "composables", "hooks", "utils"],
   },
 
   srcDir: "src",

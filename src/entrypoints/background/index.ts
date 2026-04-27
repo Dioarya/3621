@@ -1,3 +1,8 @@
-export default defineBackground(() => {
-  console.log("Hello background!", { id: browser.runtime.id });
+import { setupMessaging } from "./messaging";
+
+export default defineBackground({
+  persistent: true,
+  main() {
+    setupMessaging();
+  },
 });

@@ -1,10 +1,5 @@
 import { createContext, useState, useContext, useEffect, useRef, ReactNode } from "react";
 
-type Theme = "light" | "dark" | "system";
-const themeStorageItem = storage.defineItem<Theme>("local:theme", {
-  fallback: "system",
-});
-
 const ThemeContext = createContext<{
   theme: Theme;
   setTheme: (theme: Theme) => void;
@@ -18,16 +13,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     theme === "dark" ||
     (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  // load from storage on mount
+  // load from background on mount
   useEffect(() => {
-    themeStorageItem.getValue().then((value) => {
+    sendMessage("theme.get", undefined).then((value) => {
       if (value) setTheme(value);
     });
   }, []);
 
-  // apply and persist whenever theme changes
+  // apply to DOM and persist to background whenever theme changes
   useEffect(() => {
-    // skip the initial render so we don't persist "system" before storage loads
+    // skip the initial render so we don't persist "system" at startup
     if (!isMounted.current) {
       isMounted.current = true;
       return;
@@ -37,10 +32,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (theme !== "system") {
       root.classList.add(theme);
     }
-    // keep localStorage in sync for the anti-flash inline script
-    localStorage.setItem("theme", theme);
-    // persist to browser storage as source of truth
-    themeStorageItem.setValue(theme);
+    sendMessage("theme.set", theme);
   }, [theme]);
 
   return (
