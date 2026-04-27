@@ -1,17 +1,17 @@
 import { Settings } from "./settings";
 const defaults = new Settings();
 
-export const storageItems = {
-  theme: storage.defineItem<Theme>("local:theme", {
-    fallback: defaults.theme,
-  }),
-  verticalConstraint: storage.defineItem<VerticalConstraint>("local:verticalConstraint", {
-    fallback: defaults.verticalConstraint,
-  }),
-  align: storage.defineItem<Align>("local:align", {
-    fallback: defaults.align,
-  }),
-  liveUpdate: storage.defineItem<LiveUpdate>("local:liveUpdate", {
-    fallback: defaults.liveUpdate,
-  }),
-};
+function createStorageItem<K extends keyof Settings>(k: K) {
+  return storage.defineItem<Settings[K]>(`local:${k}`, {
+    fallback: defaults[k],
+  });
+}
+
+function createStorageItems() {
+  const keys = Object.keys(defaults) as (keyof Settings)[];
+  return Object.fromEntries(keys.map((k) => [k, createStorageItem(k)])) as {
+    [K in keyof Settings]: ReturnType<typeof createStorageItem<K>>;
+  };
+}
+
+export const storageItems = createStorageItems();

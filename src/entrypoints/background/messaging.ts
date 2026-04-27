@@ -1,30 +1,67 @@
-export function setupMessaging() {
-  onMessage("settings.get", async () => {
-    const [theme, align, verticalConstraint, liveUpdate] = await Promise.all([
-      storageItems.theme.getValue(),
-      storageItems.align.getValue(),
-      storageItems.verticalConstraint.getValue(),
-      storageItems.liveUpdate.getValue(),
-    ]);
-    return { theme, align, verticalConstraint, liveUpdate } satisfies Settings;
-  });
+import { RemoveListenerCallback } from "@webext-core/messaging";
 
-  onMessage("theme.get", async () => {
-    return storageItems.theme.getValue();
-  });
+async function getAllSettings(): Promise<Settings> {
+  const entries = Object.entries(storageItems) as [keyof Settings, any][];
+  const resolvedEntries = await Promise.all(
+    entries.map(async ([key, item]) => [key, await item.getValue()] as const),
+  );
+  return Object.fromEntries(resolvedEntries) as Settings;
+}
 
-  onMessage("theme.set", async ({ data }) => {
-    await storageItems.theme.setValue(data);
-  });
+function createGetAndSet<T extends keyof Settings>(
+  prop: T,
+  options: { get?: true; set: false },
+): { get: RemoveListenerCallback };
+function createGetAndSet<T extends keyof Settings>(
+  prop: T,
+  options: { get: false; set?: true },
+): { set: RemoveListenerCallback };
+function createGetAndSet<T extends keyof Settings>(
+  prop: T,
+  options: { get?: true; set?: true },
+): { get: RemoveListenerCallback; set: RemoveListenerCallback };
+function createGetAndSet<T extends keyof Settings>(
+  prop: T,
+): { get: RemoveListenerCallback; set: RemoveListenerCallback };
+function createGetAndSet<T extends keyof Settings>(
+  prop: T,
+  options?: { get?: boolean; set?: boolean },
+): { get?: RemoveListenerCallback; set?: RemoveListenerCallback } {
+  const get = options?.get ?? true;
+  const set = options?.set ?? true;
 
-  onMessage("align.set", async ({ data }) => {
-    await storageItems.align.setValue(data);
+  const result: { get?: RemoveListenerCallback; set?: RemoveListenerCallback } = {};
 
-    const tabs = await browser.tabs.query({ url: "*://*.e621.net/*" });
-    for (const tab of tabs) {
-      if (tab.id) {
-        browser.tabs.sendMessage(tab.id, { type: "alignChanged", data });
-      }
-    }
-  });
+  if (get) {
+    const getterMessage = `${prop}.get` as keyof ProtocolMap;
+    result.get = onMessage(getterMessage, async () => {
+      return storageItems[prop].getValue();
+    });
+  }
+
+  if (set) {
+    const setterMessage = `${prop}.set` as keyof ProtocolMap;
+    result.set = onMessage(setterMessage, async ({ data }) => {
+      await storageItems[prop].setValue(data as any);
+    });
+  }
+
+  return result;
+}
+
+export function setupMessaging(): RemoveListenerCallback[] {
+  const cleanup: RemoveListenerCallback[] = [];
+
+  cleanup.push(
+    onMessage("settings.get", async () => {
+      return getAllSettings();
+    }),
+  );
+
+  const props = Object.keys(Settings) as (keyof Settings)[];
+  for (const prop of props) {
+    cleanup.push(...Object.values(createGetAndSet(prop)));
+  }
+
+  return cleanup;
 }
