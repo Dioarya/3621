@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.6
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.5...v0.0.6)
+
+### 🚀 Enhancements
+
+- Add helper functions and runtime type-safe codegen ([1f4aae6](https://github.com/Dioarya/3621/commit/1f4aae6))
+
+### 🏡 Chore
+
+- Add todo.md ([95f2305](https://github.com/Dioarya/3621/commit/95f2305))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.5
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.4...v0.0.5)
