@@ -47,17 +47,14 @@
   }
 
   &.has-svg {
-    /* .knob { */
-    /*   background-color: transparent; */
-    /* } */
 
     .svg-off,
     .svg-on {
       position: absolute;
       width: calc(var(--knob-width) * var(--svg-size));
       height: calc(var(--knob-height) * var(--svg-size));
-      transition: opacity var(--transition-duration) ease;
       color: black;
+      transition: opacity var(--transition-duration) ease;
 
       svg {
         width: 100%;
@@ -74,9 +71,6 @@
     }
 
     &:has(input:checked) {
-      /* .knob { */
-      /*   background-color: transparent; */
-      /* } */
 
       .svg-off {
         opacity: 0;
