@@ -1,8 +1,9 @@
-import sharp from "sharp";
-import { join } from "node:path";
-import { access, constants, mkdir } from "node:fs/promises";
-import { tryCatch } from "./src/trycatch.ts";
 import appRootPath from "app-root-path";
+import { access, constants, mkdir } from "node:fs/promises";
+import { join } from "node:path";
+import sharp from "sharp";
+
+import { tryCatch } from "./src/trycatch.ts";
 
 const rootDirectory = appRootPath.path;
 const publicDirectory = join(rootDirectory, "public");

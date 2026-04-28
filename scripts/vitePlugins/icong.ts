@@ -1,7 +1,9 @@
 // HMR Generation of icon, watches /icon.svg and generates icon inside /icon/*.png
 import type { Plugin, ResolvedConfig } from "vite";
-import generateIcon from "../generateIcon";
+
 import { join } from "node:path";
+
+import generateIcon from "../generateIcon";
 
 let firstRan = false;
 
