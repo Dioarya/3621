@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.0.8
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.7...v0.0.8)
+
+### 🚀 Enhancements
+
+- Disable unimport, backfill content-script on pre-existing tabs upon extension loading ([3e01832](https://github.com/Dioarya/3621/commit/3e01832))
+- **content:** Implement verticalConstraint, align ([e2c6f53](https://github.com/Dioarya/3621/commit/e2c6f53))
+
+### 🏡 Chore
+
+- Add import sorting to oxfmt ([a6154ae](https://github.com/Dioarya/3621/commit/a6154ae))
+
+### 🎨 Styles
+
+- Use static dot notation instead of dynamic index operator ([4f96a0f](https://github.com/Dioarya/3621/commit/4f96a0f))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.7
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.6...v0.0.7)
