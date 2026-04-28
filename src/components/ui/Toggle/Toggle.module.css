@@ -5,7 +5,7 @@
   --knob-width: 1.1em;
   --knob-height: 1.1em;
   --knob-inset: 0.2em;
-  --transition-duration: 100ms;
+  --transition-duration: var(--duration-transitions);
   --color-off-background: var(--color-surface-primary-400);
   --color-off-background-knob: white;
   --color-on-background: var(--color-brand-primary);

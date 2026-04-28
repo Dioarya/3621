@@ -14,6 +14,18 @@
   --text-radio: 0.6rem; /* For fancy label radio selectors */
   --gap-brand: 1em;
   --gap-label-toggle: 0.5em;
+  --duration-transitions: 100ms;
+}
+
+/* Transition everything on --duration-transitions */
+* {
+  transition:
+    color var(--duration-transitions) ease,
+    background-color var(--duration-transitions) ease,
+    border-color var(--duration-transitions) ease,
+    fill var(--duration-transitions) ease,
+    stroke var(--duration-transitions) ease,
+    box-shadow var(--duration-transitions) ease;
 }
 
 /* Light mode defaults */
