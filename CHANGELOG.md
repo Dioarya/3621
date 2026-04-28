@@ -1,6 +1,40 @@
 # Changelog
 
 
+## v0.0.7
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.6...v0.0.7)
+
+### 🚀 Enhancements
+
+- Implement zustand for store management ([c8f66a9](https://github.com/Dioarya/3621/commit/c8f66a9))
+- Prettier DarkModeToggle, Toggle supports custom knob icon, centralize state management to background, settings.update broadcasts ([669c982](https://github.com/Dioarya/3621/commit/669c982))
+
+### 🩹 Fixes
+
+- Update to manifest verion 3 ([4936d3b](https://github.com/Dioarya/3621/commit/4936d3b))
+- Add Dark mode and Light mode icons, fix App.tsx conditional hooks ([0e9372c](https://github.com/Dioarya/3621/commit/0e9372c))
+- Make global transitions on every object ([b206d3e](https://github.com/Dioarya/3621/commit/b206d3e))
+- Put sizing on body instead of #root for more accurate sizing ([b3ba66f](https://github.com/Dioarya/3621/commit/b3ba66f))
+
+### 💅 Refactors
+
+- Rename @/composables/ to @/hooks/ ([09e73b3](https://github.com/Dioarya/3621/commit/09e73b3))
+
+### 🏡 Chore
+
+- Move todo.md to github project todo ([4fb8b53](https://github.com/Dioarya/3621/commit/4fb8b53))
+- Remove unused store.ts ([4583fa0](https://github.com/Dioarya/3621/commit/4583fa0))
+
+### 🎨 Styles
+
+- Run oxfmt and stylelint ([97e2a74](https://github.com/Dioarya/3621/commit/97e2a74))
+- Run oxfmt and stylelint ([e6a9c0f](https://github.com/Dioarya/3621/commit/e6a9c0f))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.6
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.5...v0.0.6)
