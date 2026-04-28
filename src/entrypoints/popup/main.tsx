@@ -4,8 +4,12 @@ import App from "./App.tsx";
 import "./style.css";
 import "@/assets/tailwind.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+const app = (
+  <ThemeProvider>
     <App />
-  </React.StrictMode>,
+  </ThemeProvider>
 );
+const strictWrap = import.meta.env.PROD ? app : <React.StrictMode>{app}</React.StrictMode>;
+
+root.render(strictWrap);
