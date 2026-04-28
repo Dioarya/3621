@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import style from "./Toggle.module.css";
 
 type ToggleProps = Omit<

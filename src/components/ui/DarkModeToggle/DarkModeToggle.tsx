@@ -1,6 +1,10 @@
-import { useId } from "react";
-import style from "./DarkModeToggle.module.css";
 import { Moon, Sun } from "lucide-react";
+import { useId } from "react";
+
+import { Toggle } from "@/components";
+import { useTheme } from "@/hooks/useTheme";
+
+import style from "./DarkModeToggle.module.css";
 
 export default function DarkModeToggle() {
   const toggleId = useId();

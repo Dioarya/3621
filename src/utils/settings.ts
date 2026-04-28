@@ -8,13 +8,6 @@ export type LiveUpdate = boolean;
  * Use the individual types above for actual type annotations.
  */
 export class Settings {
-  static keys = [
-    "theme",
-    "verticalConstraint",
-    "align",
-    "liveUpdate",
-  ] as const satisfies (keyof Settings)[];
-
   theme: Theme = "system";
   verticalConstraint: VerticalConstraint = "off";
   align: Align = "center";

@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import style from "./Navbar.module.css";
 
 function Navbar({ children }: { children: ReactNode }) {

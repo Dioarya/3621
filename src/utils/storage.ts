@@ -1,4 +1,7 @@
+import { storage } from "#imports";
+
 import { Settings } from "./settings";
+
 const defaults = new Settings();
 
 function createStorageItem<K extends keyof Settings>(k: K) {

@@ -1,4 +1,9 @@
-import { RemoveListenerCallback } from "@webext-core/messaging";
+import type { RemoveListenerCallback } from "@webext-core/messaging";
+
+import type { Settings } from "@/utils/settings";
+
+import { onMessage, sendMessage, type ProtocolMap } from "@/utils/messaging";
+import { storageItems } from "@/utils/storage";
 
 async function getAllSettings(): Promise<Settings> {
   const entries = Object.entries(storageItems) as [keyof Settings, any][];
@@ -60,7 +65,7 @@ export function setupMessaging(): RemoveListenerCallback[] {
     }),
   );
 
-  const props = Settings.keys as (keyof Settings)[];
+  const props = Object.keys(storageItems) as (keyof Settings)[];
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
   }

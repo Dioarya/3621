@@ -1,5 +1,6 @@
 import { defineExtensionMessaging } from "@webext-core/messaging";
-import { Theme, VerticalConstraint, Align, LiveUpdate } from "./settings";
+
+import { Theme, VerticalConstraint, Align, LiveUpdate, Settings } from "./settings";
 
 export interface ProtocolMap {
   // theme

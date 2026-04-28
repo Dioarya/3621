@@ -1,7 +1,13 @@
 import { ReactNode, useEffect } from "react";
 
+import type { Theme } from "@/utils/settings";
+
+import { sendMessage } from "@/utils/messaging";
+
+import { usePopupSettings } from "./useSettings";
+
 export function useTheme() {
-  const theme = useSettings((state) => state.theme);
+  const theme = usePopupSettings((state) => state.theme);
 
   const setTheme = async (value: Theme) => {
     await sendMessage("theme.set", value);

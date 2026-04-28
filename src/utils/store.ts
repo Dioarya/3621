@@ -1,4 +1,8 @@
 import { create } from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
+
+import { onMessage, sendMessage } from "./messaging";
+import { Settings } from "./settings";
 
 interface SettingsStore extends Settings {
   ready: boolean;
@@ -7,21 +11,27 @@ interface SettingsStore extends Settings {
 
 // to be called inside popup and content-script
 export function createSettingsStore() {
-  const store = create<SettingsStore>(() => ({
-    ...new Settings(),
-    ready: false,
-    error: null,
-  }));
+  const store = create(
+    subscribeWithSelector<SettingsStore>(() => ({
+      ...new Settings(),
+      ready: false,
+      error: null,
+    })),
+  );
 
   // listen for background broadcasts
   onMessage("settings.update", ({ data }) => {
     store.setState(data);
   });
 
+  return store;
+}
+
+export async function createSettingsStoreReadyPromise(
+  store: ReturnType<typeof createSettingsStore>,
+) {
   // fetch initial state from background
-  sendMessage("settings.get", undefined)
+  return sendMessage("settings.get")
     .then((settings) => store.setState({ ...settings, ready: true }))
     .catch((e) => store.setState({ error: e as Error }));
-
-  return store;
 }

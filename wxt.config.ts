@@ -13,7 +13,7 @@ export default defineConfig({
 
   manifestVersion: 3,
   manifest: {
-    permissions: ["storage"],
+    permissions: ["storage", "webNavigation"],
   },
 
   vite: () => ({
@@ -32,9 +32,7 @@ export default defineConfig({
     startUrls: ["https://e621.net/posts/5239172", "about:blank"],
   },
 
-  imports: {
-    dirs: ["components", "hooks", "utils", "shared"],
-  },
+  imports: false,
 
   srcDir: "src",
 });

@@ -1,9 +1,15 @@
 import "@/assets/tailwind.css";
-import iconDark from "/icon.svg";
 import iconLight from "/icon-light.svg";
+import iconDark from "/icon.svg";
+
+import { Brand, DarkModeToggle, Navbar, Spinner } from "@/components";
+import { usePopupSettings } from "@/hooks/useSettings";
+import { useTheme } from "@/hooks/useTheme";
+import { createSettingsStoreReadyPromise } from "@/utils/store";
 
 export default function App() {
-  const ready = useSettings((state) => state.ready);
+  const ready = usePopupSettings((state) => state.ready);
+  createSettingsStoreReadyPromise(usePopupSettings);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
 
