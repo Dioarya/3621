@@ -10,6 +10,7 @@ export default defineConfig({
     firefoxDataCollection: true,
   },
 
+  manifestVersion: 3,
   manifest: {
     permissions: ["storage"],
   },
