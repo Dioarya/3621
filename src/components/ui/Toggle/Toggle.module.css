@@ -47,7 +47,6 @@
   }
 
   &.has-svg {
-
     .svg-off,
     .svg-on {
       position: absolute;
@@ -71,7 +70,6 @@
     }
 
     &:has(input:checked) {
-
       .svg-off {
         opacity: 0;
       }
