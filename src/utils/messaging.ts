@@ -3,22 +3,23 @@ import { Theme, VerticalConstraint, Align, LiveUpdate } from "./settings";
 
 export interface ProtocolMap {
   // theme
-  "theme.get"(): Theme;
-  "theme.set"(data: Theme): void;
+  "theme.get"(): Theme; // one-to-one
+  "theme.set"(data: Theme): void; // one-to-one
 
   // align
-  "align.get"(): Align;
-  "align.set"(data: Align): void;
+  "align.get"(): Align; // one-to-one
+  "align.set"(data: Align): void; // one-to-one
 
   // verticalConstraint
-  "verticalConstraint.get"(): VerticalConstraint;
-  "verticalConstraint.set"(data: VerticalConstraint): void;
+  "verticalConstraint.get"(): VerticalConstraint; // one-to-one
+  "verticalConstraint.set"(data: VerticalConstraint): void; // one-to-one
 
   // liveUpdate
-  "liveUpdate.get"(): LiveUpdate;
-  "liveUpdate.set"(data: LiveUpdate): void;
+  "liveUpdate.get"(): LiveUpdate; // one-to-one
+  "liveUpdate.set"(data: LiveUpdate): void; // one-to-one
 
   // settings
-  "settings.get"(): Settings;
+  "settings.get"(): Settings; // one-to-one
+  "settings.update"(data: Partial<Settings>): void; // one-to-many
 }
 export const { sendMessage, onMessage } = defineExtensionMessaging<ProtocolMap>();

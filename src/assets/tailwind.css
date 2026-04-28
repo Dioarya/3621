@@ -12,9 +12,14 @@
 @import url("tailwindcss/utilities.css") layer(utilities);
 
 /* Global design tokens — defines the actual CSS variable values */
-@import "./global.css";
+@import url("./global.css");
 
 @theme {
+  --text-header: var(--text-header);
+  --text-label: var(--text-label);
+  --text-label-sub: var(--text-label-sub);
+  --text-radio: var(--text-radio);
+
   /* Primary Brand — mapped from global.css tokens
      Generates: bg-brand-primary, text-brand-primary, border-brand-primary etc. */
   --color-brand-primary: var(--color-brand-primary);

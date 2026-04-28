@@ -1,32 +1,98 @@
 .toggle {
+  --svg-size: 0.75;
+  --pill-width: 2.5em;
+  --pill-height: 1.5em;
+  --knob-width: 1.1em;
+  --knob-height: 1.1em;
+  --knob-inset: 0.2em;
+  --transition-duration: 100ms;
+  --color-off-background: var(--color-surface-primary-400);
+  --color-off-background-knob: white;
+  --color-on-background: var(--color-brand-primary);
+  --color-on-background-knob: white;
+
   position: relative;
   display: inline-block;
-  width: 2.5rem;
-  height: 1.5rem;
-  appearance: none;
+  width: var(--pill-width);
+  height: var(--pill-height);
   cursor: pointer;
-  background-color: var(--color-surface-primary-400);
+  background-color: var(--color-off-background);
   border-radius: 9999px;
-  transition: background-color 150ms ease;
-}
+  transition: background-color var(--transition-duration) ease;
 
-.toggle::after {
-  position: absolute;
-  top: 50%;
-  left: 0.2rem;
-  width: 1.1rem;
-  height: 1.1rem;
-  content: "";
-  background-color: white;
-  border-radius: 9999px;
-  transform: translateY(-50%);
-  transition: left 150ms ease;
-}
+  .knob {
+    position: absolute;
+    top: 50%;
+    left: var(--knob-inset);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--knob-width);
+    height: var(--knob-height);
+    background-color: var(--color-off-background-knob);
+    border-radius: 9999px;
+    transform: translateY(-50%);
+    transition:
+      left var(--transition-duration) ease,
+      background-color var(--transition-duration) ease;
+  }
 
-.toggle:checked {
-  background-color: var(--color-brand-primary);
-}
+  &:has(input:checked) {
+    background-color: var(--color-on-background);
 
-.toggle:checked::after {
-  left: calc(100% - 1.1rem - 0.2rem);
+    .knob {
+      left: calc(100% - var(--knob-width) - var(--knob-inset));
+      background-color: var(--color-on-background-knob);
+    }
+  }
+
+  &.has-svg {
+    /* .knob { */
+    /*   background-color: transparent; */
+    /* } */
+
+    .svg-off,
+    .svg-on {
+      position: absolute;
+      width: calc(var(--knob-width) * var(--svg-size));
+      height: calc(var(--knob-height) * var(--svg-size));
+      transition: opacity var(--transition-duration) ease;
+      color: black;
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    .svg-off {
+      opacity: 1;
+    }
+
+    .svg-on {
+      opacity: 0;
+    }
+
+    &:has(input:checked) {
+      /* .knob { */
+      /*   background-color: transparent; */
+      /* } */
+
+      .svg-off {
+        opacity: 0;
+      }
+
+      .svg-on {
+        opacity: 1;
+      }
+    }
+  }
+
+  & input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    appearance: none;
+    opacity: 0;
+  }
 }

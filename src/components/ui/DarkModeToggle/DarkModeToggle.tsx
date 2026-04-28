@@ -1,7 +1,23 @@
+import { useId } from "react";
 import style from "./DarkModeToggle.module.css";
+import { Moon, Sun } from "lucide-react";
 
 export default function DarkModeToggle() {
-  const { theme, setTheme } = useTheme();
+  const toggleId = useId();
+  const { setTheme, isDark } = useTheme();
   const switchTheme = (checked: boolean) => setTheme(checked ? "dark" : "light");
-  return <Toggle className={style.toggle} checked={theme === "dark"} onChange={switchTheme} />;
+  const svgs = {
+    off: <Sun size={14} stroke="currentColor" fill="currentColor" />,
+    on: <Moon size={14} stroke="currentColor" fill="currentColor" />,
+  };
+  return (
+    <div className={style.container}>
+      <label className={style.label} htmlFor={toggleId}>
+        Dark Mode
+      </label>
+      <div className={style.toggle}>
+        <Toggle svg={svgs} id={toggleId} checked={isDark} onChange={switchTheme} />
+      </div>
+    </div>
+  );
 }

@@ -43,6 +43,8 @@ function createGetAndSet<T extends keyof Settings>(
     const setterMessage = `${prop}.set` as keyof ProtocolMap;
     result.set = onMessage(setterMessage, async ({ data }) => {
       await storageItems[prop].setValue(data as any);
+
+      sendMessage("settings.update", { [prop]: data });
     });
   }
 
@@ -58,7 +60,7 @@ export function setupMessaging(): RemoveListenerCallback[] {
     }),
   );
 
-  const props = Object.keys(new Settings()) as (keyof Settings)[];
+  const props = Settings.keys as (keyof Settings)[];
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
   }

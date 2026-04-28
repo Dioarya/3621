@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import styles from "./Navbar.module.css";
+import style from "./Navbar.module.css";
 
 function Navbar({ children }: { children: ReactNode }) {
-  return <nav className={styles.navbar}>{children}</nav>;
+  return <nav className={style.navbar}>{children}</nav>;
 }
 
 Navbar.Left = function NavbarLeft({ children }: { children: ReactNode }) {
@@ -10,7 +10,7 @@ Navbar.Left = function NavbarLeft({ children }: { children: ReactNode }) {
 };
 
 Navbar.Center = function NavbarCenter({ children }: { children: ReactNode }) {
-  return <div className={styles.center}>{children}</div>;
+  return <div className={style.center}>{children}</div>;
 };
 
 Navbar.Right = function NavbarRight({ children }: { children: ReactNode }) {
