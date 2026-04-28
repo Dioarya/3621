@@ -58,7 +58,7 @@ export function setupMessaging(): RemoveListenerCallback[] {
     }),
   );
 
-  const props = Object.keys(Settings) as (keyof Settings)[];
+  const props = Object.keys(new Settings()) as (keyof Settings)[];
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
   }
