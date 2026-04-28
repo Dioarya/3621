@@ -1,0 +1,63 @@
+import type { VerticalConstraint, Align, Settings } from "@/utils/settings";
+
+import { useContentSettings } from "./store";
+
+type HTMLElements = {
+  image: HTMLElement;
+  imageContainer: HTMLElement;
+  alignContainer: HTMLElement;
+};
+
+function applyConstraint(
+  { image, imageContainer }: HTMLElements,
+  verticalConstraint: VerticalConstraint,
+) {
+  console.log(verticalConstraint);
+  switch (verticalConstraint) {
+    case "off": {
+      image.style.maxHeight = "";
+      break;
+    }
+
+    case "full": {
+      const parentTop = imageContainer.getBoundingClientRect().top;
+      image.style.maxHeight = `calc(100vh - ${parentTop}px)`;
+      break;
+    }
+
+    case "margined": {
+      const parentTop = imageContainer.getBoundingClientRect().top;
+      image.style.maxHeight = `calc(100vh - ${parentTop}px - 10px)`;
+      break;
+    }
+  }
+}
+function applyAlignment({ alignContainer }: HTMLElements, align: Align) {
+  console.log(align);
+  alignContainer.classList.remove("align-left", "align-center", "align-right");
+  alignContainer.classList.add(`align-${align}`);
+}
+
+export function setupSubscriptions(elements: HTMLElements): (() => void)[] {
+  const unsubs: (() => void)[] = [];
+  unsubs.push(
+    useContentSettings.subscribe(
+      (state) => state.verticalConstraint,
+      (verticalConstraint) => applyConstraint(elements, verticalConstraint),
+    ),
+  );
+
+  unsubs.push(
+    useContentSettings.subscribe(
+      (state) => state.align,
+      (align) => applyAlignment(elements, align),
+    ),
+  );
+
+  return unsubs;
+}
+
+export function applySettings(elements: HTMLElements, settings: Settings) {
+  applyConstraint(elements, settings.verticalConstraint);
+  applyAlignment(elements, settings.align);
+}
