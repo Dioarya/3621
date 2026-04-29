@@ -18,6 +18,13 @@ export default defineConfig({
 
   vite: () => ({
     plugins: [tailwindcss(), icong()],
+    build: {
+      rolldownOptions: {
+        experimental: {
+          lazyBarrel: true,
+        },
+      },
+    },
   }),
 
   webExt: {
