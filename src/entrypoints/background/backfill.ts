@@ -28,7 +28,6 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
       const matched = patterns.some((pattern) => pattern.includes(tab.url!));
       if (matched) {
         const target = { tabId: tab.id };
-        console.log("tabsinjector");
         results.push(await injectionGate(target));
       }
     }
@@ -47,7 +46,6 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
     if (!id || !url) return;
     if (patterns.some((pattern) => pattern.includes(url))) {
       const target = { tabId: id, frameIds: frame ? [frame] : undefined };
-      console.log("tabinjector");
       return await injectionGate(target);
     }
   };
@@ -65,11 +63,11 @@ export function setupBackfill() {
     injectContentScript({
       id: details.tabId,
       url: details.url,
-    });
+    }).catch(console.error);
   });
 
   browser.runtime.onInstalled.addListener(async () => {
     const tabs = await browser.tabs.query({});
-    injectContentScripts(tabs);
+    injectContentScripts(tabs).catch(console.error);
   });
 }
