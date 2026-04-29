@@ -60,15 +60,15 @@ export default defineContentScript({
       return;
     }
 
+    const scriptTitle = `${scriptName} v${scriptVersion} "${scriptDescription}"`;
+
     if (isAlreadyInjected()) {
-      console.log(
-        `${scriptName} v${scriptVersion} "${scriptDescription}" (noop: already injected)`,
-      );
+      console.log(`${scriptTitle} (noop: already injected)`);
       return;
     }
 
     markAsInjected();
-    console.log(`${scriptName} v${scriptVersion} "${scriptDescription}"`);
+    console.log(scriptTitle);
     init(ctx).catch((err) => console.error("e6hancer init error:", err));
   },
 });
