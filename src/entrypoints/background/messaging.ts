@@ -49,7 +49,7 @@ function createGetAndSet<T extends keyof Settings>(
     result.set = onMessage(setterMessage, async ({ data }) => {
       await storageItems[prop].setValue(data as any);
 
-      sendMessage("settings.update", { [prop]: data });
+      sendMessage("settings.update", { [prop]: data }).catch(console.error);
     });
   }
 

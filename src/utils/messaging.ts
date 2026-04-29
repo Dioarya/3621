@@ -23,4 +23,6 @@ export interface ProtocolMap {
   "settings.get"(): Settings; // one-to-one
   "settings.update"(data: Partial<Settings>): void; // one-to-many
 }
+
+// oxlint-disable-next-line typescript/unbound-method
 export const { sendMessage, onMessage } = defineExtensionMessaging<ProtocolMap>();

@@ -9,7 +9,7 @@ import { createSettingsStoreReadyPromise } from "@/utils/store";
 
 export default function App() {
   const ready = usePopupSettings((state) => state.ready);
-  createSettingsStoreReadyPromise(usePopupSettings);
+  void createSettingsStoreReadyPromise(usePopupSettings);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
 

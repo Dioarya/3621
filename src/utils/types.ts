@@ -15,3 +15,7 @@ export const exhaustiveStringTuple =
       : never
   ) =>
     x;
+
+export type ClassObject<T extends object> = {
+  [K in keyof T]: T[K];
+};

@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { subscribeWithSelector } from "zustand/middleware";
 
+import type { ClassObject } from "./types";
+
 import { onMessage, sendMessage } from "./messaging";
 import { Settings } from "./settings";
 
@@ -13,7 +15,7 @@ interface SettingsStore extends Settings {
 export function createSettingsStore() {
   const store = create(
     subscribeWithSelector<SettingsStore>(() => ({
-      ...new Settings(),
+      ...(new Settings() as ClassObject<Settings>),
       ready: false,
       error: null,
     })),
@@ -32,6 +34,6 @@ export async function createSettingsStoreReadyPromise(
 ) {
   // fetch initial state from background
   return sendMessage("settings.get")
-    .then((settings) => store.setState({ ...settings, ready: true }))
+    .then((settings) => store.setState({ ...(settings as ClassObject<Settings>), ready: true }))
     .catch((e) => store.setState({ error: e as Error }));
 }
