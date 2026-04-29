@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v0.0.10
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.9...v0.0.10)
+
+### 🚀 Enhancements
+
+- Add already-injected detection ([614a58e](https://github.com/Dioarya/3621/commit/614a58e))
+
+### 🩹 Fixes
+
+- Remove testing console.log()s ([a4d9c73](https://github.com/Dioarya/3621/commit/a4d9c73))
+- Oxlint type-aware + fixes ([0830113](https://github.com/Dioarya/3621/commit/0830113))
+
+### 💅 Refactors
+
+- Extract script title to variable ([965ab28](https://github.com/Dioarya/3621/commit/965ab28))
+- Rename isAlreadyInjected ([7aac37c](https://github.com/Dioarya/3621/commit/7aac37c))
+- Add typing Align css classList to lint missing alignment options inside Settings ([45b87c0](https://github.com/Dioarya/3621/commit/45b87c0))
+
+### 📦 Build
+
+- Fix stylelint linting ([aa8f348](https://github.com/Dioarya/3621/commit/aa8f348))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.9
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.8...v0.0.9)
