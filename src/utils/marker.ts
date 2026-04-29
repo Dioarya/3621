@@ -2,7 +2,7 @@ import { version } from "@@/package.json";
 
 export const MARKER_KEY = `__e6hancer_v${version}__` as const;
 
-export function isAlreadyInjected(): boolean {
+export function isInjected(): boolean {
   return !!window[MARKER_KEY as unknown as keyof typeof window];
 }
 

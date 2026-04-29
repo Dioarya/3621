@@ -5,7 +5,7 @@ import {
   description as scriptDescription,
 } from "@@/package.json";
 
-import { isAlreadyInjected, markAsInjected } from "@/utils/marker";
+import { isInjected, markAsInjected } from "@/utils/marker";
 import { createSettingsStoreReadyPromise } from "@/utils/store";
 
 import { useContentSettings } from "./store";
@@ -62,7 +62,7 @@ export default defineContentScript({
 
     const scriptTitle = `${scriptName} v${scriptVersion} "${scriptDescription}"`;
 
-    if (isAlreadyInjected()) {
+    if (isInjected()) {
       console.log(`${scriptTitle} (noop: already injected)`);
       return;
     }
