@@ -1,19 +1,35 @@
 import { browser, type Browser, MatchPattern, type ScriptPublicPath } from "#imports";
 
+import { injectIsInjected, MARKER_KEY } from "@/utils/marker";
+
 function createInjectContentScript(matches: string[], contentScript: ScriptPublicPath) {
+  const injectionGate = async (target: { tabId: number }) => {
+    const test = await browser.scripting.executeScript({
+      target,
+      func: injectIsInjected,
+      args: [MARKER_KEY],
+    });
+    const already = test[0]?.result === true;
+    console.log(already);
+    if (!already) {
+      return await browser.scripting.executeScript({
+        target,
+        files: [contentScript],
+      });
+    }
+  };
+
   const patterns = matches.map((match) => new MatchPattern(match));
+
   const tabsInjector = async (tabs: Browser.tabs.Tab[]) => {
     const results = [];
     for (const tab of tabs) {
       if (!tab.id || !tab.url) continue;
       const matched = patterns.some((pattern) => pattern.includes(tab.url!));
       if (matched) {
-        results.push(
-          await browser.scripting.executeScript({
-            target: { tabId: tab.id },
-            files: [contentScript],
-          }),
-        );
+        const target = { tabId: tab.id };
+        console.log("tabsinjector");
+        results.push(await injectionGate(target));
       }
     }
     return results;
@@ -30,10 +46,9 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
   }) => {
     if (!id || !url) return;
     if (patterns.some((pattern) => pattern.includes(url))) {
-      return await browser.scripting.executeScript({
-        target: { tabId: id, frameIds: frame ? [frame] : undefined },
-        files: [contentScript],
-      });
+      const target = { tabId: id, frameIds: frame ? [frame] : undefined };
+      console.log("tabinjector");
+      return await injectionGate(target);
     }
   };
 

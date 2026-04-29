@@ -12,7 +12,6 @@ function applyConstraint(
   { image, imageContainer }: HTMLElements,
   verticalConstraint: VerticalConstraint,
 ) {
-  console.log(verticalConstraint);
   switch (verticalConstraint) {
     case "off": {
       image.style.maxHeight = "";
@@ -32,8 +31,8 @@ function applyConstraint(
     }
   }
 }
+
 function applyAlignment({ alignContainer }: HTMLElements, align: Align) {
-  console.log(align);
   alignContainer.classList.remove("align-left", "align-center", "align-right");
   alignContainer.classList.add(`align-${align}`);
 }

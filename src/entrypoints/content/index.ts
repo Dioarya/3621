@@ -5,6 +5,7 @@ import {
   description as scriptDescription,
 } from "@@/package.json";
 
+import { isAlreadyInjected, markAsInjected } from "@/utils/marker";
 import { createSettingsStoreReadyPromise } from "@/utils/store";
 
 import { useContentSettings } from "./store";
@@ -54,11 +55,20 @@ async function init(ctx: ContentScriptContext): Promise<void> {
 export default defineContentScript({
   matches: ["*://e621.net/posts/*"],
   main(ctx: ContentScriptContext) {
-    if (ctx.isValid) {
-      console.log(`${scriptName} v${scriptVersion} "${scriptDescription}"`);
-      init(ctx).catch((err) => console.error("e6hancer init error:", err));
-    } else {
+    if (!ctx.isValid) {
       console.log("Hello... content? Something has gone wrong. (invalid)");
+      return;
     }
+
+    if (isAlreadyInjected()) {
+      console.log(
+        `${scriptName} v${scriptVersion} "${scriptDescription}" (noop: already injected)`,
+      );
+      return;
+    }
+
+    markAsInjected();
+    console.log(`${scriptName} v${scriptVersion} "${scriptDescription}"`);
+    init(ctx).catch((err) => console.error("e6hancer init error:", err));
   },
 });
