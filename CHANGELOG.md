@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.0.9
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.8...v0.0.9)
+
+### 📦 Build
+
+- **firefox:** Fix manifest for firefox builds ([4d2921c](https://github.com/Dioarya/3621/commit/4d2921c))
+
+### 🏡 Chore
+
+- Turn on rolldown experimental lazyBarrel optimization ([8fc9dd9](https://github.com/Dioarya/3621/commit/8fc9dd9))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.8
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.7...v0.0.8)
