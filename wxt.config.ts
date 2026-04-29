@@ -14,6 +14,11 @@ export default defineConfig({
   manifestVersion: 3,
   manifest: {
     permissions: ["storage", "webNavigation"],
+    browser_specific_settings: {
+      gecko: {
+        id: "e6hancer@e6hancer.com",
+      },
+    },
   },
 
   vite: () => ({
