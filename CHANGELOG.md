@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v0.0.11
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.10...v0.0.11)
+
+### 🚀 Enhancements
+
+- Implement LiveUpdate ([6c62c4c](https://github.com/Dioarya/3621/commit/6c62c4c))
+
+### 🩹 Fixes
+
+- Remove testing console.log()s ([5fe1f7a](https://github.com/Dioarya/3621/commit/5fe1f7a))
+
+### 📦 Build
+
+- Add throttle-debounce ([c0e2fb8](https://github.com/Dioarya/3621/commit/c0e2fb8))
+
+### 🏡 Chore
+
+- Fix icon-light.svg ([1dc4720](https://github.com/Dioarya/3621/commit/1dc4720))
+- Add safari support (fake) ([fbf677e](https://github.com/Dioarya/3621/commit/fbf677e))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.10
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.9...v0.0.10)
