@@ -1,3 +1,5 @@
+import type { throttle } from "throttle-debounce";
+
 import { defineContentScript, type ContentScriptContext } from "#imports";
 import {
   name as scriptName,
@@ -5,6 +7,7 @@ import {
   description as scriptDescription,
 } from "@@/package.json";
 
+import { disposableAddEventListener } from "@/utils/event";
 import { isInjected, markAsInjected } from "@/utils/marker";
 import { createSettingsStoreReadyPromise } from "@/utils/store";
 
@@ -44,13 +47,20 @@ async function init(ctx: ContentScriptContext): Promise<void> {
   style.textContent = injectStyle;
   document.head.appendChild(style);
 
-  applySettings(elements, useContentSettings.getState());
-  const unsubs = setupSubscriptions(elements);
+  applySettings(ctx, elements, useContentSettings.getState());
+  const unsubs = setupSubscriptions(ctx, elements);
 
   ctx.onInvalidated(() => {
     unsubs.forEach((unsub) => unsub());
   });
 }
+
+type RuntimeObject = {
+  throttleHandler?: ReturnType<typeof throttle>;
+  eventCleanups?: ReturnType<typeof disposableAddEventListener>[];
+};
+
+export const runtimeObject: RuntimeObject = {};
 
 export default defineContentScript({
   matches: ["*://e621.net/posts/*"],
