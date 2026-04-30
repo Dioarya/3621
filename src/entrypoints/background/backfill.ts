@@ -10,7 +10,6 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
       args: [MARKER_KEY],
     });
     const already = test[0]?.result === true;
-    console.log(already);
     if (!already) {
       return await browser.scripting.executeScript({
         target,
