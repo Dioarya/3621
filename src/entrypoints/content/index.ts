@@ -9,7 +9,7 @@ import {
 
 import { disposableAddEventListener } from "@/utils/event";
 import { isInjected, markAsInjected } from "@/utils/marker";
-import { createSettingsStoreReadyPromise } from "@/utils/store";
+import { fetchSettingsStore } from "@/utils/store";
 
 import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
@@ -31,7 +31,7 @@ async function waitForElement(selector: string): Promise<HTMLElement> {
 }
 
 async function init(ctx: ContentScriptContext): Promise<void> {
-  await createSettingsStoreReadyPromise(useContentSettings);
+  await fetchSettingsStore(useContentSettings);
 
   const image = await waitForElement("#image");
   const imageContainer = await waitForElement("#image-container");

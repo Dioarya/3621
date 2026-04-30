@@ -5,11 +5,11 @@ import iconDark from "/icon.svg";
 import { Brand, DarkModeToggle, Navbar, Spinner } from "@/components";
 import { usePopupSettings } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
-import { createSettingsStoreReadyPromise } from "@/utils/store";
+import { fetchSettingsStore } from "@/utils/store";
 
 export default function App() {
   const ready = usePopupSettings((state) => state.ready);
-  void createSettingsStoreReadyPromise(usePopupSettings);
+  void fetchSettingsStore(usePopupSettings);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
 

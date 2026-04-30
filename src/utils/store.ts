@@ -29,9 +29,7 @@ export function createSettingsStore() {
   return store;
 }
 
-export async function createSettingsStoreReadyPromise(
-  store: ReturnType<typeof createSettingsStore>,
-) {
+export async function fetchSettingsStore(store: ReturnType<typeof createSettingsStore>) {
   // fetch initial state from background
   return sendMessage("settings.get")
     .then((settings) => store.setState({ ...(settings as ClassObject<Settings>), ready: true }))

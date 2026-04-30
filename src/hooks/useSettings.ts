@@ -1,4 +1,4 @@
-import { createSettingsStore, createSettingsStoreReadyPromise } from "@/utils/store";
+import { createSettingsStore, fetchSettingsStore } from "@/utils/store";
 
 export const usePopupSettings = createSettingsStore();
-void createSettingsStoreReadyPromise(usePopupSettings); // fire and forget
+void fetchSettingsStore(usePopupSettings); // fire and forget
