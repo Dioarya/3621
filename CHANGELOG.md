@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v0.0.12
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.11...v0.0.12)
+
+### 🚀 Enhancements
+
+- Removed tailwindcss (mostly), added components, refactor ([6087bd8](https://github.com/Dioarya/3621/commit/6087bd8))
+- Add sectioning to settings page ([adf30a3](https://github.com/Dioarya/3621/commit/adf30a3))
+
+### 🩹 Fixes
+
+- Update Brand ([c91865e](https://github.com/Dioarya/3621/commit/c91865e))
+
+### 💅 Refactors
+
+- CreateSettingsStoreReadyPromise() -> fetchSettingsStore() ([fa84d63](https://github.com/Dioarya/3621/commit/fa84d63))
+- Use clsx() more ([968b799](https://github.com/Dioarya/3621/commit/968b799))
+- Finish renaming components/ui/Navbar to components/ui/Bar ([af42d2f](https://github.com/Dioarya/3621/commit/af42d2f))
+- Refactor Brand component's typing ([abcf90f](https://github.com/Dioarya/3621/commit/abcf90f))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.11
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.10...v0.0.11)
