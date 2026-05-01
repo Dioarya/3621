@@ -1,13 +1,9 @@
 import type { throttle } from "throttle-debounce";
 
 import { defineContentScript, type ContentScriptContext } from "#imports";
-import {
-  name as scriptName,
-  version as scriptVersion,
-  description as scriptDescription,
-} from "@@/package.json";
 
 import { disposableAddEventListener } from "@/utils/event";
+import { getScriptTitle } from "@/utils/hello";
 import { isInjected, markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
@@ -70,7 +66,7 @@ export default defineContentScript({
       return;
     }
 
-    const scriptTitle = `${scriptName} v${scriptVersion} "${scriptDescription}"`;
+    const scriptTitle = getScriptTitle();
 
     if (isInjected()) {
       console.log(`${scriptTitle} (noop: already injected)`);

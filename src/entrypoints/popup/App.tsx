@@ -27,6 +27,7 @@ export default function App() {
     return <Spinner />;
   }
 
+  // v${version} is used because __VERSION__ is too long
   return (
     <>
       <Page>

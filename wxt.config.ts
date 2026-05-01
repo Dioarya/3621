@@ -1,13 +1,20 @@
+import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 import { defineConfig } from "wxt";
 
 import icong from "./scripts/vitePlugins/icong.ts";
+
+const gitVersion = execSync("git describe --tags --always --dirty").toString().trim();
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   suppressWarnings: {
     firefoxDataCollection: true,
+  },
+
+  zip: {
+    artifactTemplate: `{{name}}-${gitVersion}-{{browser}}`,
   },
 
   manifestVersion: 3,
@@ -22,6 +29,9 @@ export default defineConfig({
 
   vite: () => ({
     plugins: [icong()],
+    define: {
+      __VERSION__: JSON.stringify(gitVersion),
+    },
     build: {
       rolldownOptions: {
         experimental: {
