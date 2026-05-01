@@ -10,6 +10,7 @@
 
 .scroll-container {
   --color: var(--color-text-secondary-muted);
+
   /* Set --overlay-opacity in cide */
   --opacity: calc(var(--overlay-opacity) * 50%);
 

@@ -3,11 +3,11 @@
   "version": "0.0.12",
   "private": true,
   "description": "Arxhield's e621 enhanced.",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/Dioarya/3621"
   },
+  "type": "module",
   "scripts": {
     "dev": "wxt",
     "dev:firefox": "wxt -b firefox",

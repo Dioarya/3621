@@ -13,7 +13,6 @@ import {
   ScrollHighlight,
   Section,
 } from "@/components";
-import { PageKey } from "@/components/ui/Section/types";
 import { usePopupSettings } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
 import { fetchSettingsStore } from "@/utils/store";
