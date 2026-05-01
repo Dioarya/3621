@@ -12,13 +12,25 @@ type BarSegmentProps = Omit<React.ComponentPropsWithRef<"div">, "children"> & {
   children: ReactNode;
 };
 
-function Bar({ children, color, blur }: BarProps) {
+function Left({ children }: BarSegmentProps) {
+  return <div>{children}</div>;
+}
+
+function Center({ children }: BarSegmentProps) {
+  return <div className={style.center}>{children}</div>;
+}
+
+function Right({ children }: BarSegmentProps) {
+  return <div>{children}</div>;
+}
+
+export default function Bar({ children, color, blur }: BarProps) {
   if (color === undefined) {
     color = "transparent";
   }
   return (
     <nav
-      className={style.navbar}
+      className={style.bar}
       style={{ "--bar-color": color, "--bar-blur": blur } as React.CSSProperties}
     >
       {children}
@@ -26,16 +38,6 @@ function Bar({ children, color, blur }: BarProps) {
   );
 }
 
-Bar.Left = function NavbarLeft({ children }: BarSegmentProps) {
-  return <div>{children}</div>;
-};
-
-Bar.Center = function NavbarCenter({ children }: BarSegmentProps) {
-  return <div className={style.center}>{children}</div>;
-};
-
-Bar.Right = function NavbarRight({ children }: BarSegmentProps) {
-  return <div>{children}</div>;
-};
-
-export default Bar;
+Bar.Left = Left;
+Bar.Center = Center;
+Bar.Right = Right;
