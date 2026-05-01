@@ -1,0 +1,22 @@
+.section-navbutton {
+  &.selected {
+    background-color: var(--color-brand-primary-active);
+  }
+  width: max-content;
+}
+
+.section-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+  width: 100%;
+  height: 1.5rem;
+  padding: 0 1rem;
+  border-bottom: 0.0625rem solid var(--color-border-primary);
+  background-color: var(--bar-color);
+  backdrop-filter: blur(var(--bar-blur));
+}
