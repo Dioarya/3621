@@ -1,6 +1,6 @@
-import NavButton from "../NavButton/NavButton";
 import { useSectionContext } from "../Provider/Provider";
 import style from "../Section.module.css";
+import Button from "./Button/Button";
 
 export default function Navbar() {
   const ctx = useSectionContext();
@@ -8,7 +8,7 @@ export default function Navbar() {
   return (
     <div className={style["section-navbar"]}>
       {ctx.pages.map((page) => (
-        <NavButton
+        <Button
           key={page.key}
           page={page}
           isSelected={ctx.selected === page.key}

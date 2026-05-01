@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import { ReactNode } from "react";
 
-import style from "../Section.module.css";
-import { PageInfo } from "../types";
+import style from "../../Section.module.css";
+import { PageInfo } from "../../types";
 
 type SectionNavButtonProps = {
   children?: ReactNode;

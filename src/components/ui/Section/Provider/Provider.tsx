@@ -1,5 +1,4 @@
-import type { ReactNode } from "react";
-
+import { ReactNode } from "react";
 import { createContext, useContext, useState } from "react";
 
 import { SectionContextType } from "../types";

@@ -15,20 +15,17 @@ type ScrollHighlightProps = {
   scrollElement?: HTMLElement | null;
 };
 
-export default function ScrollHighlight({
-  isVisible = true,
-  scrollElement: scrollElementProp,
-}: ScrollHighlightProps) {
+export default function ScrollHighlight({ isVisible = true, scrollElement }: ScrollHighlightProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [inferredScrollElement, setInferredScrollElement] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (scrollElementProp) return;
+    if (scrollElement) return;
     setInferredScrollElement(getScrollableParent(ref.current?.parentElement ?? null));
-  }, [scrollElementProp]);
+  }, [scrollElement]);
 
   const { atTop, isScrollable } = useScroll({
-    scrollElement: scrollElementProp ?? inferredScrollElement,
+    scrollElement: scrollElement ?? inferredScrollElement,
   });
 
   const visible = isVisible && atTop && isScrollable;

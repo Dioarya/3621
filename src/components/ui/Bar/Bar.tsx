@@ -25,14 +25,11 @@ function Right({ children }: BarSegmentProps) {
 }
 
 export default function Bar({ children, color, blur }: BarProps) {
-  if (color === undefined) {
-    color = "transparent";
-  }
+  if (color === undefined) color = "transparent";
+  const combinedStyle = { "--bar-color": color, "--bar-blur": blur } as React.CSSProperties;
+
   return (
-    <nav
-      className={style.bar}
-      style={{ "--bar-color": color, "--bar-blur": blur } as React.CSSProperties}
-    >
+    <nav className={style.bar} style={combinedStyle}>
       {children}
     </nav>
   );

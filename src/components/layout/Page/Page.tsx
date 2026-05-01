@@ -16,6 +16,7 @@ const Page = forwardRef<HTMLDivElement, PageProps>(
       [style["page"]]: !scrollable,
       [style["hide-scrollbar"]]: hideScrollbar,
     });
+
     return (
       <div {...props} ref={scrollable ? ref : undefined} className={combinedClassName}>
         {children}

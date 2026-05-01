@@ -10,10 +10,12 @@ export default function DarkModeToggle() {
   const toggleId = useId();
   const { setTheme, isDark } = useTheme();
   const switchTheme = (checked: boolean) => setTheme(checked ? "dark" : "light");
+
   const svgs = {
     off: <Sun size={14} stroke="currentColor" fill="currentColor" />,
     on: <Moon size={14} stroke="currentColor" fill="currentColor" />,
   };
+
   return (
     <div className={style.container}>
       <label className={style.label} htmlFor={toggleId}>

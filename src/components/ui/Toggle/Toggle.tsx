@@ -20,10 +20,12 @@ export default function Toggle({ checked, onChange, svg, className, ...props }: 
   const combinedClassName = clsx(style.toggle, className, { [style["has-svg"]]: svg });
   return (
     <label className={combinedClassName}>
-      <span className={style.knob}>
-        {svg && <span className={style["svg-off"]}>{svg.off}</span>}
-        {svg && <span className={style["svg-on"]}>{svg.on}</span>}
-      </span>
+      {svg && (
+        <span className={style.knob}>
+          <span className={style["svg-off"]}>{svg.off}</span>
+          <span className={style["svg-on"]}>{svg.on}</span>
+        </span>
+      )}
       <input
         {...props}
         role="switch"

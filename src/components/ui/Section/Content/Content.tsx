@@ -6,7 +6,7 @@ import { useSectionContext } from "../Provider/Provider";
 import { toPageInfo } from "../utils";
 import { SectionContentPageProps } from "./Page/Page";
 
-export type SectionContentChild = React.ReactElement<SectionContentPageProps>;
+type SectionContentChild = React.ReactElement<SectionContentPageProps>;
 
 type SectionContentProps = Omit<ComponentPropsWithoutRef<"div">, "children"> & {
   children: SectionContentChild | SectionContentChild[];
