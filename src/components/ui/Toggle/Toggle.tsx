@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import clsx from "clsx";
+
 import style from "./Toggle.module.css";
 
 type ToggleProps = Omit<
@@ -15,8 +17,9 @@ type ToggleProps = Omit<
 };
 
 export default function Toggle({ checked, onChange, svg, className, ...props }: ToggleProps) {
+  const combinedClassName = clsx(style.toggle, className, { [style["has-svg"]]: svg });
   return (
-    <label className={`${style.toggle} ${svg ? style["has-svg"] : ""} ${className ?? ""}`}>
+    <label className={combinedClassName}>
       <span className={style.knob}>
         {svg && <span className={style["svg-off"]}>{svg.off}</span>}
         {svg && <span className={style["svg-on"]}>{svg.on}</span>}
