@@ -2,14 +2,9 @@ import React from "react";
 
 import style from "./Brand.module.css";
 
-// Type branding
-const BRAND_LOGO = Symbol("Brand.Logo");
-const BRAND_TEXT = Symbol("Brand.Text");
-const BRAND_SUBSCRIPT = Symbol("Brand.Subscript");
-
-type BrandLogoProps = { src: string; alt: string; _type?: typeof BRAND_LOGO };
-type BrandTextProps = { children: string; _type?: typeof BRAND_TEXT };
-type BrandSubscriptProps = { children: string; _type?: typeof BRAND_SUBSCRIPT };
+type BrandLogoProps = { src: string; alt: string };
+type BrandTextProps = { children: string };
+type BrandSubscriptProps = { children: string };
 
 type BrandChild =
   | React.ReactElement<BrandLogoProps>
@@ -32,16 +27,12 @@ function Subscript({ children }: BrandSubscriptProps) {
   return <span className={style.subscript}>{children}</span>;
 }
 
-Logo._type = BRAND_LOGO;
-Text._type = BRAND_TEXT;
-Subscript._type = BRAND_SUBSCRIPT;
-
 export default function Brand({ children }: BrandProps) {
   const childArray = React.Children.toArray(children) as React.ReactElement[];
 
-  const logo = childArray.find((c) => (c.type as any)._type === BRAND_LOGO);
-  const text = childArray.find((c) => (c.type as any)._type === BRAND_TEXT);
-  const subscript = childArray.find((c) => (c.type as any)._type === BRAND_SUBSCRIPT);
+  const logo = childArray.find((c) => c.type === Logo);
+  const text = childArray.find((c) => c.type === Text);
+  const subscript = childArray.find((c) => c.type === Subscript);
 
   return (
     <div className={style.brand}>
