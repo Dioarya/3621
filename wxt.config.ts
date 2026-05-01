@@ -1,4 +1,3 @@
-import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "node:path";
 import { defineConfig } from "wxt";
 
@@ -22,7 +21,7 @@ export default defineConfig({
   },
 
   vite: () => ({
-    plugins: [tailwindcss(), icong()],
+    plugins: [icong()],
     build: {
       rolldownOptions: {
         experimental: {

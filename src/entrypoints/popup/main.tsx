@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { ThemeProvider } from "@/hooks/useTheme";
 
 import "./style.css";
-import "@/assets/tailwind.css";
+import "@/assets/global.css";
 import App from "./App.tsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);

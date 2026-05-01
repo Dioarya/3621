@@ -1,0 +1,65 @@
+@keyframes bob {
+  from {
+    transform: translate(-50%, -30%);
+  }
+
+  to {
+    transform: translate(-50%, 30%);
+  }
+}
+
+.scroll-container {
+  --color: var(--color-text-secondary-muted);
+  /* Set --overlay-opacity in cide */
+  --opacity: calc(var(--overlay-opacity) * 50%);
+
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  width: 100%;
+  aspect-ratio: 1 / 0.25;
+  pointer-events: none;
+  opacity: var(--opacity);
+  transform: translateX(-50%);
+  transition: opacity 1s ease;
+
+  & .scroll-highlight {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(ellipse 75% 100% at 50% 150%, var(--color) 50%, transparent 100%);
+  }
+
+  & .scroll-orbs {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 5%;
+    height: 20%;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--color) 50%, transparent 100%);
+    transform: translate(-50%, 0);
+    animation: bob 2s ease-in-out infinite alternate;
+
+    &::before {
+      position: absolute;
+      left: -300%;
+      display: block;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--color) 50%, transparent 100%);
+    }
+
+    &::after {
+      position: absolute;
+      left: 300%;
+      display: block;
+      width: 100%;
+      height: 100%;
+      content: "";
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--color) 50%, transparent 100%);
+    }
+  }
+}

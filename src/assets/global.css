@@ -6,9 +6,12 @@
      - :root.dark / :root.light for manual override
    ============================================ */
 
+@import url("tailwindcss/preflight.css");
+
 /* Options not related to the colorscheme. */
 :root {
   --text-header: 1rem; /* For texts like brand logo label, etc. */
+  --text-header-sub: calc(var(--text-header) * 0.7);
   --text-label: 0.8rem; /* Main content labels like in settings */
   --text-label-sub: calc(var(--text-label) * 0.7);
   --text-radio: 0.6rem; /* For fancy label radio selectors */
