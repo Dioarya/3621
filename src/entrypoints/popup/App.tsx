@@ -1,7 +1,7 @@
 import "@/assets/global.css";
 import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
-import { version } from "@@/package.json";
+import { version, repository } from "@@/package.json";
 
 import { Brand, Page, Navbar, DarkModeToggle, Bar, Spinner, ScrollHighlight } from "@/components";
 import { usePopupSettings } from "@/hooks/useSettings";
@@ -24,7 +24,13 @@ export default function App() {
         <Navbar>
           <Bar color="rgb(from var(--color-surface-primary-100) r g b / 1)" blur="3px">
             <Bar.Left>
-              <Brand logo={icon} title="e6hancer" subscript={`v${version}`} />
+              <a href={repository.url} target="_blank" rel="noopener noreferer">
+                <Brand>
+                  <Brand.Logo src={icon} alt="e6hancer logo" />
+                  <Brand.Text>e6hancer</Brand.Text>
+                  <Brand.Subscript>{`v${version}`}</Brand.Subscript>
+                </Brand>
+              </a>
             </Bar.Left>
             <Bar.Right>
               <DarkModeToggle />
