@@ -1,11 +1,11 @@
-import appRootPath from "app-root-path";
 import { access, constants, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 import { tryCatch } from "./src/trycatch.ts";
 
-const rootDirectory = appRootPath.path;
+const rootDirectory = join(dirname(fileURLToPath(import.meta.url)), "..");
 const publicDirectory = join(rootDirectory, "public");
 const iconFile = join(publicDirectory, "icon.svg");
 const iconDirectory = join(publicDirectory, "icon");

@@ -1,3 +1,3 @@
-# WXT + React
+# e6hancer
 
-This template should help get you started developing with React in WXT.
+An extension with an overly complicated popup
