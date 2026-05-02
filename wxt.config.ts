@@ -4,7 +4,9 @@ import { defineConfig } from "wxt";
 
 import icong from "./scripts/vitePlugins/icong.ts";
 
-const gitVersion = execSync("git describe --tags --always --dirty").toString().trim();
+const gitVersion = process.env.CI
+  ? execSync("git describe --tags --abbrev=0").toString().trim()
+  : execSync("git describe --tags --always --dirty").toString().trim();
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
