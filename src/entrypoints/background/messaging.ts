@@ -3,7 +3,7 @@ import type { Unwatch } from "wxt/utils/storage";
 
 import type { Settings } from "@/utils/settings";
 
-import { onMessage, type ProtocolMap } from "@/utils/messaging";
+import { onMessage, sendMessage, type ProtocolMap } from "@/utils/messaging";
 import { settingsStorageItems } from "@/utils/storage";
 
 import { broadcastToMarkedTabs } from "./broadcast";
@@ -59,6 +59,7 @@ function createGetAndSet<T extends keyof Settings>(
 
 function createWatch<T extends keyof Settings>(prop: T): Unwatch {
   return settingsStorageItems[prop].watch((newValue) => {
+    sendMessage("settings.update", { [prop]: newValue }).catch(console.error);
     broadcastToMarkedTabs("settings.update", { [prop]: newValue }).catch(console.error);
   });
 }
