@@ -29,13 +29,10 @@ export default function ScrollHighlight({ isVisible = true, scrollElement }: Scr
   });
 
   const visible = isVisible && atTop && isScrollable;
+  const combinedStyle = { "--overlay-opacity": visible ? 1 : 0 } as React.CSSProperties;
 
   return (
-    <div
-      ref={ref}
-      className={style["scroll-container"]}
-      style={{ "--overlay-opacity": visible ? 1 : 0 } as React.CSSProperties}
-    >
+    <div ref={ref} className={style["scroll-container"]} style={combinedStyle}>
       <span className={style["scroll-highlight"]}></span>
       <span className={style["scroll-orbs"]}></span>
     </div>

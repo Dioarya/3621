@@ -12,7 +12,7 @@ type SectionNavButtonProps = {
 };
 
 export default function NavButton({ isSelected, page, onSelect }: SectionNavButtonProps) {
-  const label = `${page.label} `;
+  const label = `${page.label}`;
 
   const combinedClassName = clsx(style["section-navbutton"], { [style["selected"]]: isSelected });
   return (

@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 
-type UseScrollOptions = {
-  scrollElement: HTMLElement | null;
-};
-
 type UseScrollResult = {
   atTop: boolean;
   scrollPercentage: number;
   isScrollable: boolean;
+};
+
+type UseScrollOptions = {
+  scrollElement: HTMLElement | null;
 };
 
 export function useScroll({ scrollElement }: UseScrollOptions): UseScrollResult {

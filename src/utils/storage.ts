@@ -2,19 +2,18 @@ import { storage } from "#imports";
 
 import { Settings } from "./settings";
 
-const defaults = new Settings();
-
-function createStorageItem<K extends keyof Settings>(k: K) {
-  return storage.defineItem<Settings[K]>(`local:${k}`, {
-    fallback: defaults[k],
+function createStorageItem<T, K extends keyof T>(k: K, instance: T) {
+  return storage.defineItem<T[K]>(`local:${String(k)}`, {
+    fallback: instance[k],
   });
 }
 
-function createStorageItems() {
-  const keys = Object.keys(defaults) as (keyof Settings)[];
-  return Object.fromEntries(keys.map((k) => [k, createStorageItem(k)])) as {
-    [K in keyof Settings]: ReturnType<typeof createStorageItem<K>>;
+function createStorageItems<T extends object>(cls: new () => T) {
+  const instance = new cls();
+  const keys = Object.keys(instance) as (keyof T)[];
+  return Object.fromEntries(keys.map((k) => [k, createStorageItem(k, instance)])) as {
+    [K in keyof T]: ReturnType<typeof createStorageItem<T, K>>;
   };
 }
 
-export const storageItems = createStorageItems();
+export const settingsStorageItems = createStorageItems(Settings);

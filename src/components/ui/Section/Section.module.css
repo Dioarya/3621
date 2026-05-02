@@ -1,9 +1,9 @@
 .section-navbutton {
+  width: max-content;
+
   &.selected {
     background-color: var(--color-brand-primary-active);
   }
-
-  width: max-content;
 }
 
 .section-navbar {

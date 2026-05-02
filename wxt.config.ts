@@ -16,7 +16,7 @@ export default defineConfig({
   },
 
   zip: {
-    artifactTemplate: `{{name}}-${gitVersion}-{{browser}}`,
+    artifactTemplate: `{{name}}-${gitVersion}-{{browser}}.zip`,
   },
 
   manifestVersion: 3,

@@ -7,9 +7,10 @@ import { getScriptTitle } from "@/utils/hello";
 import { isInjected, markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
+import { applySettings } from "./apply";
 import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
-import { applySettings, setupSubscriptions } from "./subscriptions";
+import { setupSubscriptions } from "./subscriptions";
 
 async function waitForElement(selector: string): Promise<HTMLElement> {
   return new Promise((resolve) => {

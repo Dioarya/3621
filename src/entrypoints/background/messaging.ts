@@ -1,12 +1,15 @@
 import type { RemoveListenerCallback } from "@webext-core/messaging";
+import type { Unwatch } from "wxt/utils/storage";
 
 import type { Settings } from "@/utils/settings";
 
-import { onMessage, sendMessage, type ProtocolMap } from "@/utils/messaging";
-import { storageItems } from "@/utils/storage";
+import { onMessage, type ProtocolMap } from "@/utils/messaging";
+import { settingsStorageItems } from "@/utils/storage";
+
+import { broadcastToMarkedTabs } from "./broadcast";
 
 async function getAllSettings(): Promise<Settings> {
-  const entries = Object.entries(storageItems) as [keyof Settings, any][];
+  const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];
   const resolvedEntries = await Promise.all(
     entries.map(async ([key, item]) => [key, await item.getValue()] as const),
   );
@@ -40,20 +43,24 @@ function createGetAndSet<T extends keyof Settings>(
   if (get) {
     const getterMessage = `${prop}.get` as keyof ProtocolMap;
     result.get = onMessage(getterMessage, async () => {
-      return storageItems[prop].getValue();
+      return settingsStorageItems[prop].getValue();
     });
   }
 
   if (set) {
     const setterMessage = `${prop}.set` as keyof ProtocolMap;
     result.set = onMessage(setterMessage, async ({ data }) => {
-      await storageItems[prop].setValue(data as any);
-
-      sendMessage("settings.update", { [prop]: data }).catch(console.error);
+      await settingsStorageItems[prop].setValue(data as any);
     });
   }
 
   return result;
+}
+
+function createWatch<T extends keyof Settings>(prop: T): Unwatch {
+  return settingsStorageItems[prop].watch((newValue) => {
+    broadcastToMarkedTabs("settings.update", { [prop]: newValue }).catch(console.error);
+  });
 }
 
 export function setupMessaging(): RemoveListenerCallback[] {
@@ -65,9 +72,10 @@ export function setupMessaging(): RemoveListenerCallback[] {
     }),
   );
 
-  const props = Object.keys(storageItems) as (keyof Settings)[];
+  const props = Object.keys(settingsStorageItems) as (keyof Settings)[];
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
+    cleanup.push(createWatch(prop));
   }
 
   return cleanup;

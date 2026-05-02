@@ -1,5 +1,6 @@
 import { version } from "@@/package.json";
 
+// uses package.json's version instead of __VERSION__ because can't slug
 export const MARKER_KEY = `__e6hancer_v${version}__` as const;
 
 export function isInjected(): boolean {

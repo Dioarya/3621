@@ -6,7 +6,7 @@ import style from "./Toggle.module.css";
 
 type ToggleProps = Omit<
   React.ComponentPropsWithoutRef<"input">,
-  "role" | "type" | "checked" | "aria-checked" | "onChange" | "readOnly" | "aria-readOnly"
+  "role" | "type" | "checked" | "aria-checked" | "onChange" | "readOnly" | "aria-readonly"
 > & {
   checked: boolean;
   onChange?: (checked: boolean) => void;
@@ -34,6 +34,7 @@ export default function Toggle({ checked, onChange, svg, className, ...props }: 
         aria-checked={checked}
         onChange={onChange ? () => onChange(!checked) : undefined}
         readOnly={!onChange}
+        aria-readonly={!onChange}
       />
     </label>
   );
