@@ -1,6 +1,38 @@
 # Changelog
 
 
+## v0.0.13
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.12...v0.0.13)
+
+### 🩹 Fixes
+
+- Reset popup back to normal size ([91d09dd](https://github.com/Dioarya/3621/commit/91d09dd))
+- Prepare for publicizing, refactoring ([d3450fe](https://github.com/Dioarya/3621/commit/d3450fe))
+- Fix background script not messaging popup ([cc90614](https://github.com/Dioarya/3621/commit/cc90614))
+
+### 💅 Refactors
+
+- Refactoring components ([807cba8](https://github.com/Dioarya/3621/commit/807cba8))
+
+### 📦 Build
+
+- Add husky and lint-staged, refactored ([fc35779](https://github.com/Dioarya/3621/commit/fc35779))
+- Add release builds script ([1cebd12](https://github.com/Dioarya/3621/commit/1cebd12))
+- Fixup generateIcon script for CI ([34475c5](https://github.com/Dioarya/3621/commit/34475c5))
+
+### 🏡 Chore
+
+- Add MIT License to the project ([563ea79](https://github.com/Dioarya/3621/commit/563ea79))
+
+### 🎨 Styles
+
+- Run oxfmt and stylelint ([b73a518](https://github.com/Dioarya/3621/commit/b73a518))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.12
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.11...v0.0.12)
