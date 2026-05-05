@@ -3,10 +3,11 @@ import type { Unwatch } from "wxt/utils/storage";
 
 import type { Settings } from "@/utils/settings";
 
-import { onMessage, sendMessage, type ProtocolMap } from "@/utils/messaging";
+import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging";
 import { settingsStorageItems } from "@/utils/storage";
 
 import { broadcastToMarkedTabs } from "./broadcast";
+import { setupLifetimeMessaging, type Lifetime } from "./lifetime";
 
 async function getAllSettings(): Promise<Settings> {
   const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];
@@ -57,14 +58,20 @@ function createGetAndSet<T extends keyof Settings>(
   return result;
 }
 
-function createWatch<T extends keyof Settings>(prop: T): Unwatch {
+function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T): Unwatch {
   return settingsStorageItems[prop].watch((newValue) => {
-    sendMessage("settings.update", { [prop]: newValue }).catch(console.error);
-    broadcastToMarkedTabs("settings.update", { [prop]: newValue }).catch(console.error);
+    void sendMessageSafe("settings.update", { [prop]: newValue });
+
+    const broadcasts = broadcastToMarkedTabs(lifetime, "settings.update", { [prop]: newValue });
+    void Promise.allSettled(broadcasts).then((results) => {
+      results
+        .filter((result) => result.status === "rejected")
+        .forEach((result) => console.error(result.reason));
+    });
   });
 }
 
-export function setupMessaging(): RemoveListenerCallback[] {
+export function setupMessaging(lifetime: Lifetime): RemoveListenerCallback[] {
   const cleanup: RemoveListenerCallback[] = [];
 
   cleanup.push(
@@ -76,8 +83,10 @@ export function setupMessaging(): RemoveListenerCallback[] {
   const props = Object.keys(settingsStorageItems) as (keyof Settings)[];
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
-    cleanup.push(createWatch(prop));
+    cleanup.push(createWatch(lifetime, prop));
   }
+
+  cleanup.push(...setupLifetimeMessaging(lifetime));
 
   return cleanup;
 }

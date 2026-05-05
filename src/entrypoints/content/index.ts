@@ -1,6 +1,7 @@
 import type { throttle } from "throttle-debounce";
 import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
+import { name as scriptName } from "@@/package.json";
 import { defineContentScript } from "wxt/utils/define-content-script";
 
 import { disposableAddEventListener } from "@/utils/event";
@@ -9,6 +10,7 @@ import { isInjected, markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
 import { applySettings } from "./apply";
+import { setupLifetime } from "./lifetime";
 import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
 import { setupSubscriptions } from "./subscriptions";
@@ -46,9 +48,11 @@ async function init(ctx: ContentScriptContext): Promise<void> {
   document.head.appendChild(style);
 
   applySettings(ctx, elements, useContentSettings.getState());
+  const cleanupLifetime = await setupLifetime(ctx);
   const unsubs = setupSubscriptions(ctx, elements);
 
   ctx.onInvalidated(() => {
+    cleanupLifetime();
     unsubs.forEach((unsub) => unsub());
   });
 }
@@ -70,13 +74,14 @@ export default defineContentScript({
 
     const scriptTitle = getScriptTitle();
 
-    if (isInjected()) {
-      console.log(`${scriptTitle} (noop: already injected)`);
-      return;
-    }
+    if (import.meta.env.PROD)
+      if (isInjected()) {
+        console.log(`${scriptTitle} (noop: already injected)`);
+        return;
+      }
 
     markAsInjected();
     console.log(scriptTitle);
-    init(ctx).catch((err) => console.error("e6hancer init error:", err));
+    init(ctx).catch((err) => console.error(`${scriptName} init error:`, err));
   },
 });

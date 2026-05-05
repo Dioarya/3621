@@ -1,30 +1,23 @@
-import { browser } from "wxt/browser";
+import { type ProtocolMap, sendMessage } from "@/utils/messaging";
 
-import { MARKER_KEY, injectIsInjected } from "@/utils/marker";
-import { type ProtocolMap } from "@/utils/messaging";
+import { type Lifetime } from "./lifetime.ts";
 
-type MessageInput<T extends keyof ProtocolMap> = Parameters<ProtocolMap[T]>[0];
+type MessageInput<T extends keyof ProtocolMap> = Parameters<typeof sendMessage<T>>[1];
 
-export async function broadcastToMarkedTabs<T extends keyof ProtocolMap>(
+export function broadcastToMarkedTabs<T extends keyof ProtocolMap>(
+  lifetime: Lifetime,
   type: T,
   data: MessageInput<T>,
-): Promise<void> {
-  const tabs = await browser.tabs.query({});
-
-  await Promise.allSettled(
-    tabs
-      .filter((tab) => tab.id != null)
-      .map(async (tab) => {
-        const test = await browser.scripting.executeScript({
-          target: { tabId: tab.id! },
-          func: injectIsInjected,
-          args: [MARKER_KEY],
-        });
-
-        const isMarked = test[0]?.result === true;
-        if (!isMarked) return;
-
-        await browser.tabs.sendMessage(tab.id!, { type, data });
-      }),
-  );
+): ReturnType<typeof sendMessage<T>>[] {
+  return lifetime.tabs
+    .flatMap((acknowledgedTab) =>
+      (acknowledgedTab.tab.frames ?? []).map((frame) => ({
+        status: acknowledgedTab.tab.status,
+        tabId: acknowledgedTab.tab.id,
+        frameId: frame.frameId,
+      })),
+    )
+    .map(({ tabId, frameId }) => {
+      return sendMessage(type, data, { tabId, frameId });
+    });
 }

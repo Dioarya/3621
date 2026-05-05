@@ -77,7 +77,7 @@ export function createApplyLiveUpdate(
       const throttleHandler = createThrottle();
       runtimeObject.throttleHandler = throttleHandler;
 
-      const signal = import.meta.env.PROD ? ctx.signal : undefined;
+      const signal = ctx.signal;
 
       runtimeObject.eventCleanups = [
         disposableAddEventListener(document, "scroll", throttleHandler, { signal, passive: true }),
