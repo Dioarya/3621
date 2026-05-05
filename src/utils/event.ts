@@ -1,4 +1,5 @@
-import type { ContentScriptContext, WxtWindowEventMap } from "#imports";
+import type { WxtWindowEventMap } from "wxt/utils/content-script-context";
+import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
 // Without ctx
 export function disposableAddEventListener<TType extends keyof WxtWindowEventMap>(

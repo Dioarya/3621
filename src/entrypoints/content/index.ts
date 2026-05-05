@@ -1,6 +1,7 @@
 import type { throttle } from "throttle-debounce";
+import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
-import { defineContentScript, type ContentScriptContext } from "#imports";
+import { defineContentScript } from "wxt/utils/define-content-script";
 
 import { disposableAddEventListener } from "@/utils/event";
 import { getScriptTitle } from "@/utils/hello";

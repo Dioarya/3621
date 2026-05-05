@@ -1,4 +1,4 @@
-import { browser } from "#imports";
+import { browser } from "wxt/browser";
 
 import { MARKER_KEY, injectIsInjected } from "@/utils/marker";
 import { type ProtocolMap } from "@/utils/messaging";

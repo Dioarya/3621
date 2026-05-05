@@ -1,4 +1,4 @@
-import type { ContentScriptContext } from "#imports";
+import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
 import { createApplyFunctions, HTMLElements } from "./apply";
 import { useContentSettings } from "./store";

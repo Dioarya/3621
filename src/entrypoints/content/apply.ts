@@ -1,5 +1,5 @@
-import { ContentScriptContext } from "#imports";
 import { throttle } from "throttle-debounce";
+import { ContentScriptContext } from "wxt/utils/content-script-context";
 
 import type { VerticalConstraint, Align, LiveUpdate, Settings } from "@/utils/settings";
 

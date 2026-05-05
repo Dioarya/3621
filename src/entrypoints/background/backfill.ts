@@ -1,4 +1,7 @@
-import { browser, type Browser, MatchPattern, type ScriptPublicPath } from "#imports";
+import type { ScriptPublicPath } from "wxt/utils/inject-script";
+
+import { browser, type Browser } from "wxt/browser";
+import { MatchPattern } from "wxt/utils/match-patterns";
 
 import { injectIsInjected, MARKER_KEY } from "@/utils/marker";
 

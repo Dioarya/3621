@@ -1,4 +1,4 @@
-import { storage } from "#imports";
+import { storage } from "wxt/utils/storage";
 
 import { Settings } from "./settings";
 

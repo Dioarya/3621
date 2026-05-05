@@ -1,6 +1,7 @@
 import type { RemoveListenerCallback } from "@webext-core/messaging";
 
-import { browser, defineBackground } from "#imports";
+import { browser } from "wxt/browser";
+import { defineBackground } from "wxt/utils/define-background";
 
 import { getScriptTitle } from "@/utils/hello";
 
