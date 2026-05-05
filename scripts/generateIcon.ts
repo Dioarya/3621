@@ -1,11 +1,10 @@
 import { access, constants, mkdir } from "node:fs/promises";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import sharp from "sharp";
 
 import { tryCatch } from "./src/trycatch.ts";
 
-const rootDirectory = join(dirname(fileURLToPath(import.meta.url)), "..");
+const rootDirectory = process.cwd();
 const publicDirectory = join(rootDirectory, "public");
 const iconFile = join(publicDirectory, "icon.svg");
 const iconDirectory = join(publicDirectory, "icon");
@@ -36,16 +35,18 @@ function createSizedIcon(
 
 async function script() {
   {
-    const { data: _, error } = await tryCatch(access(iconFile, constants.X_OK));
+    const { data: _, error } = await tryCatch(access(iconFile, constants.R_OK));
     if (error != null) {
-      throw new Error("public/icon.svg does not exist.");
+      console.error(`${iconFile} does not exist.`);
+      throw error;
     }
   }
 
   {
     const { data: _, error } = await tryCatch(mkdir(iconDirectory, { recursive: true }));
     if (error != null) {
-      throw new Error("could not create public/icon directory.");
+      console.error(`could not create ${iconDirectory} directory.`);
+      throw error;
     }
   }
 
@@ -60,11 +61,8 @@ async function script() {
 
     if (!silent)
       promise = promise.then(
-        () => console.log(`Icon ${size}: Created public/icon/${outputFilename}`),
-        (reason) =>
-          console.warn(
-            `Icon ${size}: public/icon/${outputFilename} errored with reason: ${reason}`,
-          ),
+        () => console.log(`Icon ${size}: Created ${outputPath}`),
+        (reason) => console.warn(`Icon ${size}: ${outputPath} errored with reason: ${reason}`),
       );
 
     promises.push(promise);

@@ -25,7 +25,7 @@
     "generate:icon": "node scripts/generateIcon.ts",
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
-    "release": "dotenv -- changelogen --release --no-push",
+    "release": "dotenv -- changelogen --release --push",
     "prepare": "husky"
   },
   "dependencies": {

@@ -4,8 +4,15 @@ import { defineConfig } from "wxt";
 
 import icong from "./scripts/vitePlugins/icong.ts";
 
+function slugify(str: string): string {
+  return str
+    .replace(/[/\\:*?"<>|\s]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 const gitVersion = process.env.CI
-  ? execSync("git describe --tags --abbrev=0").toString().trim()
+  ? slugify(process.env.GITHUB_REF_NAME ?? "unknown")
   : execSync("git describe --tags --always --dirty").toString().trim();
 
 // See https://wxt.dev/api/config.html

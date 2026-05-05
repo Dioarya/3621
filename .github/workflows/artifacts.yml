@@ -3,19 +3,30 @@ name: Attach Artifacts
 on:
   push:
     tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: The SHA of the commit to run on
+        required: true
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.commit_sha || github.ref }}
+          fetch-depth: 0
       - uses: pnpm/action-setup@v3
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: pnpm
 
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
 
       - name: Build Chrome
         run: pnpm run zip
@@ -23,8 +34,8 @@ jobs:
       - name: Build Firefox
         run: pnpm run zip:firefox
 
-      - name: Attaching Artifacts
-        uses: softprops/action-gh-release@v2
+      - name: Attach Artifacts
+        uses: softprops/action-gh-release@v3
+        if: github.ref_type == 'tag'
         with:
           files: .output/*.zip
-          update: true
