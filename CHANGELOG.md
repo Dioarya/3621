@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v0.0.14
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.13...v0.0.14)
+
+### 🚀 Enhancements
+
+- Add lifetime manager for broadcasting ([0e4226b](https://github.com/Dioarya/3621/commit/0e4226b))
+
+### 🩹 Fixes
+
+- Add missing scripting permissions + sourcesTemplate ([b2f5f71](https://github.com/Dioarya/3621/commit/b2f5f71))
+
+### 💅 Refactors
+
+- Specify imports directly instead of using #imports ([d7f20b0](https://github.com/Dioarya/3621/commit/d7f20b0))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.13
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.12...v0.0.13)
