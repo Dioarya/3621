@@ -17,11 +17,12 @@ export default defineConfig({
 
   zip: {
     artifactTemplate: `{{name}}-${gitVersion}-{{browser}}.zip`,
+    sourcesTemplate: `{{name}}-${gitVersion}-sources.zip`,
   },
 
   manifestVersion: 3,
   manifest: {
-    permissions: ["storage", "webNavigation"],
+    permissions: ["storage", "webNavigation", "scripting"],
     browser_specific_settings: {
       gecko: {
         id: "e6hancer@e6hancer.com",
