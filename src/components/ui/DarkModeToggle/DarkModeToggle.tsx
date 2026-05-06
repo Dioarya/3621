@@ -12,8 +12,8 @@ export default function DarkModeToggle() {
   const switchTheme = (checked: boolean) => setTheme(checked ? "dark" : "light");
 
   const svgs = {
-    off: <Sun size={14} stroke="currentColor" fill="currentColor" />,
-    on: <Moon size={14} stroke="currentColor" fill="currentColor" />,
+    off: <Sun stroke="currentColor" fill="currentColor" />,
+    on: <Moon stroke="currentColor" fill="currentColor" />,
   };
 
   return (
