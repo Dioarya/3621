@@ -3,19 +3,18 @@ import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
 import { version, repository } from "@@/package.json";
 
-import type { Align, LiveUpdate, VerticalConstraint } from "@/utils/settings";
-
 import {
   Brand,
   Page,
   Navbar,
+  Setting,
   DarkModeToggle,
   Bar,
   Spinner,
   ScrollHighlight,
   Section,
-  SegmentedControl,
 } from "@/components";
+import { createSegmentedControl } from "@/components/ui/SegmentedControl/SegmentedControl";
 import { usePopupSettings } from "@/hooks/useSettings";
 import { useSettingsControls } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
@@ -55,53 +54,41 @@ export default function App() {
             <Section.Navbar />
           </Navbar>
           <Section.Content>
-            <Section.Content.Page pageKey={"1"} pageLabel="1">
-              <SegmentedControl
-                value={verticalConstraint.value}
-                onChange={verticalConstraint.update}
-              >
-                <SegmentedControl.Radio<VerticalConstraint> value="margined" children="Margined" />
-                <SegmentedControl.Radio<VerticalConstraint> value="full" children="Full" />
-                <SegmentedControl.Radio<VerticalConstraint> value="off" children="Off" />
-              </SegmentedControl>
+            <Section.Content.Page pageKey={"settings"} pageLabel="Settings">
+              <Setting>
+                <Setting.Label>Vertical Constraint</Setting.Label>
+                <Setting.Description>It's a vertical constraint... r u fr</Setting.Description>
+                <Setting.Input>
+                  {createSegmentedControl(verticalConstraint.value, verticalConstraint.update, [
+                    { label: "Off", value: "off" },
+                    { label: "Full", value: "full" },
+                    { label: "Margined", value: "margined" },
+                  ])}
+                </Setting.Input>
+              </Setting>
 
-              <SegmentedControl value={align.value} onChange={align.update}>
-                <SegmentedControl.Radio<Align> value="left" children="Left" />
-                <SegmentedControl.Radio<Align> value="center" children="Center" />
-                <SegmentedControl.Radio<Align> value="right" children="Right" />
-              </SegmentedControl>
+              <Setting>
+                <Setting.Label>Align</Setting.Label>
+                <Setting.Description>It's an align... r u fr</Setting.Description>
+                <Setting.Input>
+                  {createSegmentedControl(align.value, align.update, [
+                    { label: "Left", value: "left" },
+                    { label: "Center", value: "center" },
+                    { label: "Right", value: "right" },
+                  ])}
+                </Setting.Input>
+              </Setting>
 
-              <SegmentedControl value={liveUpdate.value} onChange={liveUpdate.update}>
-                <SegmentedControl.Radio<LiveUpdate> value={true} children="On" />
-                <SegmentedControl.Radio<LiveUpdate> value={false} children="Off" />
-              </SegmentedControl>
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"2"} pageLabel="2">
-              Page 2
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"3"} pageLabel="3">
-              Page 3
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"4"} pageLabel="4">
-              Page 4
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"5"} pageLabel="5">
-              Page 5
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"6"} pageLabel="6">
-              Page 6
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"7"} pageLabel="7">
-              Page 7
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"8"} pageLabel="8">
-              Page 8
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"9"} pageLabel="9">
-              Page 9
-            </Section.Content.Page>
-            <Section.Content.Page pageKey={"10"} pageLabel="10">
-              Page 10
+              <Setting>
+                <Setting.Label>Live Update</Setting.Label>
+                <Setting.Description>It's a live update... r u fr</Setting.Description>
+                <Setting.Input>
+                  {createSegmentedControl(liveUpdate.value, liveUpdate.update, [
+                    { label: "Off", value: false },
+                    { label: "On", value: true },
+                  ])}
+                </Setting.Input>
+              </Setting>
             </Section.Content.Page>
           </Section.Content>
         </Section.Provider>

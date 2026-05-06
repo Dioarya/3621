@@ -92,3 +92,26 @@ export default function SegmentedControl<T>({
 }
 
 SegmentedControl.Radio = Radio;
+
+export type SegmentedControlRadio<T> = {
+  label: string;
+  value: T;
+};
+
+export function createSegmentedControl<T>(
+  value: T,
+  onChange: (value: T) => void,
+  radios: SegmentedControlRadio<T>[],
+) {
+  return (
+    <SegmentedControl value={value} onChange={onChange}>
+      {radios.map((radio) => (
+        <SegmentedControl.Radio
+          key={radio.value as React.Key}
+          value={radio.value}
+          children={radio.label}
+        />
+      ))}
+    </SegmentedControl>
+  );
+}

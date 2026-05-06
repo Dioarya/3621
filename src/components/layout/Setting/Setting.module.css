@@ -1,0 +1,21 @@
+.setting {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 1em 0;
+  font-size: var(--text-label);
+  color: var(--color-text-primary);
+
+  .nameplate {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+
+    .description {
+      font-size: var(text-label-sub);
+      color: var(--color-text-primary-muted);
+    }
+  }
+}
