@@ -21,7 +21,7 @@ function Description({ children }: SettingDescriptionProps) {
 }
 
 function Input({ children }: SettingInputProps) {
-  return <div>{children}</div>;
+  return <span>{children}</span>;
 }
 
 type SettingProps = Omit<React.ComponentPropsWithoutRef<"span">, "children"> & {
@@ -42,7 +42,7 @@ export default function Setting({ children, className }: SettingProps) {
         {label}
         {description}
       </div>
-      <span>{input}</span>
+      {input}
     </span>
   );
 }
