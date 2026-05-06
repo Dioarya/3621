@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
 
-type UseScrollResult = {
-  atTop: boolean;
-  scrollPercentage: number;
-  isScrollable: boolean;
-};
-
 type UseScrollOptions = {
   scrollElement: HTMLElement | null;
 };
 
-export function useScroll({ scrollElement }: UseScrollOptions): UseScrollResult {
+export function useScroll({ scrollElement }: UseScrollOptions) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
@@ -30,5 +24,5 @@ export function useScroll({ scrollElement }: UseScrollOptions): UseScrollResult 
     atTop: scrollPercentage === 0,
     scrollPercentage,
     isScrollable: scrollElement ? scrollElement.scrollHeight > scrollElement.clientHeight : false,
-  };
+  } as const;
 }

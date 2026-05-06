@@ -4,7 +4,7 @@ import { useScroll } from "@/hooks/useScroll";
 
 import style from "./ScrollHighlight.module.css";
 
-function getScrollableParent(element: HTMLElement | null): HTMLElement | null {
+function getScrollableParent(element: HTMLElement | null) {
   if (!element) return null;
   if (element.scrollHeight > element.clientHeight) return element;
   return getScrollableParent(element.parentElement);

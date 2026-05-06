@@ -39,7 +39,7 @@ export class Lifetime {
     this.heartbeat = args.heartbeat;
   }
 
-  createAcknowledgement(args: LifetimeCreateAcknowledgementArguments): Acknowledgement {
+  createAcknowledgement(args: LifetimeCreateAcknowledgementArguments) {
     return {
       heartbeat: {
         startTime: args.startTime,
@@ -51,10 +51,7 @@ export class Lifetime {
   }
 }
 
-export function patchAcknowledgement(
-  acknowledgement: Acknowledgement,
-  now: EpochMilliseconds,
-): Acknowledgement {
+export function patchAcknowledgement(acknowledgement: Acknowledgement, now: EpochMilliseconds) {
   const clone = cloneDeep(acknowledgement);
   clone.heartbeat.lastTime = now;
   return clone;
@@ -62,10 +59,7 @@ export function patchAcknowledgement(
 
 export type FindAcknowledgementArguments = DeepPartial<AcknowledgedTab>;
 
-export function findAcknowledgement(
-  lifetime: Lifetime,
-  searchParam: FindAcknowledgementArguments,
-): AcknowledgedTab[] {
+export function findAcknowledgement(lifetime: Lifetime, searchParam: FindAcknowledgementArguments) {
   return filter(lifetime.tabs, (item) => isMatch(item, searchParam));
 }
 
@@ -125,7 +119,7 @@ export async function createAcknowledgement(
   lifetime: Lifetime,
   sender: ExtensionMessage["sender"],
   timestamp: EpochMilliseconds,
-): Promise<AcknowledgedTab> {
+) {
   const tab: Tab = await createTab(sender);
   const acknowledgement: Acknowledgement = lifetime.createAcknowledgement({ startTime: timestamp });
   const id: AcknowledgedTabIdentification = createAcknowledgementId(sender);
@@ -135,7 +129,7 @@ export async function createAcknowledgement(
   return acknowledgedTab;
 }
 
-export function setupLifetimeMessaging(lifetime: Lifetime): RemoveListenerCallback[] {
+export function setupLifetimeMessaging(lifetime: Lifetime) {
   const cleanup: RemoveListenerCallback[] = [];
 
   const acknowledgeHandler = async ({

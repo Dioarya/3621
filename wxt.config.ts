@@ -4,7 +4,7 @@ import { defineConfig } from "wxt";
 
 import icong from "./scripts/vitePlugins/icong.ts";
 
-function slugify(str: string): string {
+function slugify(str: string) {
   return str
     .replace(/[/\\:*?"<>|\s]+/g, "-")
     .replace(/-+/g, "-")

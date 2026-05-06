@@ -101,16 +101,7 @@ export function createApplyLiveUpdate(
   return applyLiveUpdate;
 }
 
-export type ApplyFunctions = {
-  applyConstraint: ReturnType<typeof createApplyConstraint>;
-  applyAlignment: ReturnType<typeof createApplyAlignment>;
-  applyLiveUpdate: ReturnType<typeof createApplyLiveUpdate>;
-};
-
-export function createApplyFunctions(
-  ctx: ContentScriptContext,
-  elements: HTMLElements,
-): ApplyFunctions {
+export function createApplyFunctions(ctx: ContentScriptContext, elements: HTMLElements) {
   const applyConstraint = createApplyConstraint(elements);
   const applyAlignment = createApplyAlignment(elements);
   const applyLiveUpdate = createApplyLiveUpdate(ctx, applyConstraint);

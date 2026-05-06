@@ -1,5 +1,4 @@
 import type { RemoveListenerCallback } from "@webext-core/messaging";
-import type { Unwatch } from "wxt/utils/storage";
 
 import type { Settings } from "@/utils/settings";
 
@@ -9,7 +8,7 @@ import { settingsStorageItems } from "@/utils/storage";
 import { broadcastToMarkedTabs } from "./broadcast";
 import { setupLifetimeMessaging, type Lifetime } from "./lifetime";
 
-async function getAllSettings(): Promise<Settings> {
+async function getAllSettings() {
   const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];
   const resolvedEntries = await Promise.all(
     entries.map(async ([key, item]) => [key, await item.getValue()] as const),
@@ -19,27 +18,15 @@ async function getAllSettings(): Promise<Settings> {
 
 function createGetAndSet<T extends keyof Settings>(
   prop: T,
-  options: { get?: true; set: false },
-): { get: RemoveListenerCallback };
-function createGetAndSet<T extends keyof Settings>(
-  prop: T,
-  options: { get: false; set?: true },
-): { set: RemoveListenerCallback };
-function createGetAndSet<T extends keyof Settings>(
-  prop: T,
-  options: { get?: true; set?: true },
-): { get: RemoveListenerCallback; set: RemoveListenerCallback };
-function createGetAndSet<T extends keyof Settings>(
-  prop: T,
-): { get: RemoveListenerCallback; set: RemoveListenerCallback };
-function createGetAndSet<T extends keyof Settings>(
-  prop: T,
   options?: { get?: boolean; set?: boolean },
-): { get?: RemoveListenerCallback; set?: RemoveListenerCallback } {
+) {
   const get = options?.get ?? true;
   const set = options?.set ?? true;
 
-  const result: { get?: RemoveListenerCallback; set?: RemoveListenerCallback } = {};
+  const result: {
+    get?: RemoveListenerCallback;
+    set?: RemoveListenerCallback;
+  } = {};
 
   if (get) {
     const getterMessage = `${prop}.get` as keyof ProtocolMap;
@@ -58,7 +45,7 @@ function createGetAndSet<T extends keyof Settings>(
   return result;
 }
 
-function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T): Unwatch {
+function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T) {
   return settingsStorageItems[prop].watch((newValue) => {
     void sendMessageSafe("settings.update", { [prop]: newValue });
 
@@ -71,7 +58,7 @@ function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T): Unw
   });
 }
 
-export function setupMessaging(lifetime: Lifetime): RemoveListenerCallback[] {
+export function setupMessaging(lifetime: Lifetime) {
   const cleanup: RemoveListenerCallback[] = [];
 
   cleanup.push(

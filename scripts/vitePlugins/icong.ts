@@ -7,7 +7,7 @@ import generateIcon from "../generateIcon";
 
 let firstRan = false;
 
-export default function iconsPlugin(): Plugin {
+export default function iconsPlugin() {
   let config: ResolvedConfig;
 
   return {
@@ -30,5 +30,5 @@ export default function iconsPlugin(): Plugin {
         }
       });
     },
-  };
+  } as Plugin;
 }

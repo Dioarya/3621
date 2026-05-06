@@ -38,7 +38,7 @@ export const { sendMessage, onMessage } = defineExtensionMessaging<ProtocolMap>(
 const NO_RECEIVER_ERROR = "Could not establish connection. Receiving end does not exist.";
 export function sendMessageSafe<T extends keyof ProtocolMap>(
   ...args: Parameters<typeof sendMessage<T>>
-): ReturnType<typeof sendMessage<T>> {
+) {
   return sendMessage(...args).catch((err) => {
     if (err?.message?.includes(NO_RECEIVER_ERROR)) return;
     throw err;

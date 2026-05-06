@@ -15,8 +15,8 @@ import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
 import { setupSubscriptions } from "./subscriptions";
 
-async function waitForElement(selector: string): Promise<HTMLElement> {
-  return new Promise((resolve) => {
+async function waitForElement(selector: string) {
+  return new Promise((resolve: (value: HTMLElement) => void) => {
     const existing = document.querySelector<HTMLElement>(selector);
     if (existing != null) return resolve(existing);
     const observer = new MutationObserver(() => {
@@ -30,7 +30,7 @@ async function waitForElement(selector: string): Promise<HTMLElement> {
   });
 }
 
-async function init(ctx: ContentScriptContext): Promise<void> {
+async function init(ctx: ContentScriptContext) {
   await fetchSettingsStore(useContentSettings);
 
   const image = await waitForElement("#image");

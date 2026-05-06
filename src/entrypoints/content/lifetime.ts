@@ -4,10 +4,7 @@ import type { Acknowledgement } from "@/utils/lifetime";
 
 import { sendMessage } from "@/utils/messaging";
 
-function scheduleHeartbeat(
-  ctx: ContentScriptContext,
-  acknowledgement: Acknowledgement,
-): ReturnType<typeof setTimeout> {
+function scheduleHeartbeat(ctx: ContentScriptContext, acknowledgement: Acknowledgement) {
   const { interval, safeIntervalMultiplier } = acknowledgement.heartbeat;
   const safeInterval = interval * safeIntervalMultiplier;
 
@@ -19,7 +16,7 @@ function scheduleHeartbeat(
   }, safeInterval);
 }
 
-export async function setupLifetime(ctx: ContentScriptContext): Promise<() => void> {
+export async function setupLifetime(ctx: ContentScriptContext) {
   const acknowledgement = await sendMessage("lifetime.acknowledge");
 
   let timeoutId = scheduleHeartbeat(ctx, acknowledgement);

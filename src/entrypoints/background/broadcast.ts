@@ -8,7 +8,7 @@ export function broadcastToMarkedTabs<T extends keyof ProtocolMap>(
   lifetime: Lifetime,
   type: T,
   data: MessageInput<T>,
-): ReturnType<typeof sendMessage<T>>[] {
+) {
   return lifetime.tabs
     .flatMap((acknowledgedTab) =>
       (acknowledgedTab.tab.frames ?? []).map((frame) => ({

@@ -11,11 +11,7 @@ const iconDirectory = join(publicDirectory, "icon");
 
 const silent = !import.meta.main;
 
-function createSizedIcon(
-  cloned_image: sharp.Sharp,
-  size: number,
-  outputPath: string,
-): Promise<sharp.OutputInfo> {
+function createSizedIcon(cloned_image: sharp.Sharp, size: number, outputPath: string) {
   return new Promise((resolve) =>
     resolve(
       cloned_image
