@@ -1,3 +1,5 @@
+import type { GetReturnType } from "@webext-core/messaging";
+
 import { type ProtocolMap, sendMessage } from "@/utils/messaging";
 import { Settings } from "@/utils/settings";
 import { createSettingsStore, fetchSettingsStore } from "@/utils/store";
@@ -11,11 +13,15 @@ export function useSettingsControls() {
   const createControl = <K extends keyof Settings>(prop: K) => {
     type SetKey = `${K}.set`;
     type SetValue = MessageInput<SetKey>;
+    type SetReturn = GetReturnType<ProtocolMap[SetKey]>;
 
     const value = usePopupSettings((state) => state[prop]);
     const update = async (value: SetValue) => await sendMessage(`${prop}.set`, value);
 
-    return { value, update } as const;
+    return { value, update } as const satisfies {
+      value: Settings[K];
+      update: (value: SetValue) => Promise<SetReturn>;
+    };
   };
 
   const keys = Object.keys(new Settings()) as (keyof Settings)[];
