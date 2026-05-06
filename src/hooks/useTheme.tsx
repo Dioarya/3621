@@ -1,23 +1,15 @@
 import { ReactNode, useEffect } from "react";
 
-import type { Theme } from "@/utils/settings";
-
-import { sendMessage } from "@/utils/messaging";
-
-import { usePopupSettings } from "./useSettings";
+import { useSettingsControls } from "./useSettings";
 
 export function useTheme() {
-  const theme = usePopupSettings((state) => state.theme);
-
-  const setTheme = async (value: Theme) => {
-    await sendMessage("theme.set", value);
-  };
+  const { theme } = useSettingsControls();
 
   const isDark =
-    theme === "dark" ||
-    (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    theme.value === "dark" ||
+    (theme.value === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-  return { theme, setTheme, isDark };
+  return { theme: theme.value, setTheme: theme.update, isDark };
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
