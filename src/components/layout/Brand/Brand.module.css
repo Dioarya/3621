@@ -1,7 +1,7 @@
 .brand {
   display: flex;
   flex-direction: row;
-  gap: var(--gap-brand);
+  gap: 1em;
   align-items: center;
 }
 
@@ -15,11 +15,12 @@
 }
 
 .title {
+  font-size: var(--text-header);
   line-height: 1;
 }
 
 .subscript {
-  font-size: 0.7em;
+  font-size: var(--text-header-sub);
   line-height: 1;
 }
 

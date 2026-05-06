@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  gap: var(--gap-label-toggle);
+  gap: 0.5em;
   align-items: center;
 
   .label {

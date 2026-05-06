@@ -14,7 +14,7 @@
     text-align: start;
 
     .description {
-      font-size: var(text-label-sub);
+      font-size: var(--text-label-sub);
       color: var(--color-text-primary-muted);
     }
   }
