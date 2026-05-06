@@ -3,6 +3,8 @@ import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
 import { version, repository } from "@@/package.json";
 
+import type { Align, LiveUpdate, VerticalConstraint } from "@/utils/settings";
+
 import {
   Brand,
   Page,
@@ -12,13 +14,16 @@ import {
   Spinner,
   ScrollHighlight,
   Section,
+  SegmentedControl,
 } from "@/components";
 import { usePopupSettings } from "@/hooks/useSettings";
+import { useSettingsControls } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
 import { fetchSettingsStore } from "@/utils/store";
 
 export default function App() {
   void fetchSettingsStore(usePopupSettings);
+  const { verticalConstraint, align, liveUpdate } = useSettingsControls();
   const ready = usePopupSettings((state) => state.ready);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
@@ -51,7 +56,25 @@ export default function App() {
           </Navbar>
           <Section.Content>
             <Section.Content.Page pageKey={"1"} pageLabel="1">
-              Page 1
+              <SegmentedControl
+                value={verticalConstraint.value}
+                onChange={verticalConstraint.update}
+              >
+                <SegmentedControl.Radio<VerticalConstraint> value="margined" children="Margined" />
+                <SegmentedControl.Radio<VerticalConstraint> value="full" children="Full" />
+                <SegmentedControl.Radio<VerticalConstraint> value="off" children="Off" />
+              </SegmentedControl>
+
+              <SegmentedControl value={align.value} onChange={align.update}>
+                <SegmentedControl.Radio<Align> value="left" children="Left" />
+                <SegmentedControl.Radio<Align> value="center" children="Center" />
+                <SegmentedControl.Radio<Align> value="right" children="Right" />
+              </SegmentedControl>
+
+              <SegmentedControl value={liveUpdate.value} onChange={liveUpdate.update}>
+                <SegmentedControl.Radio<LiveUpdate> value={true} children="On" />
+                <SegmentedControl.Radio<LiveUpdate> value={false} children="Off" />
+              </SegmentedControl>
             </Section.Content.Page>
             <Section.Content.Page pageKey={"2"} pageLabel="2">
               Page 2

@@ -1,26 +1,18 @@
 import { defineExtensionMessaging } from "@webext-core/messaging";
 
 import { Acknowledgement } from "./lifetime";
-import { Theme, VerticalConstraint, Align, LiveUpdate, Settings } from "./settings";
+import { Settings } from "./settings";
 
-export interface ProtocolMap {
+// creates *.get and *.set protocols for each key inside Settings,
+// such as theme.get & theme.set and liveUpdate.get & liveUpdate.set
+type SettingsProtocol = {
+  [K in keyof Settings as `${K}.get`]: () => Settings[K];
+} & {
+  [K in keyof Settings as `${K}.set`]: (data: Settings[K]) => void;
+};
+
+export interface ProtocolMap extends SettingsProtocol {
   // e621.net settings {
-  // theme
-  "theme.get"(): Theme; // * -> background
-  "theme.set"(data: Theme): void; // * -> background
-
-  // align
-  "align.get"(): Align; // * -> background
-  "align.set"(data: Align): void; // * -> background
-
-  // verticalConstraint
-  "verticalConstraint.get"(): VerticalConstraint; // * -> background
-  "verticalConstraint.set"(data: VerticalConstraint): void; // * -> background
-
-  // liveUpdate
-  "liveUpdate.get"(): LiveUpdate; // * -> background
-  "liveUpdate.set"(data: LiveUpdate): void; // * -> background
-
   // settings
   "settings.get"(): Settings; // * -> background
   "settings.update"(data: Partial<Settings>): void; // background -> many content-script

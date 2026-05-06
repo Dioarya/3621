@@ -4,3 +4,4 @@ export { default as DarkModeToggle } from "./DarkModeToggle/DarkModeToggle";
 export { default as Spinner } from "./Spinner/Spinner";
 export { default as ScrollHighlight } from "./ScrollHighlight/ScrollHighlight";
 export { default as Section } from "./Section";
+export { default as SegmentedControl } from "./SegmentedControl/SegmentedControl.tsx";
