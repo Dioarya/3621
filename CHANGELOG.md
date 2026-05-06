@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.0.15
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.14...v0.0.15)
+
+### 📦 Build
+
+- Debug CI ([7e1de7d](https://github.com/Dioarya/3621/commit/7e1de7d))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.14
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.13...v0.0.14)
