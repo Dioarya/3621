@@ -6,7 +6,7 @@ import { defineContentScript } from "wxt/utils/define-content-script";
 
 import { disposableAddEventListener } from "@/utils/event";
 import { getScriptTitle } from "@/utils/hello";
-import { isInjected, markAsInjected } from "@/utils/marker";
+import { markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
 import { applySettings } from "./apply";
@@ -73,12 +73,6 @@ export default defineContentScript({
     }
 
     const scriptTitle = getScriptTitle();
-
-    if (import.meta.env.PROD)
-      if (isInjected()) {
-        console.log(`${scriptTitle} (noop: already injected)`);
-        return;
-      }
 
     markAsInjected();
     console.log(scriptTitle);
