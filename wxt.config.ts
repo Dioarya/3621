@@ -30,6 +30,7 @@ export default defineConfig({
   manifestVersion: 3,
   manifest: {
     permissions: ["storage", "webNavigation", "scripting"],
+    host_permissions: ["*://e621.net/*"],
     browser_specific_settings: {
       gecko: {
         id: "e6hancer@e6hancer.com",
