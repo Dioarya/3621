@@ -36,37 +36,14 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
     return results;
   };
 
-  const tabInjector = async ({
-    id,
-    url,
-    frame,
-  }: {
-    id?: number | undefined;
-    url?: string | undefined;
-    frame?: number;
-  }) => {
-    if (!id || !url) return;
-    if (patterns.some((pattern) => pattern.includes(url))) {
-      const target = { tabId: id, frameIds: frame ? [frame] : undefined };
-      return await injectionGate(target);
-    }
-  };
-
-  return [tabsInjector, tabInjector] as const;
+  return [tabsInjector] as const;
 }
 
-const [injectContentScripts, injectContentScript] = createInjectContentScript(
-  ["*://e621.net/posts/*"],
-  "/content-scripts/content.js",
-);
-
 export function setupBackfill() {
-  browser.webNavigation.onCommitted.addListener((details) => {
-    injectContentScript({
-      id: details.tabId,
-      url: details.url,
-    }).catch(console.error);
-  });
+  const [injectContentScripts] = createInjectContentScript(
+    ["*://e621.net/posts/*"],
+    "/content-scripts/content.js",
+  );
 
   browser.runtime.onInstalled.addListener(async () => {
     const tabs = await browser.tabs.query({});
