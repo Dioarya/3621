@@ -4,8 +4,6 @@ import { useId } from "react";
 import { Toggle } from "@/components";
 import { useTheme } from "@/hooks/useTheme";
 
-import style from "./DarkModeToggle.module.css";
-
 export default function DarkModeToggle() {
   const toggleId = useId();
   const { setTheme, isDark } = useTheme();
@@ -16,14 +14,5 @@ export default function DarkModeToggle() {
     on: <Moon stroke="currentColor" fill="currentColor" />,
   };
 
-  return (
-    <div className={style.container}>
-      <label className={style.label} htmlFor={toggleId}>
-        Dark Mode
-      </label>
-      <div className={style.toggle}>
-        <Toggle svg={svgs} id={toggleId} checked={isDark} onChange={switchTheme} />
-      </div>
-    </div>
-  );
+  return <Toggle svg={svgs} id={toggleId} checked={isDark} onChange={switchTheme} />;
 }
