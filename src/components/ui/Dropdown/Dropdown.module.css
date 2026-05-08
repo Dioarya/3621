@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--dropdown-size, 1em);
+  height: var(--dropdown-size, 1em);
+
+  .dropdown {
+    display: block;
+    fill: var(--color-surface-primary-500);
+
+    &.open {
+      width: var(--dropdown-size, 1em);
+      height: calc(var(--dropdown-size, 1em) * 0.5);
+    }
+
+    &.closed {
+      width: calc(var(--dropdown-size, 1em) * 0.5);
+      height: var(--dropdown-size, 1em);
+    }
+  }
+}

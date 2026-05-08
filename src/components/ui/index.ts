@@ -8,3 +8,4 @@ export {
   default as SegmentedControl,
   createSegmentedControl,
 } from "./SegmentedControl/SegmentedControl.tsx";
+export { default as Dropdown } from "./Dropdown/Dropdown";

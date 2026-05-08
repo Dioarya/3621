@@ -1,4 +1,4 @@
-import PostSection from "./sections/Post";
+import PostSection from "./sections/PostSection";
 
 type SettingsViewProps = {
   children?: never;

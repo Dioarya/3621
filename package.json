@@ -61,6 +61,7 @@
     "stylelint-order": "^8.1.1",
     "typescript": "^5.9.3",
     "vite": "^8.0.10",
+    "vite-plugin-svgr": "^5.2.0",
     "wxt": "^0.20.25"
   },
   "lint-staged": {

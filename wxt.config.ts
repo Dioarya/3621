@@ -1,5 +1,6 @@
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
+import svgr from "vite-plugin-svgr";
 import { defineConfig } from "wxt";
 
 import icong from "./scripts/vitePlugins/icong.ts";
@@ -39,7 +40,7 @@ export default defineConfig({
   },
 
   vite: () => ({
-    plugins: [icong()],
+    plugins: [icong(), svgr()],
     define: {
       __VERSION__: JSON.stringify(gitVersion),
     },

@@ -1,9 +1,12 @@
+import clsx from "clsx";
 import React, { ComponentPropsWithoutRef, useEffect } from "react";
 
 import { Section } from "@/components";
 
 import { useSectionContext } from "../Provider/Provider";
+import { PageInfo } from "../types";
 import { toPageInfo } from "../utils";
+import style from "./Content.module.css";
 import { SectionContentPageProps } from "./Page/Page";
 
 type SectionContentChild = React.ReactElement<SectionContentPageProps>;
@@ -30,6 +33,23 @@ export default function Content({ children }: SectionContentProps) {
     ctx.setPages(pageInfos);
   }, []);
 
-  const selectedPage = pageInfos.find((p) => p.key === ctx.selected);
-  return <div>{selectedPage?.page}</div>;
+  const wrapPage = (page: PageInfo) => {
+    const hiddenClassName = clsx(style.content, style.hidden);
+    const showClassName = clsx(style.content);
+    if (page.key === ctx.selected) {
+      return (
+        <div key={page.key} className={showClassName}>
+          {page.page}
+        </div>
+      );
+    } else {
+      return (
+        <div key={page.key} className={hiddenClassName}>
+          {page.page}
+        </div>
+      );
+    }
+  };
+
+  return <div>{pageInfos.map(wrapPage)}</div>;
 }
