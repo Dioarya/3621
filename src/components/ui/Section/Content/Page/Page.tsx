@@ -1,5 +1,7 @@
 import { ComponentPropsWithoutRef, ReactNode } from "react";
 
+import style from "../../Section.module.css";
+
 export type SectionContentPageProps = Omit<
   ComponentPropsWithoutRef<"section">,
   "children" | "pageKey" | "pageLabel"
@@ -10,7 +12,7 @@ export type SectionContentPageProps = Omit<
 };
 
 const Page = ({ children }: SectionContentPageProps) => {
-  return <section>{children}</section>;
+  return <section className={style.page}>{children}</section>;
 };
 
 export default Page;

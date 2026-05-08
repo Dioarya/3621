@@ -5,7 +5,7 @@ import { type ReactNode } from "react";
 import { Dropdown } from "@/components";
 import { useOnClick } from "@/hooks/useOnClick";
 
-import style from "./Section.module.css";
+import style from "../../../Section.module.css";
 
 type SectionContentPageSectionProps = {
   children: ReactNode;
@@ -16,12 +16,14 @@ const Section = ({ children, label }: SectionContentPageSectionProps) => {
   const [open, setOpen] = useState(false);
   const onClick = useOnClick(open, setOpen);
 
-  const combinedContentClassName = clsx(style["section-content"], { [style.closed]: !open });
+  const combinedContentClassName = clsx(style.content, {
+    [style.closed]: !open,
+  });
   return (
     <div className={style.section}>
-      <div className={style["section-bar"]} onClick={onClick}>
-        <Dropdown className={style["section-dropdown"]} open={open} />
-        {label && <span className={style["section-label"]}>{label}</span>}
+      <div className={style.bar} onClick={onClick}>
+        <Dropdown className={style.dropdown} open={open} />
+        {label && <span className={style.label}>{label}</span>}
       </div>
       <div className={combinedContentClassName}>{children}</div>
     </div>

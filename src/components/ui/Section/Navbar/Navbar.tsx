@@ -6,7 +6,7 @@ const Navbar = () => {
   const ctx = useSectionContext();
 
   return (
-    <div className={style["section-navbar"]}>
+    <div className={style.navbar}>
       {ctx.pages.map((page) => (
         <Button
           key={page.key}

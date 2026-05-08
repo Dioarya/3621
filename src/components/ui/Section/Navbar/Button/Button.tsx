@@ -4,17 +4,17 @@ import { ReactNode } from "react";
 import style from "../../Section.module.css";
 import { PageInfo } from "../../types";
 
-type SectionNavButtonProps = {
+type SectionNavbarButtonProps = {
   children?: ReactNode;
   isSelected: boolean;
   page: PageInfo;
   onSelect: (key: string) => void;
 };
 
-const NavButton = ({ isSelected, page, onSelect }: SectionNavButtonProps) => {
+const Button = ({ isSelected, page, onSelect }: SectionNavbarButtonProps) => {
   const label = `${page.label}`;
 
-  const combinedClassName = clsx(style["section-navbutton"], { [style["selected"]]: isSelected });
+  const combinedClassName = clsx(style.button, { [style.selected]: isSelected });
   return (
     <span className={combinedClassName} onClick={() => onSelect(page.key)}>
       {label}
@@ -22,4 +22,4 @@ const NavButton = ({ isSelected, page, onSelect }: SectionNavButtonProps) => {
   );
 };
 
-export default NavButton;
+export default Button;
