@@ -4,7 +4,7 @@ import React from "react";
 
 import style from "./Bar.module.css";
 
-type BarProps = Omit<React.ComponentPropsWithRef<"div">, "children"> & {
+type BarProps = Omit<React.ComponentPropsWithRef<"div">, "children" | "color" | "blur"> & {
   children: ReactNode;
   color?: string;
   blur?: string;
