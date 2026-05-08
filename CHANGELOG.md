@@ -1,6 +1,44 @@
 # Changelog
 
 
+## v0.0.16
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.15...v0.0.16)
+
+### 🚀 Enhancements
+
+- Add useSettingsControls() to get controls ([06ac42d](https://github.com/Dioarya/3621/commit/06ac42d))
+- Add SegmentedControl component ([45696b7](https://github.com/Dioarya/3621/commit/45696b7))
+- Add Setting layout component, SegmentedControl helper function ([bc46d8f](https://github.com/Dioarya/3621/commit/bc46d8f))
+- Create views/ folder for different Section.Content.Page's ([d846b98](https://github.com/Dioarya/3621/commit/d846b98))
+- Add Dropdown, add Section.Content.Page.Section ([bd16596](https://github.com/Dioarya/3621/commit/bd16596))
+
+### 🩹 Fixes
+
+- Remove unnecessary fixed sizing ([356082c](https://github.com/Dioarya/3621/commit/356082c))
+- Remove over-nested input in Setting ([44b102f](https://github.com/Dioarya/3621/commit/44b102f))
+- Fix css variables ([11cb3a8](https://github.com/Dioarya/3621/commit/11cb3a8))
+- Add host_permissions to manifest ([660e22b](https://github.com/Dioarya/3621/commit/660e22b))
+- Remove label on DarkModeToggle ([b2de25c](https://github.com/Dioarya/3621/commit/b2de25c))
+- Remove unnecessary onCommited handler for contentscript backfill ([0fe82a5](https://github.com/Dioarya/3621/commit/0fe82a5))
+- Remove noop message triggered by onCommit ([6aaebda](https://github.com/Dioarya/3621/commit/6aaebda))
+- Remove transitioning on everything ([98b5351](https://github.com/Dioarya/3621/commit/98b5351))
+
+### 💅 Refactors
+
+- Infer all function return types ([f4869b6](https://github.com/Dioarya/3621/commit/f4869b6))
+- Add better typing for useSettings ([0c56f72](https://github.com/Dioarya/3621/commit/0c56f72))
+- Make component codebase more consistent ([8095119](https://github.com/Dioarya/3621/commit/8095119))
+
+### 📦 Build
+
+- Update actions ([469fe52](https://github.com/Dioarya/3621/commit/469fe52))
+- Update dependencies ([8132688](https://github.com/Dioarya/3621/commit/8132688))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.15
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.14...v0.0.15)
