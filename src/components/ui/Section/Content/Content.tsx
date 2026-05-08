@@ -15,7 +15,7 @@ type SectionContentProps = Omit<ComponentPropsWithoutRef<"div">, "children"> & {
   children: SectionContentChild | SectionContentChild[];
 };
 
-export default function Content({ children }: SectionContentProps) {
+const Content = ({ children }: SectionContentProps) => {
   const ctx = useSectionContext();
 
   const childrenArray = React.Children.toArray(children) as (
@@ -52,4 +52,6 @@ export default function Content({ children }: SectionContentProps) {
   };
 
   return <div>{pageInfos.map(wrapPage)}</div>;
-}
+};
+
+export default Content;

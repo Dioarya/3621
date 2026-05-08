@@ -4,7 +4,7 @@ import { useId } from "react";
 import { Toggle } from "@/components";
 import { useTheme } from "@/hooks/useTheme";
 
-export default function DarkModeToggle() {
+const DarkModeToggle = () => {
   const toggleId = useId();
   const { setTheme, isDark } = useTheme();
   const switchTheme = (checked: boolean) => setTheme(checked ? "dark" : "light");
@@ -15,4 +15,6 @@ export default function DarkModeToggle() {
   };
 
   return <Toggle svg={svgs} id={toggleId} checked={isDark} onChange={switchTheme} />;
-}
+};
+
+export default DarkModeToggle;

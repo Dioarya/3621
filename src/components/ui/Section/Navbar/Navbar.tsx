@@ -2,7 +2,7 @@ import { useSectionContext } from "../Provider/Provider";
 import style from "../Section.module.css";
 import Button from "./Button/Button";
 
-export default function Navbar() {
+const Navbar = () => {
   const ctx = useSectionContext();
 
   return (
@@ -17,4 +17,6 @@ export default function Navbar() {
       ))}
     </div>
   );
-}
+};
+
+export default Navbar;

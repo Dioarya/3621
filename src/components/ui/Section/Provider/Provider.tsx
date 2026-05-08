@@ -9,7 +9,7 @@ type SectionProviderProps = {
   children: ReactNode;
 };
 
-export default function Provider({ children }: SectionProviderProps) {
+const Provider = ({ children }: SectionProviderProps) => {
   const [pages, setPages] = useState<SectionContextType["pages"]>([]);
   const [selected, setSelected] = useState<SectionContextType["selected"]>(null);
 
@@ -28,10 +28,12 @@ export default function Provider({ children }: SectionProviderProps) {
       {children}
     </SectionContext.Provider>
   );
-}
+};
 
 export function useSectionContext() {
   const ctx = useContext(SectionContext);
   if (!ctx) throw new Error("Must be used inside SectionProvider");
   return ctx;
 }
+
+export default Provider;

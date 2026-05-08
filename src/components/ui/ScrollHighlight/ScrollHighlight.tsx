@@ -15,7 +15,7 @@ type ScrollHighlightProps = {
   scrollElement?: HTMLElement | null;
 };
 
-export default function ScrollHighlight({ isVisible = true, scrollElement }: ScrollHighlightProps) {
+const ScrollHighlight = ({ isVisible = true, scrollElement }: ScrollHighlightProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [inferredScrollElement, setInferredScrollElement] = useState<HTMLElement | null>(null);
 
@@ -37,4 +37,6 @@ export default function ScrollHighlight({ isVisible = true, scrollElement }: Scr
       <span className={style["scroll-orbs"]}></span>
     </div>
   );
-}
+};
+
+export default ScrollHighlight;

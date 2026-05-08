@@ -15,7 +15,7 @@ type DropdownProps = Omit<
   onClick?: (open: boolean) => void;
 };
 
-export default function Dropdown({ open, onClick, className, ...props }: DropdownProps) {
+const Dropdown = ({ open, onClick, className, ...props }: DropdownProps) => {
   const onClickProp: MouseEventHandler<HTMLSpanElement> | undefined = onClick
     ? (event) => {
         event.preventDefault();
@@ -30,4 +30,6 @@ export default function Dropdown({ open, onClick, className, ...props }: Dropdow
       {open ? <Open className={svgClassName} /> : <Closed className={svgClassName} />}
     </span>
   );
-}
+};
+
+export default Dropdown;

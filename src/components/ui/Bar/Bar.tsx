@@ -14,19 +14,19 @@ type BarSegmentProps = Omit<React.ComponentPropsWithRef<"div">, "children"> & {
   children: ReactNode;
 };
 
-function Left({ children }: BarSegmentProps) {
+const Left = ({ children }: BarSegmentProps) => {
   return <div className={style.left}>{children}</div>;
-}
+};
 
-function Center({ children }: BarSegmentProps) {
+const Center = ({ children }: BarSegmentProps) => {
   return <div className={style.center}>{children}</div>;
-}
+};
 
-function Right({ children }: BarSegmentProps) {
+const Right = ({ children }: BarSegmentProps) => {
   return <div className={style.right}>{children}</div>;
-}
+};
 
-export default function Bar({ children, color, blur }: BarProps) {
+const Bar = ({ children, color, blur }: BarProps) => {
   if (color === undefined) color = "transparent";
   const combinedStyle = { "--bar-color": color, "--bar-blur": blur } as React.CSSProperties;
 
@@ -43,8 +43,10 @@ export default function Bar({ children, color, blur }: BarProps) {
       {right}
     </div>
   );
-}
+};
 
 Bar.Left = Left;
 Bar.Center = Center;
 Bar.Right = Right;
+
+export default Bar;

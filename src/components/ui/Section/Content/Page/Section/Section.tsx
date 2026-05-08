@@ -12,7 +12,7 @@ type SectionContentPageSectionProps = {
   label?: string;
 };
 
-export default function Section({ children, label }: SectionContentPageSectionProps) {
+const Section = ({ children, label }: SectionContentPageSectionProps) => {
   const [open, setOpen] = useState(false);
   const onClick = useOnClick(open, setOpen);
 
@@ -26,4 +26,6 @@ export default function Section({ children, label }: SectionContentPageSectionPr
       <div className={combinedContentClassName}>{children}</div>
     </div>
   );
-}
+};
+
+export default Section;

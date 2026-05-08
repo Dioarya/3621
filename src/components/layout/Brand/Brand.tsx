@@ -15,19 +15,19 @@ type BrandProps = {
   children: BrandChild | BrandChild[];
 };
 
-function Logo({ src, alt }: BrandLogoProps) {
+const Logo = ({ src, alt }: BrandLogoProps) => {
   return <img className={style.logo} src={src} alt={alt} />;
-}
+};
 
-function Text({ children }: BrandTextProps) {
+const Text = ({ children }: BrandTextProps) => {
   return <span className={style.title}>{children}</span>;
-}
+};
 
-function Subscript({ children }: BrandSubscriptProps) {
+const Subscript = ({ children }: BrandSubscriptProps) => {
   return <span className={style.subscript}>{children}</span>;
-}
+};
 
-export default function Brand({ children }: BrandProps) {
+const Brand = ({ children }: BrandProps) => {
   const childArray = React.Children.toArray(children) as React.ReactElement[];
 
   const logo = childArray.find((c) => c.type === Logo);
@@ -45,8 +45,10 @@ export default function Brand({ children }: BrandProps) {
       )}
     </div>
   );
-}
+};
 
 Brand.Logo = Logo;
 Brand.Text = Text;
 Brand.Subscript = Subscript;
+
+export default Brand;

@@ -9,6 +9,8 @@ export type SectionContentPageProps = Omit<
   pageLabel: string;
 };
 
-export default function Page({ children }: SectionContentPageProps) {
+const Page = ({ children }: SectionContentPageProps) => {
   return <section>{children}</section>;
-}
+};
+
+export default Page;

@@ -16,7 +16,7 @@ type ToggleProps = Omit<
   };
 };
 
-export default function Toggle({ checked, onChange, svg, className, ...props }: ToggleProps) {
+const Toggle = ({ checked, onChange, svg, className, ...props }: ToggleProps) => {
   const combinedClassName = clsx(style.toggle, className, { [style["has-svg"]]: svg });
   return (
     <label className={combinedClassName}>
@@ -38,4 +38,6 @@ export default function Toggle({ checked, onChange, svg, className, ...props }: 
       />
     </label>
   );
-}
+};
+
+export default Toggle;

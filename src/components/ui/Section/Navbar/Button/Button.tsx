@@ -11,7 +11,7 @@ type SectionNavButtonProps = {
   onSelect: (key: string) => void;
 };
 
-export default function NavButton({ isSelected, page, onSelect }: SectionNavButtonProps) {
+const NavButton = ({ isSelected, page, onSelect }: SectionNavButtonProps) => {
   const label = `${page.label}`;
 
   const combinedClassName = clsx(style["section-navbutton"], { [style["selected"]]: isSelected });
@@ -20,4 +20,6 @@ export default function NavButton({ isSelected, page, onSelect }: SectionNavButt
       {label}
     </span>
   );
-}
+};
+
+export default NavButton;

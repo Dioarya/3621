@@ -18,7 +18,7 @@ type SegmentedControlRadioElement<T> = React.ReactElement<
 
 type SegmentedControlChild<T> = SegmentedControlRadioElement<T>;
 
-function Radio<T>({ children, value, ...props }: SegmentedControlRadioProps<T>) {
+const Radio = <T,>({ children, value, ...props }: SegmentedControlRadioProps<T>) => {
   const ctx = useSegmentedControlContext();
   const wrapCombinedClassName = clsx(style.wrap, { [style.selected]: ctx.value === value });
   const segmentCombinedClassName = clsx(style.segment, { [style.selected]: ctx.value === value });
@@ -35,7 +35,7 @@ function Radio<T>({ children, value, ...props }: SegmentedControlRadioProps<T>) 
       </label>
     </span>
   );
-}
+};
 
 type SegmentedControlProps<T> = Omit<
   React.ComponentPropsWithoutRef<"fieldset">,
@@ -46,13 +46,13 @@ type SegmentedControlProps<T> = Omit<
   onChange: (value: T) => void;
 };
 
-export default function SegmentedControl<T>({
+const SegmentedControl = <T,>({
   children,
   className,
   onChange,
   value,
   ...props
-}: SegmentedControlProps<T>) {
+}: SegmentedControlProps<T>) => {
   const childArray = React.Children.toArray(children) as React.ReactElement[];
   const radios = childArray.filter((c) => c.type === Radio) as SegmentedControlRadioElement<T>[];
   const combinedClassName = clsx(style["segmented-control"], className);
@@ -89,7 +89,7 @@ export default function SegmentedControl<T>({
       </fieldset>
     </segmentedControlContext.Provider>
   );
-}
+};
 
 SegmentedControl.Radio = Radio;
 
@@ -115,3 +115,5 @@ export function createSegmentedControl<T>(
     </SegmentedControl>
   );
 }
+
+export default SegmentedControl;

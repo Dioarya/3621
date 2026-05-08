@@ -12,23 +12,23 @@ type SettingInputElement = React.ReactElement<SettingInputProps, typeof Input>;
 
 type SettingChild = SettingLabelElement | SettingDescriptionElement | SettingInputElement;
 
-function Label({ children }: SettingLabelProps) {
+const Label = ({ children }: SettingLabelProps) => {
   return <span>{children}</span>;
-}
+};
 
-function Description({ children }: SettingDescriptionProps) {
+const Description = ({ children }: SettingDescriptionProps) => {
   return <span className={style.description}>{children}</span>;
-}
+};
 
-function Input({ children }: SettingInputProps) {
+const Input = ({ children }: SettingInputProps) => {
   return <span>{children}</span>;
-}
+};
 
 type SettingProps = Omit<React.ComponentPropsWithoutRef<"span">, "children"> & {
   children: SettingChild | SettingChild[];
 };
 
-export default function Setting({ children, className }: SettingProps) {
+const Setting = ({ children, className }: SettingProps) => {
   const childArray = React.Children.toArray(children) as React.ReactElement[];
 
   const label = childArray.find((c) => c.type === Label);
@@ -45,8 +45,10 @@ export default function Setting({ children, className }: SettingProps) {
       {input}
     </span>
   );
-}
+};
 
 Setting.Label = Label;
 Setting.Description = Description;
 Setting.Input = Input;
+
+export default Setting;
