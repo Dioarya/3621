@@ -13,4 +13,8 @@ export type SectionContextType = {
   setPages: UseStateSetter<SectionContextType, "pages">;
   selected: string | null;
   setSelected: UseStateSetter<SectionContextType, "selected">;
+  scroll: {
+    scrollLeft: () => void;
+    scrollRight: () => void;
+  };
 };

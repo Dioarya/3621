@@ -23,8 +23,43 @@ const Provider = ({ children }: SectionProviderProps) => {
     });
   };
 
+  const currentSelectedIndex = () => {
+    return pages
+      .map((page, index) => ({ page, index }))
+      .filter(({ page }) => page.key === selected)[0].index;
+  };
+
+  const selectIndex = (index: number) => {
+    const key = pages[index].key;
+    setSelected(key);
+  };
+
+  const scrollLeft = () => {
+    const index = currentSelectedIndex();
+    const nextIndex = index - 1;
+    if (nextIndex >= 0) {
+      selectIndex(nextIndex);
+    }
+  };
+
+  const scrollRight = () => {
+    const index = currentSelectedIndex();
+    const length = pages.length;
+    const nextIndex = index + 1;
+    if (nextIndex <= length - 1) {
+      selectIndex(nextIndex);
+    }
+  };
+
+  const scroll = {
+    scrollLeft,
+    scrollRight,
+  };
+
   return (
-    <SectionContext.Provider value={{ pages, setPages: setPagesSafe, selected, setSelected }}>
+    <SectionContext.Provider
+      value={{ pages, setPages: setPagesSafe, selected, setSelected, scroll }}
+    >
       {children}
     </SectionContext.Provider>
   );
