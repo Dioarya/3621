@@ -1,7 +1,7 @@
 import "@/assets/global.css";
 import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
-import { version, repository } from "@@/package.json";
+import { name, version, repository } from "@@/package.json";
 
 import {
   Brand,
@@ -23,6 +23,7 @@ export default function App() {
   const ready = usePopupSettings((state) => state.ready);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
+  const releaseLink = repository.url + `/releases/tag/v${version}`;
 
   if (!ready) {
     return <Spinner />;
@@ -38,9 +39,15 @@ export default function App() {
               <Bar.Left>
                 <a href={repository.url} target="_blank" rel="noopener noreferer">
                   <Brand>
-                    <Brand.Logo src={icon} alt="e6hancer logo" />
-                    <Brand.Text>e6hancer</Brand.Text>
-                    <Brand.Subscript>{`v${version}`}</Brand.Subscript>
+                    <Brand.Logo src={icon} />
+                    <Brand.Text>{name}</Brand.Text>
+                    <Brand.Subscript>
+                      <a
+                        href={releaseLink}
+                        target="_blank"
+                        rel="noopener noreferer"
+                      >{`v${version}`}</a>
+                    </Brand.Subscript>
                   </Brand>
                 </a>
               </Bar.Left>
