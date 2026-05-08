@@ -21,17 +21,6 @@
   --duration-transitions: 100ms;
 }
 
-/* Transition everything on --duration-transitions */
-* {
-  transition:
-    color var(--duration-transitions) ease,
-    background-color var(--duration-transitions) ease,
-    border-color var(--duration-transitions) ease,
-    fill var(--duration-transitions) ease,
-    stroke var(--duration-transitions) ease,
-    box-shadow var(--duration-transitions) ease;
-}
-
 /* Light mode defaults */
 :root {
   /* Primary Brand — Red */
