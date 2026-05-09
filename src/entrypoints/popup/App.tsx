@@ -55,7 +55,10 @@ export default function App() {
                 <DarkModeToggle />
               </Bar.Right>
             </Bar>
-            <Section.Navbar />
+            <Section.Navbar
+              color="rgb(from var(--color-surface-primary-100) r g b / 1)"
+              blur="3px"
+            />
           </Navbar>
           <Section.Content>
             <Section.Content.Page pageKey={"settings"} pageLabel="Settings">

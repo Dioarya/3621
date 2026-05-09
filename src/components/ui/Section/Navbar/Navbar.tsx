@@ -3,11 +3,19 @@ import style from "../Section.module.css";
 import Button from "./Button/Button";
 import ScrollButton from "./ScrollButton/ScrollButton";
 
-const Navbar = () => {
+type NavbarProps = Omit<React.ComponentPropsWithRef<"div">, "children" | "color" | "blur"> & {
+  color?: string;
+  blur?: string;
+};
+
+const Navbar = ({ color, blur }: NavbarProps) => {
   const ctx = useSectionContext();
 
+  if (color === undefined) color = "transparent";
+  const combinedStyle = { "--bar-color": color, "--bar-blur": blur } as React.CSSProperties;
+
   return (
-    <div className={style.navbar}>
+    <div className={style.navbar} style={combinedStyle}>
       <ScrollButton direction="left" onClick={ctx.scroll.scrollLeft} />
       <div className={style.wrapper}>
         <div className={style.pages}>
