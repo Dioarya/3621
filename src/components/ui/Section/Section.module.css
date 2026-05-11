@@ -8,12 +8,13 @@
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 1rem;
-  background-color: var(--bar-color);
-  border-bottom: 0.0625rem solid var(--color-border-primary);
-  backdrop-filter: blur(var(--bar-blur));
+  height: 1em;
+  background-color: var(--bar-color, transparent);
+  border-bottom: 0.0625em solid var(--color-border-primary);
+  isolation: isolate;
+  backdrop-filter: blur(var(--bar-blur, 0));
 
-  .container {
+  .scroll-button {
     --svg-size: 1em;
 
     display: flex;
@@ -21,13 +22,12 @@
     aspect-ratio: 1 / 1;
     cursor: pointer;
 
-    .scroll-button {
-      box-sizing: border-box;
+    .icon {
       width: var(--svg-size);
       height: var(--svg-size);
       margin: auto;
       background-color: var(--color-surface-primary-200);
-      border: solid 1px var(--color-border-primary);
+      border: solid 0.0625em var(--color-border-primary);
       fill: var(--color-surface-primary-500);
     }
   }
@@ -42,20 +42,20 @@
     height: 100%;
     overflow: scroll hidden;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none;
     -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
       display: none;
     }
 
-    .pages {
+    .page-buttons {
       display: flex;
       flex-direction: row;
       gap: 1em;
       width: max-content;
       height: 100%;
-      padding-inline: 50%;
+      padding: 0 50%;
+      color: var(--text-color-primary);
 
       .button {
         display: flex;
@@ -91,9 +91,7 @@
         position: relative;
 
         .bar {
-          box-sizing: border-box;
           display: flex;
-          gap: 0.5em;
           align-items: center;
           width: 100%;
           height: 1em;
@@ -102,17 +100,20 @@
           background-color: var(--color-surface-primary-200);
           border: 0.0625em solid var(--color-surface-primary-300);
 
-          .dropdown {
-            --dropdown-size: 0.7em;
-          }
-
           .label {
+            position: absolute;
+            left: 0.25em;
             overflow: hidden;
             text-overflow: ellipsis;
-            font-size: 1em;
-            font-weight: 500;
             color: var(--color-text-primary);
             white-space: nowrap;
+          }
+
+          .dropdown {
+            --dropdown-size: 0.7em;
+
+            position: absolute;
+            right: 0.25em;
           }
         }
 

@@ -18,7 +18,7 @@ const Navbar = ({ color, blur }: NavbarProps) => {
     <div className={style.navbar} style={combinedStyle}>
       <ScrollButton direction="left" onClick={ctx.scroll.scrollLeft} />
       <div className={style.wrapper}>
-        <div className={style.pages}>
+        <div className={style["page-buttons"]}>
           {ctx.pages.map((page) => (
             <Button
               key={page.key}

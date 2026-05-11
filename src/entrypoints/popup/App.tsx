@@ -4,8 +4,8 @@ import iconDark from "/icon.svg";
 import { name, version, repository } from "@@/package.json";
 import { useState } from "react";
 
-import { Brand, Page, Navbar } from "@/components/layout";
-import { DarkModeToggle, Bar, Spinner, ScrollHighlight, Section } from "@/components/ui";
+import { Page, Navbar } from "@/components/layout";
+import { Brand, DarkModeToggle, Bar, Spinner, ScrollHighlight, Section } from "@/components/ui";
 import { usePopupSettings } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
 import { fetchSettingsStore } from "@/utils/store";

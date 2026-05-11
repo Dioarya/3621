@@ -20,7 +20,7 @@ const Logo = ({ src }: BrandLogoProps) => {
 };
 
 const Text = ({ children }: BrandTextProps) => {
-  return <span className={style.title}>{children}</span>;
+  return <span className={style.text}>{children}</span>;
 };
 
 const Subscript = ({ children }: BrandSubscriptProps) => {

@@ -8,7 +8,7 @@
   --color-background: var(--color-surface-primary-200);
   --color-item-gap: var(--color-surface-primary-600);
   --color-item-selected-background: var(--color-brand-primary-active);
-  --color-item-selected-text: var(--color-surface-primary-50);
+  --color-item-selected-text: var(--color-brand-primary-text);
   --color-hover-overlay: rgb(from var(--color-surface-primary-500) r g b / 20%);
   --color-active-overlay: rgb(from var(--color-surface-primary-500) r g b / 40%);
   --overlay-hover: linear-gradient(var(--color-hover-overlay), var(--color-hover-overlay));

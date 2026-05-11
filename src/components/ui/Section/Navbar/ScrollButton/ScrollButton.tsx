@@ -22,8 +22,8 @@ const ScrollButton = ({ direction, onClick }: ScrollButtonProps) => {
   const Svg = svgMap[direction];
 
   return (
-    <div className={style.container} onClick={onClick}>
-      <Svg className={style["scroll-button"]} />
+    <div className={style["scroll-button"]} onClick={onClick}>
+      <Svg className={style.icon} />
     </div>
   );
 };

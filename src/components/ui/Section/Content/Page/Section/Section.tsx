@@ -21,8 +21,8 @@ const Section = ({ children, label }: SectionContentPageSectionProps) => {
   return (
     <div className={style.section}>
       <div className={style.bar} onClick={onClick}>
-        <Dropdown className={style.dropdown} open={open} />
         {label && <span className={style.label}>{label}</span>}
+        <Dropdown className={style.dropdown} open={open} />
       </div>
       <div className={combinedContentClassName}>{children}</div>
     </div>
