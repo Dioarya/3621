@@ -13,5 +13,5 @@ export default defineConfig({
       "unknown",
     ],
   },
-  ignorePatterns: ["CHANGELOG.md", "README.md"],
+  ignorePatterns: ["CHANGELOG.md", "CREDITS.md", "README.md"],
 });

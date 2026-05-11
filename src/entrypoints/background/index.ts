@@ -28,7 +28,7 @@ export default defineBackground({
     cleanup.push(...setupMessaging(lifetime));
     setupBackfill();
 
-    const acknowledgementExpireInterval = setInterval(() => {
+    const acknowledgementExpireInterval = setInterval(async () => {
       const now = new Date().getTime();
 
       const keepExpiration = (tab: AcknowledgedTab) => {
@@ -42,7 +42,7 @@ export default defineBackground({
         return true;
       };
 
-      lifetime.tabs = lifetime.tabs.filter(keepExpiration);
+      await lifetime.tabs.set((tabs) => tabs.filter(keepExpiration));
     }, lifetime.heartbeat.interval);
 
     browser.runtime.onSuspend.addListener(() => {

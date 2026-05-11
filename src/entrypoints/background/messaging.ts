@@ -46,10 +46,12 @@ function createGetAndSet<T extends keyof Settings>(
 }
 
 function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T) {
-  return settingsStorageItems[prop].watch((newValue) => {
-    void sendMessageSafe("settings.update", { [prop]: newValue });
+  return settingsStorageItems[prop].watch(async (newValue) => {
+    const update = { [prop]: newValue };
 
-    const broadcasts = broadcastToMarkedTabs(lifetime, "settings.update", { [prop]: newValue });
+    void sendMessageSafe("settings.update", update);
+
+    const broadcasts = await broadcastToMarkedTabs(lifetime, "settings.update", update);
     void Promise.allSettled(broadcasts).then((results) => {
       results
         .filter((result) => result.status === "rejected")

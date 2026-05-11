@@ -14,6 +14,7 @@ import {
   type Tab,
 } from "@/utils/lifetime";
 import { onMessage } from "@/utils/messaging";
+import { Mutex } from "@/utils/mutex";
 import { DeepPartial } from "@/utils/types";
 
 type LifetimeArguments = {
@@ -27,15 +28,49 @@ type LifetimeCreateAcknowledgementArguments = {
   startTime: EpochMilliseconds;
 };
 
+export class TabManager {
+  private tabs: AcknowledgedTab[];
+  public mutex: Mutex;
+
+  async use<T>(callback: (tabs: AcknowledgedTab[]) => T): Promise<T> {
+    return this.mutex.runExclusive(async () => callback(this.tabs));
+  }
+
+  async push(tab: AcknowledgedTab) {
+    return this.mutex.runExclusive(async () => this.tabs.push(tab));
+  }
+
+  async acquire() {
+    return [await this.mutex.acquire(), this.tabs] as const;
+  }
+
+  async set(callback: (oldValue: AcknowledgedTab[]) => AcknowledgedTab[]): Promise<void>;
+  async set(tabs: AcknowledgedTab[] | ((oldValue: AcknowledgedTab[]) => AcknowledgedTab[])) {
+    const release = await this.mutex.acquire();
+
+    let newValue;
+    if (typeof tabs === "function") newValue = tabs(this.tabs);
+    else newValue = tabs;
+
+    this.tabs.splice(0, this.tabs.length, ...newValue);
+    release();
+  }
+
+  constructor(tabs?: AcknowledgedTab[]) {
+    this.tabs = tabs ?? [];
+    this.mutex = new Mutex();
+  }
+}
+
 export class Lifetime {
-  tabs: AcknowledgedTab[];
+  tabs: TabManager;
   heartbeat: {
     interval: Milliseconds;
     safeIntervalMultiplier: number;
   };
 
   constructor(args: LifetimeArguments) {
-    this.tabs = [];
+    this.tabs = new TabManager();
     this.heartbeat = args.heartbeat;
   }
 
@@ -95,8 +130,9 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
 
     const acknowledgedTab: AcknowledgedTab = { tab, acknowledgement, id };
 
-    if (!lifetime.tabs.some((tab) => isEqual(tab.id, acknowledgedTab.id)))
-      lifetime.tabs.push(acknowledgedTab);
+    const [release, tabs] = await lifetime.tabs.acquire();
+    if (!tabs.some((tab) => isEqual(tab.id, acknowledgedTab.id))) tabs.push(acknowledgedTab);
+    release();
 
     return acknowledgedTab.acknowledgement;
   };
@@ -105,20 +141,22 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
 
   cleanup.push(
     onMessage("lifetime.heartbeat", async ({ sender, timestamp }) => {
-      const id = createAcknowledgementId(sender);
+      return await lifetime.tabs.use(async (tabs) => {
+        const id = createAcknowledgementId(sender);
+        const criteria: DeepPartial<AcknowledgedTab> = { id };
 
-      const criteria: DeepPartial<AcknowledgedTab> = { id };
-      const acknowledgedTabs = filter(lifetime.tabs, (item) => isMatch(item, criteria));
+        const acknowledgedTabs = filter(tabs, (item) => isMatch(item, criteria));
 
-      if (acknowledgedTabs.length === 0) return acknowledgeHandler({ sender, timestamp });
+        if (acknowledgedTabs.length === 0) return acknowledgeHandler({ sender, timestamp });
 
-      const acknowledgedTab = acknowledgedTabs[0];
+        const acknowledgedTab = acknowledgedTabs[0];
 
-      const patchedAcknowledgement = cloneDeep(acknowledgedTab.acknowledgement);
-      patchedAcknowledgement.heartbeat.lastTime = timestamp;
+        const patchedAcknowledgement = cloneDeep(acknowledgedTab.acknowledgement);
+        patchedAcknowledgement.heartbeat.lastTime = timestamp;
 
-      acknowledgedTab.acknowledgement = patchedAcknowledgement;
-      return patchedAcknowledgement;
+        acknowledgedTab.acknowledgement = patchedAcknowledgement;
+        return patchedAcknowledgement;
+      });
     }),
   );
 
