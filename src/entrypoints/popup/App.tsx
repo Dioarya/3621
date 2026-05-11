@@ -2,17 +2,10 @@ import "@/assets/global.css";
 import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
 import { name, version, repository } from "@@/package.json";
+import { useState } from "react";
 
-import {
-  Brand,
-  Page,
-  Navbar,
-  DarkModeToggle,
-  Bar,
-  Spinner,
-  ScrollHighlight,
-  Section,
-} from "@/components";
+import { Brand, Page, Navbar } from "@/components/layout";
+import { DarkModeToggle, Bar, Spinner, ScrollHighlight, Section } from "@/components/ui";
 import { usePopupSettings } from "@/hooks/useSettings";
 import { useTheme } from "@/hooks/useTheme";
 import { fetchSettingsStore } from "@/utils/store";
@@ -23,7 +16,7 @@ export default function App() {
   const ready = usePopupSettings((state) => state.ready);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
-  const releaseLink = repository.url + `/releases/tag/v${version}`;
+  const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null);
 
   if (!ready) {
     return <Spinner />;
@@ -32,7 +25,7 @@ export default function App() {
   // v${version} is used because __VERSION__ is too long
   return (
     <>
-      <Page>
+      <Page ref={setScrollElement}>
         <Section.Provider>
           <Navbar>
             <Bar color="rgb(from var(--color-surface-primary-100) r g b / 1)" blur="3px">
@@ -41,13 +34,7 @@ export default function App() {
                   <Brand>
                     <Brand.Logo src={icon} />
                     <Brand.Text>{name}</Brand.Text>
-                    <Brand.Subscript>
-                      <a
-                        href={releaseLink}
-                        target="_blank"
-                        rel="noopener noreferer"
-                      >{`v${version}`}</a>
-                    </Brand.Subscript>
+                    <Brand.Subscript>{`v${version}`}</Brand.Subscript>
                   </Brand>
                 </a>
               </Bar.Left>
@@ -66,7 +53,7 @@ export default function App() {
             </Section.Content.Page>
           </Section.Content>
         </Section.Provider>
-        <ScrollHighlight />
+        <ScrollHighlight scrollElement={scrollElement} />
       </Page>
     </>
   );

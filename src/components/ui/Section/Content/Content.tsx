@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ComponentPropsWithoutRef, useEffect } from "react";
+import React, { ComponentPropsWithoutRef, Ref, useEffect } from "react";
 
 import { Section } from "@/components";
 
@@ -34,8 +34,8 @@ const Content = ({ children }: SectionContentProps) => {
   }, []);
 
   const wrapPage = (page: PageInfo) => {
-    const hiddenClassName = clsx(style.content, style.hidden);
-    const showClassName = clsx(style.content);
+    const hiddenClassName = clsx(style["page-wrap"], style.hidden);
+    const showClassName = clsx(style["page-wrap"]);
     if (page.key === ctx.selected) {
       return (
         <div key={page.key} className={showClassName}>
@@ -51,7 +51,7 @@ const Content = ({ children }: SectionContentProps) => {
     }
   };
 
-  return <div>{pageInfos.map(wrapPage)}</div>;
+  return <div className={style.content}>{pageInfos.map(wrapPage)}</div>;
 };
 
 export default Content;
