@@ -2,7 +2,7 @@ import React, { type ReactNode } from "react";
 
 import style from "./Brand.module.css";
 
-type BrandLogoProps = { src: string };
+type BrandLogoProps = { children: ReactNode };
 type BrandTextProps = { children: ReactNode };
 type BrandSubscriptProps = { children: ReactNode };
 
@@ -15,8 +15,8 @@ type BrandProps = {
   children: BrandChild | BrandChild[];
 };
 
-const Logo = ({ src }: BrandLogoProps) => {
-  return <img className={style.logo} src={src} />;
+const Logo = ({ children }: BrandLogoProps) => {
+  return <div className={style.logo}>{children}</div>;
 };
 
 const Text = ({ children }: BrandTextProps) => {
