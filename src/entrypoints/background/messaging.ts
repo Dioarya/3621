@@ -39,6 +39,7 @@ function createGetAndSet<T extends keyof Settings>(
     const setterMessage = `${prop}.set` as keyof ProtocolMap;
     result.set = onMessage(setterMessage, async ({ data }) => {
       await settingsStorageItems[prop].setValue(data as any);
+      await settingsStorageItems[prop].setMeta({ lastModified: Date.now(), version: 1 });
     });
   }
 
