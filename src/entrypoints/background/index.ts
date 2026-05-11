@@ -29,7 +29,7 @@ export default defineBackground({
     setupBackfill();
 
     const acknowledgementExpireInterval = setInterval(async () => {
-      const now = new Date().getTime();
+      const now = Date.now();
 
       const keepExpiration = (tab: AcknowledgedTab) => {
         const lastTime = tab.acknowledgement.heartbeat.lastTime;
