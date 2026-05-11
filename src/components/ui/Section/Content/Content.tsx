@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import React, { ComponentPropsWithoutRef, Ref, useEffect } from "react";
+import React, { ComponentPropsWithoutRef, useEffect } from "react";
 
 import { Section } from "@/components";
 
