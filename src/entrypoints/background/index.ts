@@ -3,10 +3,12 @@ import type { RemoveListenerCallback } from "@webext-core/messaging";
 import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
 
+import type { AcknowledgedTab } from "@/utils/lifetime";
+
 import { getScriptTitle } from "@/utils/hello";
 
 import { setupBackfill } from "./backfill";
-import { expireAcknowledgements, Lifetime } from "./lifetime";
+import { Lifetime } from "./lifetime";
 import { setupMessaging } from "./messaging";
 
 export default defineBackground({
@@ -27,13 +29,27 @@ export default defineBackground({
     setupBackfill();
 
     const acknowledgementExpireInterval = setInterval(() => {
-      expireAcknowledgements(lifetime, new Date().getTime());
+      const now = new Date().getTime();
+
+      const keepExpiration = (tab: AcknowledgedTab) => {
+        const lastTime = tab.acknowledgement.heartbeat.lastTime;
+        const interval = tab.acknowledgement.heartbeat.interval;
+        const expectedNextTime = lastTime + interval;
+        if (now > expectedNextTime) {
+          return false;
+        }
+
+        return true;
+      };
+
+      lifetime.tabs = lifetime.tabs.filter(keepExpiration);
     }, lifetime.heartbeat.interval);
 
     browser.runtime.onSuspend.addListener(() => {
       cleanup.forEach((clean) => clean());
       clearInterval(acknowledgementExpireInterval);
     });
+
     console.log(scriptTitle);
   },
 });

@@ -26,12 +26,11 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
   const tabsInjector = async (tabs: Browser.tabs.Tab[]) => {
     const results = [];
     for (const tab of tabs) {
-      if (!tab.id || !tab.url) continue;
-      const matched = patterns.some((pattern) => pattern.includes(tab.url!));
-      if (matched) {
-        const target = { tabId: tab.id };
-        results.push(await injectionGate(target));
-      }
+      const id = tab.id;
+      const url = tab.url;
+      if (!id || !url) continue;
+      const matched = patterns.some((pattern) => pattern.includes(url));
+      if (matched) results.push(await injectionGate({ tabId: id }));
     }
     return results;
   };
