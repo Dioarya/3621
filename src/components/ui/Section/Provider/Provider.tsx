@@ -12,6 +12,7 @@ type SectionProviderProps = {
 const Provider = ({ children }: SectionProviderProps) => {
   const [pages, setPages] = useState<SectionContextType["pages"]>([]);
   const [selected, setSelected] = useState<SectionContextType["selected"]>(null);
+  const [navbarShown, setNavbarShown] = useState<SectionContextType["navbarShown"]>(false);
 
   const setPagesSafe: typeof setPages = (value) => {
     setPages((prev) => {
@@ -58,7 +59,15 @@ const Provider = ({ children }: SectionProviderProps) => {
 
   return (
     <SectionContext.Provider
-      value={{ pages, setPages: setPagesSafe, selected, setSelected, scroll }}
+      value={{
+        pages,
+        setPages: setPagesSafe,
+        selected,
+        setSelected,
+        scroll,
+        navbarShown,
+        setNavbarShown,
+      }}
     >
       {children}
     </SectionContext.Provider>

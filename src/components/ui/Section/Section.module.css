@@ -1,3 +1,22 @@
+.nav-dropdown {
+  --svg-size: 1em;
+
+  position: absolute;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  height: 1em;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  transform: translate(-50%, -1.25em);
+
+  .icon {
+    width: var(--svg-size);
+    height: var(--svg-size);
+    stroke: var(--color-surface-primary-950);
+  }
+}
+
 .navbar {
   position: sticky;
   top: 0;
@@ -13,6 +32,11 @@
   border-bottom: 0.0625em solid var(--color-border-primary);
   isolation: isolate;
   backdrop-filter: blur(var(--bar-blur, 0));
+
+  &.hidden {
+    display: none;
+    opacity: 0;
+  }
 
   .scroll-button {
     --svg-size: 1em;

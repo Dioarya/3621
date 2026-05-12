@@ -17,4 +17,6 @@ export type SectionContextType = {
     scrollLeft: () => void;
     scrollRight: () => void;
   };
+  navbarShown: boolean;
+  setNavbarShown: UseStateSetter<SectionContextType, "navbarShown">;
 };
