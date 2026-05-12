@@ -42,7 +42,17 @@ export default defineBackground({
         return true;
       };
 
-      await lifetime.tabs.set((tabs) => tabs.filter(keepExpiration));
+      await lifetime.tabs.set((tabs) => {
+        const filtered = tabs.filter(keepExpiration);
+        if (import.meta.env.DEV) {
+          const expired = tabs.length - filtered.length;
+          if (expired > 0)
+            console.log(
+              `[background] log: expired ${expired} tab(s), ${filtered.length} remaining`,
+            );
+        }
+        return filtered;
+      });
     }, lifetime.heartbeat.interval);
 
     browser.runtime.onSuspend.addListener(() => {

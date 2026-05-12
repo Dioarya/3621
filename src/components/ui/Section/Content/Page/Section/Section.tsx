@@ -13,7 +13,13 @@ type SectionContentPageSectionProps = {
 
 const Section = ({ children, label }: SectionContentPageSectionProps) => {
   const [open, setOpen] = useState(false);
-  const onClick = useOnClick(open, setOpen);
+  const onClick = useOnClick(open, (next) => {
+    if (import.meta.env.DEV)
+      console.log(
+        `[section:content] log: section "${label ?? "(unlabelled)"}" ${next ? "opened" : "closed"}`,
+      );
+    setOpen(next);
+  });
 
   const combinedContentClassName = clsx(style.content, {
     [style.closed]: !open,

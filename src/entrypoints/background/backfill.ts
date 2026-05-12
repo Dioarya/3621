@@ -46,6 +46,10 @@ export function setupBackfill() {
 
   browser.runtime.onInstalled.addListener(async () => {
     const tabs = await browser.tabs.query({});
-    injectContentScripts(tabs).catch(console.error);
+    if (import.meta.env.DEV)
+      console.log(
+        `[background:backfill] log: extension installed/updated, scanning ${tabs.length} open tab(s)`,
+      );
+    injectContentScripts(tabs).catch((err) => console.error("[background:backfill] error:", err));
   });
 }

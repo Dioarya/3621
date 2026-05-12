@@ -23,6 +23,8 @@ export function createSettingsStore() {
 
   // listen for background broadcasts
   onMessage("settings.update", ({ data }) => {
+    if (import.meta.env.DEV)
+      console.log("[store] log: settings update received from background: ", data);
     store.setState(data);
   });
 
@@ -32,6 +34,13 @@ export function createSettingsStore() {
 export async function fetchSettingsStore(store: ReturnType<typeof createSettingsStore>) {
   // fetch initial state from background
   return sendMessage("settings.get")
-    .then((settings) => store.setState({ ...(settings as ClassObject<Settings>), ready: true }))
-    .catch((e) => store.setState({ error: e as Error }));
+    .then((settings) => {
+      if (import.meta.env.DEV)
+        console.log("[store] log: settings fetched from background: ", settings);
+      store.setState({ ...(settings as ClassObject<Settings>), ready: true });
+    })
+    .catch((e) => {
+      console.error("[store] error: failed to fetch settings: ", e);
+      store.setState({ error: e as Error });
+    });
 }

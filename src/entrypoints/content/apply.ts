@@ -19,6 +19,8 @@ type AlignCSS = `align-${Align}`;
 
 export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
   function applyConstraint(verticalConstraint: VerticalConstraint) {
+    if (import.meta.env.DEV)
+      console.log(`[content:apply] log: verticalConstraint=${verticalConstraint}`);
     switch (verticalConstraint) {
       case "off": {
         image.style.maxHeight = "";
@@ -43,6 +45,7 @@ export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
 
 export function createApplyAlignment({ alignContainer }: HTMLElements) {
   function applyAlignment(align: Align) {
+    if (import.meta.env.DEV) console.log(`[content:apply] log: align=${align}`);
     const allCssClasses = exhaustiveStringTuple<AlignCSS>()(
       "align-left",
       "align-center",
@@ -60,6 +63,7 @@ export function createApplyLiveUpdate(
   applyConstraint: ReturnType<typeof createApplyConstraint>,
 ) {
   function applyLiveUpdate(liveUpdate: LiveUpdate) {
+    if (import.meta.env.DEV) console.log(`[content:apply] log: liveUpdate=${liveUpdate}`);
     const createThrottle = () => {
       return throttle(
         1000 / 60,

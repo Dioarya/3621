@@ -131,7 +131,18 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
     const acknowledgedTab: AcknowledgedTab = { tab, acknowledgement, id };
 
     const [release, tabs] = await lifetime.tabs.acquire();
-    if (!tabs.some((tab) => isEqual(tab.id, acknowledgedTab.id))) tabs.push(acknowledgedTab);
+    if (!tabs.some((tab) => isEqual(tab.id, acknowledgedTab.id))) {
+      tabs.push(acknowledgedTab);
+      if (import.meta.env.DEV)
+        console.log(
+          `[background:lifetime] log: tab acknowledged: tabId=${id.tab.id} frameId=${id.frame.id} frames=${frames?.length ?? 0} status=${tab.status} interval=${acknowledgement.heartbeat.interval}ms`,
+        );
+    } else {
+      if (import.meta.env.DEV)
+        console.log(
+          `[background:lifetime] log: tab already acknowledged, skipping: tabId=${id.tab.id} frameId=${id.frame.id}`,
+        );
+    }
     release();
 
     return acknowledgedTab.acknowledgement;
@@ -147,7 +158,13 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
 
         const acknowledgedTabs = filter(tabs, (item) => isMatch(item, criteria));
 
-        if (acknowledgedTabs.length === 0) return acknowledgeHandler({ sender, timestamp });
+        if (acknowledgedTabs.length === 0) {
+          if (import.meta.env.DEV)
+            console.log(
+              `[background:lifetime] log: heartbeat received but tab not found, re-acknowledging: tabId=${id.tab.id} frameId=${id.frame.id}`,
+            );
+          return acknowledgeHandler({ sender, timestamp });
+        }
 
         const acknowledgedTab = acknowledgedTabs[0];
 
@@ -155,6 +172,12 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
         patchedAcknowledgement.heartbeat.lastTime = timestamp;
 
         acknowledgedTab.acknowledgement = patchedAcknowledgement;
+
+        if (import.meta.env.DEV)
+          console.log(
+            `[background:lifetime] log: heartbeat received: tabId=${id.tab.id} frameId=${id.frame.id} lastTime=${timestamp} totalTabs=${tabs.length}`,
+          );
+
         return patchedAcknowledgement;
       });
     }),

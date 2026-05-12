@@ -2,7 +2,7 @@ import "@/assets/global.css";
 import iconLight from "/icon-light.svg";
 import iconDark from "/icon.svg";
 import { name, version, repository } from "@@/package.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Page, Navbar } from "@/components/layout";
 import { Brand, DarkModeToggle, Bar, Spinner, ScrollHighlight, Section } from "@/components/ui";
@@ -18,6 +18,14 @@ export default function App() {
   const icon = isDark ? iconDark : iconLight;
   const releaseLink = repository.url + `/releases/tag/v${version}`;
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null);
+
+  if (import.meta.env.DEV) {
+    const error = usePopupSettings((state) => state.error);
+    useEffect(() => {
+      if (ready) console.log("[popup] log: settings ready, rendering app");
+      if (error) console.error("[popup] error: settings failed to load", error);
+    }, [ready, error]);
+  }
 
   if (!ready) {
     return <Spinner />;

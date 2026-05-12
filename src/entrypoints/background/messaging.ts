@@ -50,13 +50,20 @@ function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T) {
   return settingsStorageItems[prop].watch(async (newValue) => {
     const update = { [prop]: newValue };
 
+    if (import.meta.env.DEV)
+      console.log(`[background:messaging] log: setting changed: ${prop}=`, newValue);
+
     void sendMessageSafe("settings.update", update);
 
     const broadcasts = await broadcastToMarkedTabs(lifetime, "settings.update", update);
     void Promise.allSettled(broadcasts).then((results) => {
+      if (import.meta.env.DEV)
+        console.log(
+          `[background:messaging] log: broadcast ${prop} to ${results.length} frame(s), ${results.filter((r) => r.status === "rejected").length} failed`,
+        );
       results
         .filter((result) => result.status === "rejected")
-        .forEach((result) => console.error(result.reason));
+        .forEach((result) => console.error("[background:messaging] error:", result.reason));
     });
   });
 }

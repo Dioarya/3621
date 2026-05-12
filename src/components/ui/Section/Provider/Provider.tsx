@@ -17,6 +17,10 @@ const Provider = ({ children }: SectionProviderProps) => {
   const setPagesSafe: typeof setPages = (value) => {
     setPages((prev) => {
       const next = typeof value === "function" ? value(prev) : value;
+      if (import.meta.env.DEV)
+        console.log(
+          `[section:provider] log: pages registered: [${next.map((p) => p.key).join(", ")}]`,
+        );
       setSelected((currentSelected) =>
         currentSelected === null && next.length > 0 ? next[0].key : currentSelected,
       );
@@ -32,6 +36,8 @@ const Provider = ({ children }: SectionProviderProps) => {
 
   const selectIndex = (index: number) => {
     const key = pages[index].key;
+    if (import.meta.env.DEV)
+      console.log(`[section:provider] log: selected: index=${index} key=${key}`);
     setSelected(key);
   };
 
@@ -39,6 +45,8 @@ const Provider = ({ children }: SectionProviderProps) => {
     const index = currentSelectedIndex();
     const nextIndex = index - 1;
     if (nextIndex >= 0) {
+      if (import.meta.env.DEV)
+        console.log(`[section:provider] log: scroll left: ${index} -> ${nextIndex}`);
       selectIndex(nextIndex);
     }
   };
@@ -48,6 +56,8 @@ const Provider = ({ children }: SectionProviderProps) => {
     const length = pages.length;
     const nextIndex = index + 1;
     if (nextIndex <= length - 1) {
+      if (import.meta.env.DEV)
+        console.log(`[section:provider] log: scroll right: ${index} -> ${nextIndex}`);
       selectIndex(nextIndex);
     }
   };

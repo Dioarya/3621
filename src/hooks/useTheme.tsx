@@ -19,6 +19,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.classList.remove("dark", "light");
     if (theme !== "system") root.classList.add(theme);
+    if (import.meta.env.DEV) console.log(`[popup:theme] log: theme applied: theme=${theme}`);
   }, [theme]);
 
   return <>{children}</>;

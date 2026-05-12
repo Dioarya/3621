@@ -16,7 +16,11 @@ export function useSettingsControls() {
     type SetReturn = GetReturnType<ProtocolMap[SetKey]>;
 
     const value = usePopupSettings((state) => state[prop]);
-    const update = async (value: SetValue) => await sendMessage(`${prop}.set`, value);
+    const update = async (value: SetValue) => {
+      if (import.meta.env.DEV)
+        console.log(`[popup:settings] log: setting update sent: ${prop}=`, value);
+      return await sendMessage(`${prop}.set`, value);
+    };
 
     return { value, update } as const satisfies {
       value: Settings[K];

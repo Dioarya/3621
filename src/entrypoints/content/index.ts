@@ -52,6 +52,7 @@ async function init(ctx: ContentScriptContext) {
   const unsubs = setupSubscriptions(ctx, elements);
 
   ctx.onInvalidated(() => {
+    if (import.meta.env.DEV) console.log("[content] log: context invalidated, cleaning up");
     cleanupLifetime();
     unsubs.forEach((unsub) => unsub());
   });
@@ -68,7 +69,8 @@ export default defineContentScript({
   matches: ["*://e621.net/posts/*"],
   main(ctx: ContentScriptContext) {
     if (!ctx.isValid) {
-      console.log("Hello... content? Something has gone wrong. (invalid)");
+      if (import.meta.env.DEV)
+        console.log("[content] log: Hello... content? Something has gone wrong. (invalid)");
       return;
     }
 
@@ -76,6 +78,10 @@ export default defineContentScript({
 
     markAsInjected();
     console.log(scriptTitle);
-    init(ctx).catch((err) => console.error(`${scriptName} init error:`, err));
+    init(ctx)
+      .then(() => {
+        if (import.meta.env.DEV) console.log("[content] log: init complete");
+      })
+      .catch((err) => console.error("[content] error:", `${scriptName} init error:`, err));
   },
 });
