@@ -21,8 +21,17 @@ export function useScroll({ scrollElement }: UseScrollOptions) {
       setScrollPercentage(percentage);
     };
 
+    const observer = new ResizeObserver(handleScroll);
+    observer.observe(scrollElement);
+    scrollElement.childNodes.forEach((child) => {
+      if (child instanceof Element) observer.observe(child);
+    });
+
     scrollElement.addEventListener("scroll", handleScroll, { passive: true });
-    return () => scrollElement.removeEventListener("scroll", handleScroll);
+    return () => {
+      scrollElement.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
   }, [scrollElement]);
 
   return {
