@@ -13,6 +13,10 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
       args: [MARKER_KEY],
     });
     const already = test[0]?.result === true;
+    if (import.meta.env.DEV)
+      console.log(
+        `[background:backfill] log: tab ${target.tabId} - ${already ? "already injected, skipping" : "injecting content script"}`,
+      );
     if (!already) {
       return await browser.scripting.executeScript({
         target,
@@ -30,8 +34,14 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
       const url = tab.url;
       if (!id || !url) continue;
       const matched = patterns.some((pattern) => pattern.includes(url));
+      if (import.meta.env.DEV && matched)
+        console.log(`[background:backfill] log: matched tab ${id} - ${url}`);
       if (matched) results.push(await injectionGate({ tabId: id }));
     }
+    if (import.meta.env.DEV)
+      console.log(
+        `[background:backfill] log: backfill done - ${results.length} tab(s) matched out of ${tabs.length} total`,
+      );
     return results;
   };
 

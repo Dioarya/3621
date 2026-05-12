@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { useEffect } from "react";
 
 import { useOnClick } from "@/hooks/useOnClick";
 
@@ -18,6 +19,11 @@ const Navbar = ({ color, blur }: NavbarProps) => {
 
   const dropdownOnClick = useOnClick(ctx.navbarShown, ctx.setNavbarShown);
   const dropdownDirection = ctx.navbarShown ? "up" : "down";
+
+  useEffect(() => {
+    if (import.meta.env.DEV)
+      console.log(`[section:navbar] log: navbar ${ctx.navbarShown ? "shown" : "hidden"}`);
+  }, [ctx.navbarShown]);
 
   if (color === undefined) color = "transparent";
   const combinedStyle = { "--bar-color": color, "--bar-blur": blur } as React.CSSProperties;

@@ -18,10 +18,16 @@ import { setupSubscriptions } from "./subscriptions";
 async function waitForElement(selector: string) {
   return new Promise((resolve: (value: HTMLElement) => void) => {
     const existing = document.querySelector<HTMLElement>(selector);
-    if (existing != null) return resolve(existing);
+    if (existing != null) {
+      if (import.meta.env.DEV)
+        console.log(`[content] log: element found immediately - ${selector}`);
+      return resolve(existing);
+    }
+    if (import.meta.env.DEV) console.log(`[content] log: waiting for element - ${selector}`);
     const observer = new MutationObserver(() => {
       const element = document.querySelector<HTMLElement>(selector);
       if (element) {
+        if (import.meta.env.DEV) console.log(`[content] log: element appeared - ${selector}`);
         observer.disconnect();
         resolve(element);
       }

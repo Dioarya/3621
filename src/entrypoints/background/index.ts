@@ -56,6 +56,7 @@ export default defineBackground({
     }, lifetime.heartbeat.interval);
 
     browser.runtime.onSuspend.addListener(() => {
+      if (import.meta.env.DEV) console.log("[background] log: suspending, cleaning up");
       cleanup.forEach((clean) => clean());
       clearInterval(acknowledgementExpireInterval);
     });

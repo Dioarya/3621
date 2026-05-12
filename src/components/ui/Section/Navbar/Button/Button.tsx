@@ -23,7 +23,11 @@ const Button = ({ isSelected, page, onSelect }: SectionNavbarButtonProps) => {
     <span
       ref={ref}
       className={clsx(style.button, { [style.selected]: isSelected })}
-      onClick={() => onSelect(page.key)}
+      onClick={() => {
+        if (import.meta.env.DEV)
+          console.log(`[section:navbar] log: page button clicked: key=${page.key}`);
+        onSelect(page.key);
+      }}
     >
       {page.label}
     </span>

@@ -83,6 +83,11 @@ export function createApplyLiveUpdate(
 
       const signal = ctx.signal;
 
+      if (import.meta.env.DEV)
+        console.log(
+          "[content:apply] log: liveUpdate - registering scroll/resize/orientationchange listeners",
+        );
+
       runtimeObject.eventCleanups = [
         disposableAddEventListener(document, "scroll", throttleHandler, { signal, passive: true }),
         disposableAddEventListener(document, "resize", throttleHandler, { signal }),
@@ -90,6 +95,10 @@ export function createApplyLiveUpdate(
       ];
     } else {
       if (runtimeObject.throttleHandler) {
+        if (import.meta.env.DEV)
+          console.log(
+            "[content:apply] log: liveUpdate - cancelling throttle and removing listeners",
+          );
         runtimeObject.throttleHandler.cancel();
         runtimeObject.throttleHandler = undefined;
       }

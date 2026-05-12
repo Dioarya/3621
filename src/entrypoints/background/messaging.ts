@@ -73,7 +73,10 @@ export function setupMessaging(lifetime: Lifetime) {
 
   cleanup.push(
     onMessage("settings.get", async () => {
-      return getAllSettings();
+      const settings = await getAllSettings();
+      if (import.meta.env.DEV)
+        console.log("[background:messaging] log: settings.get requested -", settings);
+      return settings;
     }),
   );
 
