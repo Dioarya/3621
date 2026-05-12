@@ -22,7 +22,14 @@ const ScrollButton = ({ direction, onClick }: ScrollButtonProps) => {
   const Svg = svgMap[direction];
 
   return (
-    <div className={style["scroll-button"]} onClick={onClick}>
+    <div
+      className={style["scroll-button"]}
+      onClick={() => {
+        if (import.meta.env.DEV)
+          console.log(`[section:navbar] log: scroll button clicked - direction=${direction}`);
+        onClick();
+      }}
+    >
       <Svg className={style.icon} />
     </div>
   );

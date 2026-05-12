@@ -30,6 +30,10 @@ const Content = ({ children }: SectionContentProps) => {
   const pageInfos = pages.map((page) => toPageInfo({ page }));
 
   useEffect(() => {
+    if (import.meta.env.DEV)
+      console.log(
+        `[section:content] log: registering ${pageInfos.length} page(s) - [${pageInfos.map((p) => p.key).join(", ")}]`,
+      );
     ctx.setPages(pageInfos);
   }, []);
 

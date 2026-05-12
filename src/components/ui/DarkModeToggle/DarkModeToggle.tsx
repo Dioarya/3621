@@ -7,7 +7,11 @@ import { useTheme } from "@/hooks/useTheme";
 const DarkModeToggle = () => {
   const toggleId = useId();
   const { setTheme, isDark } = useTheme();
-  const switchTheme = (checked: boolean) => setTheme(checked ? "dark" : "light");
+  const switchTheme = (checked: boolean) => {
+    if (import.meta.env.DEV)
+      console.log(`[popup:darkmode] log: toggled - ${checked ? "dark" : "light"}`);
+    setTheme(checked ? "dark" : "light");
+  };
 
   const svgs = {
     off: <Sun stroke="currentColor" fill="currentColor" />,

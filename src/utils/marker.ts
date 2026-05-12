@@ -18,8 +18,11 @@ export function markAsInjected() {
     configurable: true,
     enumerable: false,
   });
+  if (import.meta.env.DEV) console.log(`[content] log: injection marker set - key=${MARKER_KEY}`);
 }
 
 export function clearInjectionMarker() {
   delete (window as unknown as Record<string, unknown>)[MARKER_KEY];
+  if (import.meta.env.DEV)
+    console.log(`[content] log: injection marker cleared - key=${MARKER_KEY}`);
 }

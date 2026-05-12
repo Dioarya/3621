@@ -9,17 +9,20 @@ export function broadcastToMarkedTabs<T extends keyof ProtocolMap>(
   type: T,
   data: MessageInput<T>,
 ) {
-  return lifetime.tabs.use((tabs) =>
-    tabs
-      .flatMap((acknowledgedTab) =>
-        (acknowledgedTab.tab.frames ?? []).map((frame) => ({
-          status: acknowledgedTab.tab.status,
-          tabId: acknowledgedTab.tab.id,
-          frameId: frame.frameId,
-        })),
-      )
-      .map(({ tabId, frameId }) => {
-        return sendMessage(type, data, { tabId, frameId });
-      }),
-  );
+  return lifetime.tabs.use((tabs) => {
+    const frames = tabs.flatMap((acknowledgedTab) =>
+      (acknowledgedTab.tab.frames ?? []).map((frame) => ({
+        status: acknowledgedTab.tab.status,
+        tabId: acknowledgedTab.tab.id,
+        frameId: frame.frameId,
+      })),
+    );
+
+    if (import.meta.env.DEV)
+      console.log(
+        `[background:broadcast] log: broadcasting "${type}" to ${frames.length} frame(s) across ${tabs.length} tab(s)`,
+      );
+
+    return frames.map(({ tabId, frameId }) => sendMessage(type, data, { tabId, frameId }));
+  });
 }

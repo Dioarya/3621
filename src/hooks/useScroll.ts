@@ -8,6 +8,11 @@ export function useScroll({ scrollElement }: UseScrollOptions) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
+    if (import.meta.env.DEV)
+      console.log(
+        `[popup:scroll] log: scroll element ${scrollElement ? "attached" : "detached"} - scrollable=${scrollElement ? scrollElement.scrollHeight > scrollElement.clientHeight : false}`,
+      );
+
     if (!scrollElement) return;
 
     const handleScroll = () => {

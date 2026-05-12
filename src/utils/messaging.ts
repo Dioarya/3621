@@ -32,7 +32,11 @@ export function sendMessageSafe<T extends keyof ProtocolMap>(
   ...args: Parameters<typeof sendMessage<T>>
 ) {
   return sendMessage(...args).catch((err) => {
-    if (err?.message?.includes(NO_RECEIVER_ERROR)) return;
+    if (err?.message?.includes(NO_RECEIVER_ERROR)) {
+      if (import.meta.env.DEV)
+        console.log(`[messaging] log: no receiver for "${args[0]}", silently ignoring`);
+      return;
+    }
     throw err;
   }) as ReturnType<typeof sendMessage<T>>;
 }

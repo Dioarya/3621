@@ -52,6 +52,11 @@ export class TabManager {
     if (typeof tabs === "function") newValue = tabs(this.tabs);
     else newValue = tabs;
 
+    if (import.meta.env.DEV)
+      console.log(
+        `[background:lifetime] log: TabManager.set - ${this.tabs.length} tab(s) -> ${newValue.length} tab(s)`,
+      );
+
     this.tabs.splice(0, this.tabs.length, ...newValue);
     release();
   }

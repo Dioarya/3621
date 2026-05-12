@@ -15,4 +15,6 @@ const app = (
 );
 const strictWrap = import.meta.env.PROD ? app : <React.StrictMode>{app}</React.StrictMode>;
 
+if (import.meta.env.DEV) console.log("[popup] log: rendering with StrictMode");
+
 root.render(strictWrap);

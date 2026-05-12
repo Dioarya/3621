@@ -52,6 +52,7 @@ async function init(ctx: ContentScriptContext) {
   const style = document.createElement("style");
   style.textContent = injectStyle;
   document.head.appendChild(style);
+  if (import.meta.env.DEV) console.log("[content] log: styles injected into document head");
 
   applySettings(ctx, elements, useContentSettings.getState());
   const cleanupLifetime = await setupLifetime(ctx);
