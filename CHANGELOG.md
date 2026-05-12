@@ -1,6 +1,49 @@
 # Changelog
 
 
+## v0.0.17
+
+[compare changes](https://github.com/Dioarya/3621/compare/v0.0.16...v0.0.17)
+
+### 🚀 Enhancements
+
+- Cleanup Section.Navbar ([73fce6a](https://github.com/Dioarya/3621/commit/73fce6a))
+- Add link to current version in Brand link ([be98c30](https://github.com/Dioarya/3621/commit/be98c30))
+- Add thread-safe Lifetime.tabs TabManager ([b9b9d20](https://github.com/Dioarya/3621/commit/b9b9d20))
+- Add localstorage variable versioning ([9e3e2fb](https://github.com/Dioarya/3621/commit/9e3e2fb))
+- Add link to current release in Brand subscript ([2b7f785](https://github.com/Dioarya/3621/commit/2b7f785))
+- Add dropdown button to reveal the Section.Navbar ([8c3e5e2](https://github.com/Dioarya/3621/commit/8c3e5e2))
+
+### 🩹 Fixes
+
+- Fix z-index on Section.Navbar ([c814250](https://github.com/Dioarya/3621/commit/c814250))
+- Fix ScrollHighlight, reverts current version in Brand link ([498a0bd](https://github.com/Dioarya/3621/commit/498a0bd))
+- Fix accidental breakage of Section.Navbar on firefox ([9c290a9](https://github.com/Dioarya/3621/commit/9c290a9))
+- Add dev logging ([9f21317](https://github.com/Dioarya/3621/commit/9f21317))
+- Add dev logging ([7458867](https://github.com/Dioarya/3621/commit/7458867))
+- Add dev logging ([19e783a](https://github.com/Dioarya/3621/commit/19e783a))
+
+### 💅 Refactors
+
+- Fix Omit types ([9802c8e](https://github.com/Dioarya/3621/commit/9802c8e))
+- Consolidate Section components' css ([8f3c807](https://github.com/Dioarya/3621/commit/8f3c807))
+- Reduce indirection in background script ([2fe237c](https://github.com/Dioarya/3621/commit/2fe237c))
+- Remove unused import ([6f54be5](https://github.com/Dioarya/3621/commit/6f54be5))
+- Date.now() instead of new Date().getTime() ([b55dc11](https://github.com/Dioarya/3621/commit/b55dc11))
+
+### 🏡 Chore
+
+- Create pin.svg for #32 ([#32](https://github.com/Dioarya/3621/issues/32))
+- Minify pin.svg ([695ce92](https://github.com/Dioarya/3621/commit/695ce92))
+
+### 🎨 Styles
+
+- Refactoring files and fix css ([8b93cf6](https://github.com/Dioarya/3621/commit/8b93cf6))
+
+### ❤️ Contributors
+
+- Dioarya <dioaryaraditya@gmail.com>
+
 ## v0.0.16
 
 [compare changes](https://github.com/Dioarya/3621/compare/v0.0.15...v0.0.16)
