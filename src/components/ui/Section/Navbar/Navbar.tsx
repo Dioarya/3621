@@ -3,6 +3,8 @@ import { useEffect } from "react";
 
 import { useOnClick } from "@/hooks/useOnClick";
 
+import type { PageInfo } from "../types";
+
 import { useSectionContext } from "../Provider/Provider";
 import style from "../Section.module.css";
 import Button from "./Button/Button";
@@ -20,11 +22,19 @@ const Navbar = ({ color, blur }: NavbarProps) => {
   const dropdownOnClick = useOnClick(ctx.navbarShown, ctx.setNavbarShown);
   const dropdownDirection = ctx.navbarShown ? "up" : "down";
 
-  useEffect(() => {
-    if (import.meta.env.DEV)
+  if (import.meta.env.DEV)
+    useEffect(() => {
       console.log(`[section:navbar] log: navbar ${ctx.navbarShown ? "shown" : "hidden"}`);
-  }, [ctx.navbarShown]);
+    }, [ctx.navbarShown]);
 
+  const createButton = (page: PageInfo) => (
+    <Button
+      key={page.key}
+      page={page}
+      isSelected={ctx.selected === page.key}
+      onSelect={ctx.setSelected}
+    />
+  );
   if (color === undefined) color = "transparent";
   const combinedStyle = { "--bar-color": color, "--bar-blur": blur } as React.CSSProperties;
   const combinedClassName = clsx(style.navbar, !ctx.navbarShown && style.hidden);
@@ -33,17 +43,8 @@ const Navbar = ({ color, blur }: NavbarProps) => {
       <Dropdown direction={dropdownDirection} onClick={dropdownOnClick} />
       <div className={combinedClassName} style={combinedStyle}>
         <ScrollButton direction="left" onClick={ctx.scroll.scrollLeft} />
-        <div className={style.wrapper}>
-          <div className={style["page-buttons"]}>
-            {ctx.pages.map((page) => (
-              <Button
-                key={page.key}
-                page={page}
-                isSelected={ctx.selected === page.key}
-                onSelect={ctx.setSelected}
-              />
-            ))}
-          </div>
+        <div className={style.selector}>
+          <div className={style.buttons}>{ctx.pages.map(createButton)}</div>
         </div>
         <ScrollButton direction="right" onClick={ctx.scroll.scrollRight} />
       </div>

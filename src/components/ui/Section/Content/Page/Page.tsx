@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import style from "../../Section.module.css";
 
@@ -12,7 +12,7 @@ export type SectionContentPageProps = Omit<
 };
 
 const Page = ({ children }: SectionContentPageProps) => {
-  return <section className={style.page}>{children}</section>;
+  return <div className={style.page}>{children}</div>;
 };
 
 export default Page;

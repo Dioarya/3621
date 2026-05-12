@@ -11,7 +11,13 @@ type ScrollButtonProps = {
   children?: never;
 };
 
-const ScrollButton = ({ direction, onClick }: ScrollButtonProps) => {
+const ScrollButton = ({ direction, onClick: propOnClick }: ScrollButtonProps) => {
+  const onClick = () => {
+    if (import.meta.env.DEV)
+      console.log(`[section:navbar] log: scroll button clicked - direction=${direction}`);
+    propOnClick();
+  };
+
   const svgMap = {
     up: Up,
     right: Right,
@@ -20,16 +26,8 @@ const ScrollButton = ({ direction, onClick }: ScrollButtonProps) => {
   };
 
   const Svg = svgMap[direction];
-
   return (
-    <div
-      className={style["scroll-button"]}
-      onClick={() => {
-        if (import.meta.env.DEV)
-          console.log(`[section:navbar] log: scroll button clicked - direction=${direction}`);
-        onClick();
-      }}
-    >
+    <div className={style["scroll-button"]} onClick={onClick}>
       <Svg className={style.icon} />
     </div>
   );

@@ -1,4 +1,4 @@
-import { SectionContentPageProps } from "./Content/Page/Page";
+import type { SectionContentPageProps } from "./Content/Page/Page";
 
 export function toPageInfo({ page }: { page: React.ReactElement<SectionContentPageProps> }) {
   return {

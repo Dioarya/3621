@@ -25,13 +25,13 @@ const Section = ({ children, label }: SectionContentPageSectionProps) => {
     [style.closed]: !open,
   });
   return (
-    <div className={style.section}>
-      <div className={style.bar} onClick={onClick}>
-        {label && <span className={style.label}>{label}</span>}
+    <section className={style.section}>
+      <nav className={style.bar} onClick={onClick}>
+        {label && <label className={style.label}>{label}</label>}
         <Dropdown className={style.dropdown} open={open} />
-      </div>
+      </nav>
       <div className={combinedContentClassName}>{children}</div>
-    </div>
+    </section>
   );
 };
 

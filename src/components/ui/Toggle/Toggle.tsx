@@ -16,8 +16,8 @@ type ToggleProps = Omit<
   };
 };
 
-const Toggle = ({ checked, onChange, svg, className, ...props }: ToggleProps) => {
-  const thisOnChange = onChange ? () => onChange(!checked) : undefined;
+const Toggle = ({ checked, onChange: propOnChange, svg, className, ...props }: ToggleProps) => {
+  const onChange = propOnChange ? () => propOnChange(!checked) : undefined;
 
   const combinedClassName = clsx(style.toggle, className, svg ? style["has-svg"] : undefined);
   return (
@@ -34,7 +34,7 @@ const Toggle = ({ checked, onChange, svg, className, ...props }: ToggleProps) =>
         type="checkbox"
         checked={checked}
         aria-checked={checked}
-        onChange={thisOnChange}
+        onChange={onChange}
         readOnly={!onChange}
         aria-readonly={!onChange}
       />

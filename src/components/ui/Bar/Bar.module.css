@@ -13,10 +13,10 @@
   background-color: var(--bar-color, transparent);
   border-bottom: 0.0625em solid var(--color-border-primary);
   backdrop-filter: blur(var(--bar-blur, 0));
-}
 
-.center {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  .center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

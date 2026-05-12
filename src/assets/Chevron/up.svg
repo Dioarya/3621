@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 18.048 10.048" xmlns="http://www.w3.org/2000/svg">
-   <path fill="none" style="stroke-width:2.048;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 1.024,9.024 8,-8 8,8" />
+   <path fill="none" stroke="currentColor" style="stroke-width:2.048;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" d="m 1.024,9.024 8,-8 8,8" />
 </svg>
 

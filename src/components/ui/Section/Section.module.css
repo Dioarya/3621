@@ -60,7 +60,7 @@
     display: none;
   }
 
-  .wrapper {
+  .selector {
     display: flex;
     width: 100%;
     height: 100%;
@@ -73,7 +73,7 @@
       display: none;
     }
 
-    .page-buttons {
+    .buttons {
       display: flex;
       flex-direction: row;
       gap: 1em;

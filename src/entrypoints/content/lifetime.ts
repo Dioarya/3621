@@ -26,11 +26,10 @@ function scheduleHeartbeat(ctx: ContentScriptContext, acknowledgement: Acknowled
 export async function setupLifetime(ctx: ContentScriptContext) {
   const acknowledgement = await sendMessage("lifetime.acknowledge");
 
-  if (import.meta.env.DEV) {
+  if (import.meta.env.DEV)
     console.log(
       `[content:lifetime] log: acknowledged: interval=${acknowledgement.heartbeat.interval}ms safeMultiplier=${acknowledgement.heartbeat.safeIntervalMultiplier}`,
     );
-  }
 
   let timeoutId = scheduleHeartbeat(ctx, acknowledgement);
 

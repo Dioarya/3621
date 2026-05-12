@@ -1,5 +1,6 @@
+import type { MouseEventHandler } from "react";
+
 import clsx from "clsx";
-import { type MouseEventHandler } from "react";
 
 import Closed from "@/assets/Dropdown/closed.svg?react";
 import Open from "@/assets/Dropdown/open.svg?react";

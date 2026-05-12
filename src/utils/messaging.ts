@@ -1,7 +1,7 @@
 import { defineExtensionMessaging } from "@webext-core/messaging";
 
-import { Acknowledgement } from "./lifetime";
-import { Settings } from "./settings";
+import type { Acknowledgement } from "./lifetime";
+import type { Settings } from "./settings";
 
 // creates *.get and *.set protocols for each key inside Settings,
 // such as theme.get & theme.set and liveUpdate.get & liveUpdate.set

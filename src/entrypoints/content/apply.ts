@@ -1,10 +1,10 @@
+import type { ContentScriptContext } from "wxt/utils/content-script-context";
+
 import { throttle } from "throttle-debounce";
-import { ContentScriptContext } from "wxt/utils/content-script-context";
 
 import type { VerticalConstraint, Align, LiveUpdate, Settings } from "@/utils/settings";
 
 import { disposableAddEventListener } from "@/utils/event";
-import { exhaustiveStringTuple } from "@/utils/types";
 
 import { runtimeObject } from ".";
 import { useContentSettings } from "./store";
@@ -14,8 +14,6 @@ export type HTMLElements = {
   imageContainer: HTMLElement;
   alignContainer: HTMLElement;
 };
-
-type AlignCSS = `align-${Align}`;
 
 export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
   function applyConstraint(verticalConstraint: VerticalConstraint) {
@@ -46,14 +44,11 @@ export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
 export function createApplyAlignment({ alignContainer }: HTMLElements) {
   function applyAlignment(align: Align) {
     if (import.meta.env.DEV) console.log(`[content:apply] log: align=${align}`);
-    const allCssClasses = exhaustiveStringTuple<AlignCSS>()(
-      "align-left",
-      "align-center",
-      "align-right",
+    type AlignCSS = `align-${Align}`;
+    alignContainer.classList.remove(
+      ...(["align-left", "align-center", "align-right"] satisfies AlignCSS[]),
     );
-    alignContainer.classList.remove(...allCssClasses);
-    const cssClass: AlignCSS = `align-${align}`;
-    alignContainer.classList.add(cssClass);
+    alignContainer.classList.add(`align-${align}` satisfies AlignCSS);
   }
   return applyAlignment;
 }
@@ -64,6 +59,7 @@ export function createApplyLiveUpdate(
 ) {
   function applyLiveUpdate(liveUpdate: LiveUpdate) {
     if (import.meta.env.DEV) console.log(`[content:apply] log: liveUpdate=${liveUpdate}`);
+    // Can't use lodash's throttle, because Function() calls break CSP
     const createThrottle = () => {
       return throttle(
         1000 / 60,

@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import type { MouseEventHandler } from "react";
 
 export function useOnClick<E extends HTMLElement>(
   value: boolean,

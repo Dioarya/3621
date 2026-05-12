@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 
+import { disposableAddEventListener } from "@/utils/event";
+
 type UseScrollOptions = {
   scrollElement: HTMLElement | null;
 };
@@ -8,10 +10,13 @@ export function useScroll({ scrollElement }: UseScrollOptions) {
   const [scrollPercentage, setScrollPercentage] = useState(0);
 
   useEffect(() => {
-    if (import.meta.env.DEV)
-      console.log(
-        `[popup:scroll] log: scroll element ${scrollElement ? "attached" : "detached"} - scrollable=${scrollElement ? scrollElement.scrollHeight > scrollElement.clientHeight : false}`,
-      );
+    if (import.meta.env.DEV) {
+      const elementString = scrollElement ? "attached" : "detached";
+      const scrollable = scrollElement
+        ? scrollElement.scrollHeight > scrollElement.clientHeight
+        : false;
+      console.log(`[popup:scroll] log: scroll element ${elementString} - scrollable=${scrollable}`);
+    }
 
     if (!scrollElement) return;
 
@@ -27,9 +32,11 @@ export function useScroll({ scrollElement }: UseScrollOptions) {
       if (child instanceof Element) observer.observe(child);
     });
 
-    scrollElement.addEventListener("scroll", handleScroll, { passive: true });
+    const cleanup = disposableAddEventListener(scrollElement, "scroll", handleScroll, {
+      passive: true,
+    });
     return () => {
-      scrollElement.removeEventListener("scroll", handleScroll);
+      cleanup();
       observer.disconnect();
     };
   }, [scrollElement]);

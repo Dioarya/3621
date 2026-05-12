@@ -1,8 +1,15 @@
 import clsx from "clsx";
 import React, { useEffect, useRef } from "react";
+import { createContext, useContext } from "react";
 
-import { segmentedControlContext, useSegmentedControlContext } from "./hook";
 import style from "./SegmentedControl.module.css";
+
+type SegmentedControlContextType<T = any> = {
+  value: T;
+  onChange: (value: T) => void;
+};
+
+const segmentedControlContext = createContext<SegmentedControlContextType | null>(null);
 
 type SegmentedControlRadioProps<T> = Omit<
   React.ComponentPropsWithoutRef<"span">,
@@ -93,6 +100,16 @@ const SegmentedControl = <T,>({
 
 SegmentedControl.Radio = Radio;
 
+export default SegmentedControl;
+
+function useSegmentedControlContext() {
+  const ctx = useContext(segmentedControlContext);
+  if (ctx === null) {
+    throw new Error("Must be used inside SegmentedControl");
+  }
+  return ctx;
+}
+
 export type SegmentedControlRadio<T> = {
   label: string;
   value: T;
@@ -115,5 +132,3 @@ export function createSegmentedControl<T>(
     </SegmentedControl>
   );
 }
-
-export default SegmentedControl;

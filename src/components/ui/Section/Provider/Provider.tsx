@@ -1,7 +1,8 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
+
 import { createContext, useContext, useState } from "react";
 
-import { SectionContextType } from "../types";
+import type { SectionContextType } from "../types";
 
 const SectionContext = createContext<SectionContextType | null>(null);
 
@@ -74,9 +75,9 @@ const Provider = ({ children }: SectionProviderProps) => {
         setPages: setPagesSafe,
         selected,
         setSelected,
-        scroll,
         navbarShown,
         setNavbarShown,
+        scroll,
       }}
     >
       {children}

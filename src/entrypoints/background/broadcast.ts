@@ -1,6 +1,6 @@
 import { type ProtocolMap, sendMessage } from "@/utils/messaging";
 
-import { type Lifetime } from "./lifetime.ts";
+import { type Lifetime } from "./object.ts";
 
 type MessageInput<T extends keyof ProtocolMap> = Parameters<typeof sendMessage<T>>[1];
 

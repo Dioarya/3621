@@ -6,8 +6,8 @@ import { defineBackground } from "wxt/utils/define-background";
 import { getScriptTitle } from "@/utils/hello";
 
 import { setupBackfill } from "./backfill";
-import { Lifetime } from "./lifetime";
 import { setupMessaging } from "./messaging";
+import { Lifetime } from "./object.ts";
 
 export default defineBackground({
   persistent: true,
@@ -24,7 +24,7 @@ export default defineBackground({
     });
 
     cleanup.push(...setupMessaging(lifetime));
-    setupBackfill();
+    cleanup.push(...setupBackfill());
 
     browser.runtime.onSuspend.addListener(() => {
       if (import.meta.env.DEV) console.log("[background] log: suspending, cleaning up");

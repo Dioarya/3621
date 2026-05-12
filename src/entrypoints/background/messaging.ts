@@ -5,8 +5,10 @@ import type { Settings } from "@/utils/settings";
 import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging";
 import { settingsStorageItems } from "@/utils/storage";
 
+import type { Lifetime } from "./object";
+
 import { broadcastToMarkedTabs } from "./broadcast";
-import { setupAcknowledgementExpiry, setupLifetimeMessaging, type Lifetime } from "./lifetime";
+import { setupAcknowledgementExpiry, setupLifetimeMessaging } from "./lifetime";
 
 async function getAllSettings() {
   const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];

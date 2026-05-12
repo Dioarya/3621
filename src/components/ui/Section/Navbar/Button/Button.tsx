@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import { useEffect, useRef } from "react";
 
+import type { PageInfo } from "../../types";
+
 import style from "../../Section.module.css";
-import { PageInfo } from "../../types";
 
 type SectionNavbarButtonProps = {
   isSelected: boolean;
@@ -12,6 +13,11 @@ type SectionNavbarButtonProps = {
 
 const Button = ({ isSelected, page, onSelect }: SectionNavbarButtonProps) => {
   const ref = useRef<HTMLSpanElement>(null);
+  const onClick = () => {
+    if (import.meta.env.DEV)
+      console.log(`[section:navbar] log: page button clicked: key=${page.key}`);
+    onSelect(page.key);
+  };
 
   useEffect(() => {
     if (isSelected) {
@@ -19,16 +25,9 @@ const Button = ({ isSelected, page, onSelect }: SectionNavbarButtonProps) => {
     }
   }, [isSelected]);
 
+  const combinedClassName = clsx(style.button, { [style.selected]: isSelected });
   return (
-    <span
-      ref={ref}
-      className={clsx(style.button, { [style.selected]: isSelected })}
-      onClick={() => {
-        if (import.meta.env.DEV)
-          console.log(`[section:navbar] log: page button clicked: key=${page.key}`);
-        onSelect(page.key);
-      }}
-    >
+    <span ref={ref} className={combinedClassName} onClick={onClick}>
       {page.label}
     </span>
   );

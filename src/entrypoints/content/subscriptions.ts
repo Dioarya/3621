@@ -1,6 +1,6 @@
 import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
-import { createApplyFunctions, HTMLElements } from "./apply";
+import { createApplyFunctions, type HTMLElements } from "./apply";
 import { useContentSettings } from "./store";
 
 export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElements) {

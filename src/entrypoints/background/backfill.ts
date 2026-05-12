@@ -1,8 +1,10 @@
+import type { RemoveListenerCallback } from "@webext-core/messaging";
 import type { ScriptPublicPath } from "wxt/utils/inject-script";
 
 import { browser, type Browser } from "wxt/browser";
 import { MatchPattern } from "wxt/utils/match-patterns";
 
+import { disposableBrowserListener } from "@/utils/event";
 import { injectIsInjected, MARKER_KEY } from "@/utils/marker";
 
 function createInjectContentScript(matches: string[], contentScript: ScriptPublicPath) {
@@ -49,17 +51,23 @@ function createInjectContentScript(matches: string[], contentScript: ScriptPubli
 }
 
 export function setupBackfill() {
+  const cleanup: RemoveListenerCallback[] = [];
+
   const [injectContentScripts] = createInjectContentScript(
     ["*://e621.net/posts/*"],
     "/content-scripts/content.js",
   );
 
-  browser.runtime.onInstalled.addListener(async () => {
-    const tabs = await browser.tabs.query({});
-    if (import.meta.env.DEV)
-      console.log(
-        `[background:backfill] log: extension installed/updated, scanning ${tabs.length} open tab(s)`,
-      );
-    injectContentScripts(tabs).catch((err) => console.error("[background:backfill] error:", err));
-  });
+  cleanup.push(
+    disposableBrowserListener(browser.runtime.onInstalled, async () => {
+      const tabs = await browser.tabs.query({});
+      if (import.meta.env.DEV)
+        console.log(
+          `[background:backfill] log: extension installed/updated, scanning ${tabs.length} open tab(s)`,
+        );
+      injectContentScripts(tabs).catch((err) => console.error("[background:backfill] error:", err));
+    }),
+  );
+
+  return cleanup;
 }

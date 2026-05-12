@@ -13,10 +13,10 @@ export type SectionContextType = {
   setPages: UseStateSetter<SectionContextType, "pages">;
   selected: string | null;
   setSelected: UseStateSetter<SectionContextType, "selected">;
+  navbarShown: boolean;
+  setNavbarShown: UseStateSetter<SectionContextType, "navbarShown">;
   scroll: {
     scrollLeft: () => void;
     scrollRight: () => void;
   };
-  navbarShown: boolean;
-  setNavbarShown: UseStateSetter<SectionContextType, "navbarShown">;
 };
