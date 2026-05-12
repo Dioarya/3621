@@ -1,6 +1,6 @@
-import type { AcknowledgedTab, Milliseconds, EpochMilliseconds } from "@/utils/lifetime";
+import { Mutex } from "async-mutex";
 
-import { Mutex } from "@/utils/mutex";
+import type { AcknowledgedTab, Milliseconds, EpochMilliseconds } from "@/utils/lifetime";
 
 export class TabManager {
   private tabs: AcknowledgedTab[];

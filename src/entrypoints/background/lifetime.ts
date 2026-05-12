@@ -1,4 +1,5 @@
 import type { ExtensionMessage, RemoveListenerCallback } from "@webext-core/messaging";
+import type { MutexInterface } from "async-mutex";
 
 import cloneDeep from "lodash-es/cloneDeep";
 import filter from "lodash-es/filter";
@@ -63,13 +64,22 @@ export function setupAcknowledgementExpiry(lifetime: Lifetime) {
 export function setupLifetimeMessaging(lifetime: Lifetime) {
   const cleanup: RemoveListenerCallback[] = [];
 
-  const acknowledgeHandler = async ({
-    sender,
-    timestamp,
-  }: {
-    sender: ExtensionMessage["sender"];
-    timestamp: EpochMilliseconds;
-  }) => {
+  type LockedContext = {
+    tabs: AcknowledgedTab[];
+    release: MutexInterface.Releaser;
+  };
+
+  // A proof of mutex ownership is passed in to acknowledgeHandler to prevent recursive functions causing deadlocks.
+  const acknowledgeHandler = async (
+    {
+      sender,
+      timestamp,
+    }: {
+      sender: ExtensionMessage["sender"];
+      timestamp: EpochMilliseconds;
+    },
+    locked?: LockedContext,
+  ) => {
     const tabDetail: Browser.tabs.Tab = sender.tab!;
 
     const fullFrames = tabDetail.id
@@ -89,10 +99,10 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
       startTime: timestamp,
     });
     const id: AcknowledgedTabIdentification = createAcknowledgementId(sender);
-
     const acknowledgedTab: AcknowledgedTab = { tab, acknowledgement, id };
 
-    const [release, tabs] = await lifetime.tabs.acquire();
+    const [release, tabs] = locked ? [locked.release, locked.tabs] : await lifetime.tabs.acquire();
+
     if (!tabs.some((tab) => isEqual(tab.id, acknowledgedTab.id))) {
       tabs.push(acknowledgedTab);
       if (import.meta.env.DEV)
@@ -114,34 +124,32 @@ export function setupLifetimeMessaging(lifetime: Lifetime) {
 
   cleanup.push(
     onMessage("lifetime.heartbeat", async ({ sender, timestamp }) => {
-      return await lifetime.tabs.use(async (tabs) => {
-        const id = createAcknowledgementId(sender);
-        const criteria: DeepPartial<AcknowledgedTab> = { id };
+      const [release, tabs] = await lifetime.tabs.acquire();
+      const id = createAcknowledgementId(sender);
+      const criteria: DeepPartial<AcknowledgedTab> = { id };
 
-        const acknowledgedTabs = filter(tabs, (item) => isMatch(item, criteria));
+      const acknowledgedTabs = filter(tabs, (item) => isMatch(item, criteria));
 
-        if (acknowledgedTabs.length === 0) {
-          if (import.meta.env.DEV)
-            console.log(
-              `[background:lifetime] log: heartbeat received but tab not found, re-acknowledging: tabId=${id.tab.id} frameId=${id.frame.id}`,
-            );
-          return acknowledgeHandler({ sender, timestamp });
-        }
-
-        const acknowledgedTab = acknowledgedTabs[0];
-
-        const patchedAcknowledgement = cloneDeep(acknowledgedTab.acknowledgement);
-        patchedAcknowledgement.heartbeat.lastTime = timestamp;
-
-        acknowledgedTab.acknowledgement = patchedAcknowledgement;
-
+      if (acknowledgedTabs.length === 0) {
         if (import.meta.env.DEV)
           console.log(
-            `[background:lifetime] log: heartbeat received: tabId=${id.tab.id} frameId=${id.frame.id} lastTime=${timestamp} totalTabs=${tabs.length}`,
+            `[background:lifetime] log: heartbeat received but tab not found, re-acknowledging: tabId=${id.tab.id} frameId=${id.frame.id}`,
           );
+        return acknowledgeHandler({ sender, timestamp }, { tabs, release });
+      }
 
-        return patchedAcknowledgement;
-      });
+      const acknowledgedTab = acknowledgedTabs[0];
+      const patchedAcknowledgement = cloneDeep(acknowledgedTab.acknowledgement);
+      patchedAcknowledgement.heartbeat.lastTime = timestamp;
+      acknowledgedTab.acknowledgement = patchedAcknowledgement;
+
+      if (import.meta.env.DEV)
+        console.log(
+          `[background:lifetime] log: heartbeat received: tabId=${id.tab.id} frameId=${id.frame.id} lastTime=${timestamp} totalTabs=${tabs.length}`,
+        );
+
+      release();
+      return patchedAcknowledgement;
     }),
   );
 
