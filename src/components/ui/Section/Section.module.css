@@ -66,6 +66,7 @@
     height: 100%;
     overflow: scroll hidden;
     scroll-snap-type: x mandatory;
+    scrollbar-width: none;
     -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
