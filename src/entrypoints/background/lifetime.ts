@@ -103,6 +103,35 @@ export function createAcknowledgementId(sender: ExtensionMessage["sender"]) {
   return id;
 }
 
+export function setupAcknowledgementExpiry(lifetime: Lifetime) {
+  const interval = setInterval(async () => {
+    const now = Date.now();
+
+    const keepExpiration = (tab: AcknowledgedTab) => {
+      const lastTime = tab.acknowledgement.heartbeat.lastTime;
+      const interval = tab.acknowledgement.heartbeat.interval;
+      const expectedNextTime = lastTime + interval;
+      if (now > expectedNextTime) {
+        return false;
+      }
+
+      return true;
+    };
+
+    await lifetime.tabs.set((tabs) => {
+      const filtered = tabs.filter(keepExpiration);
+      if (import.meta.env.DEV) {
+        const expired = tabs.length - filtered.length;
+        if (expired > 0)
+          console.log(`[background] log: expired ${expired} tab(s), ${filtered.length} remaining`);
+      }
+      return filtered;
+    });
+  }, lifetime.heartbeat.interval);
+
+  return () => clearInterval(interval);
+}
+
 export function setupLifetimeMessaging(lifetime: Lifetime) {
   const cleanup: RemoveListenerCallback[] = [];
 

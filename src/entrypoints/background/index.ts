@@ -3,8 +3,6 @@ import type { RemoveListenerCallback } from "@webext-core/messaging";
 import { browser } from "wxt/browser";
 import { defineBackground } from "wxt/utils/define-background";
 
-import type { AcknowledgedTab } from "@/utils/lifetime";
-
 import { getScriptTitle } from "@/utils/hello";
 
 import { setupBackfill } from "./backfill";
@@ -28,37 +26,9 @@ export default defineBackground({
     cleanup.push(...setupMessaging(lifetime));
     setupBackfill();
 
-    const acknowledgementExpireInterval = setInterval(async () => {
-      const now = Date.now();
-
-      const keepExpiration = (tab: AcknowledgedTab) => {
-        const lastTime = tab.acknowledgement.heartbeat.lastTime;
-        const interval = tab.acknowledgement.heartbeat.interval;
-        const expectedNextTime = lastTime + interval;
-        if (now > expectedNextTime) {
-          return false;
-        }
-
-        return true;
-      };
-
-      await lifetime.tabs.set((tabs) => {
-        const filtered = tabs.filter(keepExpiration);
-        if (import.meta.env.DEV) {
-          const expired = tabs.length - filtered.length;
-          if (expired > 0)
-            console.log(
-              `[background] log: expired ${expired} tab(s), ${filtered.length} remaining`,
-            );
-        }
-        return filtered;
-      });
-    }, lifetime.heartbeat.interval);
-
     browser.runtime.onSuspend.addListener(() => {
       if (import.meta.env.DEV) console.log("[background] log: suspending, cleaning up");
       cleanup.forEach((clean) => clean());
-      clearInterval(acknowledgementExpireInterval);
     });
 
     console.log(scriptTitle);

@@ -6,7 +6,7 @@ import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging"
 import { settingsStorageItems } from "@/utils/storage";
 
 import { broadcastToMarkedTabs } from "./broadcast";
-import { setupLifetimeMessaging, type Lifetime } from "./lifetime";
+import { setupAcknowledgementExpiry, setupLifetimeMessaging, type Lifetime } from "./lifetime";
 
 async function getAllSettings() {
   const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];
@@ -87,6 +87,7 @@ export function setupMessaging(lifetime: Lifetime) {
   }
 
   cleanup.push(...setupLifetimeMessaging(lifetime));
+  cleanup.push(setupAcknowledgementExpiry(lifetime));
 
   return cleanup;
 }
