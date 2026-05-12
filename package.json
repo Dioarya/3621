@@ -65,6 +65,9 @@
     "wxt": "^0.20.25"
   },
   "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "oxlint --no-error-on-unmatched-pattern"
+    ],
     "*.{ts,tsx,js,jsx,json,html,md}": [
       "oxfmt --no-error-on-unmatched-pattern"
     ],
