@@ -2,10 +2,9 @@ import type { GetReturnType } from "@webext-core/messaging";
 
 import { type ProtocolMap, sendMessage } from "@/utils/messaging";
 import { Settings } from "@/utils/settings";
-import { createSettingsStore, fetchSettingsStore } from "@/utils/store";
+import { createSettingsStore } from "@/utils/store";
 
 export const usePopupSettings = createSettingsStore();
-void fetchSettingsStore(usePopupSettings); // fire and forget
 
 type MessageInput<K extends keyof ProtocolMap> = Parameters<typeof sendMessage<K>>[1];
 
