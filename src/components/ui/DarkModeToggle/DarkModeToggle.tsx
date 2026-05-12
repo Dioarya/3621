@@ -10,7 +10,7 @@ const DarkModeToggle = () => {
   const switchTheme = (checked: boolean) => {
     if (import.meta.env.DEV)
       console.log(`[popup:darkmode] log: toggled - ${checked ? "dark" : "light"}`);
-    setTheme(checked ? "dark" : "light");
+    void setTheme(checked ? "dark" : "light");
   };
 
   const svgs = {
