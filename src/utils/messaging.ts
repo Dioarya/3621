@@ -1,15 +1,19 @@
 import { defineExtensionMessaging } from "@webext-core/messaging";
 
 import type { Acknowledgement } from "./lifetime";
-import type { Settings } from "./settings";
+import type { MultiKey, MultiValue } from "./multi";
+
+import { Settings } from "./settings";
 
 // creates *.get and *.set protocols for each key inside Settings,
 // such as theme.get & theme.set and liveUpdate.get & liveUpdate.set
-type SettingsProtocol = {
-  [K in keyof Settings as `${K}.get`]: () => Settings[K];
+type StorageProtocol<T extends object> = {
+  [K in MultiKey<T> as `${K}.get`]: () => MultiValue<T, K>;
 } & {
-  [K in keyof Settings as `${K}.set`]: (data: Settings[K]) => void;
+  [K in MultiKey<T> as `${K}.set`]: (data: MultiValue<T, K>) => void;
 };
+
+type SettingsProtocol = StorageProtocol<Settings>;
 
 export interface ProtocolMap extends SettingsProtocol {
   // e621.net settings {

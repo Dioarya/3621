@@ -1,5 +1,6 @@
 import type { RemoveListenerCallback } from "@webext-core/messaging";
 
+import type { MultiKey } from "@/utils/multi";
 import type { Settings } from "@/utils/settings";
 
 import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging";
@@ -18,10 +19,7 @@ async function getAllSettings() {
   return Object.fromEntries(resolvedEntries) as Settings;
 }
 
-function createGetAndSet<T extends keyof Settings>(
-  prop: T,
-  options?: { get?: boolean; set?: boolean },
-) {
+function createGetAndSet(prop: MultiKey<Settings>, options?: { get?: boolean; set?: boolean }) {
   const get = options?.get ?? true;
   const set = options?.set ?? true;
 
@@ -33,23 +31,25 @@ function createGetAndSet<T extends keyof Settings>(
   if (get) {
     const getterMessage = `${prop}.get` as keyof ProtocolMap;
     result.get = onMessage(getterMessage, async () => {
-      return settingsStorageItems[prop].getValue();
+      const item = settingsStorageItems.item(prop);
+      return item.getValue();
     });
   }
 
   if (set) {
     const setterMessage = `${prop}.set` as keyof ProtocolMap;
     result.set = onMessage(setterMessage, async ({ data }) => {
-      await settingsStorageItems[prop].setValue(data as any);
-      await settingsStorageItems[prop].setMeta({ lastModified: Date.now(), version: 1 });
+      const item = settingsStorageItems.item(prop);
+      await item.setValue(data as any);
+      await item.setMeta({ lastModified: Date.now(), version: 1 });
     });
   }
 
   return result;
 }
 
-function createWatch<T extends keyof Settings>(lifetime: Lifetime, prop: T) {
-  return settingsStorageItems[prop].watch(async (newValue) => {
+function createWatch(lifetime: Lifetime, prop: MultiKey<Settings>) {
+  return settingsStorageItems.item(prop).watch(async (newValue) => {
     const update = { [prop]: newValue };
 
     if (import.meta.env.DEV)
@@ -82,7 +82,7 @@ export function setupMessaging(lifetime: Lifetime) {
     }),
   );
 
-  const props = Object.keys(settingsStorageItems) as (keyof Settings)[];
+  const props = settingsStorageItems.keys;
   for (const prop of props) {
     cleanup.push(...Object.values(createGetAndSet(prop)));
     cleanup.push(createWatch(lifetime, prop));

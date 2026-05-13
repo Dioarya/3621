@@ -11,10 +11,9 @@ import type {
   AcknowledgedTab,
   AcknowledgedTabIdentification,
   Acknowledgement,
-  EpochMilliseconds,
   Tab,
 } from "@/utils/lifetime";
-import type { DeepPartial } from "@/utils/types";
+import type { DeepPartial, EpochMilliseconds } from "@/utils/types";
 
 import { onMessage } from "@/utils/messaging";
 

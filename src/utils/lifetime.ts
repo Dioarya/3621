@@ -1,7 +1,6 @@
 import type { Browser } from "wxt/browser";
 
-export type Milliseconds = number;
-export type EpochMilliseconds = number;
+import type { Milliseconds, EpochMilliseconds } from "./types";
 
 /** Information about an acknowledgement and its contract for both parties.
  */

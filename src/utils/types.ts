@@ -1,3 +1,7 @@
+export type Milliseconds = number;
+export type EpochMilliseconds = number;
+export type Pixels = number;
+
 export type ClassObject<T extends object> = {
   [K in keyof T]: T[K];
 };
