@@ -14,6 +14,12 @@
     color: var(--color-text-primary);
     text-align: start;
 
+    .indent {
+      flex-shrink: 0;
+      height: 0.0625em;
+      background-color: var(--color-text-primary-muted);
+    }
+
     .question-mark {
       color: var(--color-brand-primary);
       text-decoration: underline;
@@ -25,15 +31,6 @@
 
     .question-mark:hover {
       opacity: 1;
-    }
-
-    .arrow {
-      --svg-size: 0.55em;
-
-      flex-shrink: 0;
-      width: var(--svg-size);
-      height: var(--svg-size);
-      fill: var(--color-surface-primary-500);
     }
   }
 }

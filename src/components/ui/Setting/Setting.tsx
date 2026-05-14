@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import React, { type ReactNode } from "react";
 
-import ArrowRight from "@/assets/Arrows/right.svg?react";
-
 import style from "./Setting.module.css";
 
 type SettingLabelProps = { children: string };
@@ -44,12 +42,9 @@ const Setting = ({ children, className, nested }: SettingProps) => {
 
   const combinedClassName = clsx(style.setting, className);
   return (
-    <span
-      className={combinedClassName}
-      style={nested ? { paddingLeft: `${0.5 * nested}em` } : undefined}
-    >
+    <span className={combinedClassName}>
       <div className={style.nameplate}>
-        {!!nested && <ArrowRight className={style.arrow} />}
+        {nested && <div className={style.indent} style={{ width: `${0.5 * nested}em` }} />}
         {label}
         {description}
       </div>
