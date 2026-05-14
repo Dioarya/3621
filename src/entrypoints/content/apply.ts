@@ -2,7 +2,7 @@ import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
 import { throttle } from "throttle-debounce";
 
-import type { VerticalConstraint, Align, LiveUpdate, Settings } from "@/utils/settings";
+import type { VerticalConstraint, Align, LiveUpdate, Settings, HideTopAd } from "@/utils/settings";
 
 import { disposableAddEventListener } from "@/utils/event";
 
@@ -13,6 +13,9 @@ export type HTMLElements = {
   image: HTMLElement;
   imageContainer: HTMLElement;
   alignContainer: HTMLElement;
+  adTop: HTMLElement;
+  adBottom: HTMLElement;
+  adScape: HTMLElement;
 };
 
 function createApplyConstraint({ image, imageContainer }: HTMLElements) {
@@ -113,11 +116,53 @@ function createApplyLiveUpdate(
   return applyLiveUpdate;
 }
 
+function withPrev<T>(fn: (value: T, prev: T | undefined) => void): (value: T) => void {
+  let prev: T | undefined;
+  return (value: T) => {
+    fn(value, prev);
+    prev = value;
+  };
+}
+
+export function createApplyHideTopAd({ adTop, adBottom, adScape }: HTMLElements) {
+  let originalParent: HTMLElement | null = null;
+  let originalNextSibling: HTMLElement | null = null;
+
+  const applyHideTopAd = withPrev<HideTopAd>((moveTopAd, prev) => {
+    if (moveTopAd && !prev) {
+      if (adTop && adScape && adBottom && adScape.contains(adBottom)) {
+        originalParent = adTop.parentElement;
+        originalNextSibling = adTop.nextElementSibling as HTMLElement | null;
+        adScape.insertBefore(adTop, adBottom);
+        if (import.meta.env.DEV)
+          console.log("[content] log: moved #ad-leaderboard-top into .adscape");
+      }
+    } else if (!moveTopAd && prev) {
+      if (
+        adTop &&
+        originalParent &&
+        (!originalNextSibling || originalParent.contains(originalNextSibling))
+      ) {
+        if (originalNextSibling) {
+          originalParent.insertBefore(adTop, originalNextSibling);
+        } else {
+          originalParent.appendChild(adTop);
+        }
+        if (import.meta.env.DEV)
+          console.log("[content] log: restored #ad-leaderboard-top to original position");
+      }
+    }
+  });
+
+  return applyHideTopAd;
+}
+
 export function createApplyFunctions(ctx: ContentScriptContext, elements: HTMLElements) {
   const applyConstraint = createApplyConstraint(elements);
   const applyAlignment = createApplyAlignment(elements);
   const applyLiveUpdate = createApplyLiveUpdate(ctx, applyConstraint);
-  return { applyConstraint, applyAlignment, applyLiveUpdate };
+  const applyHideTopAd = createApplyHideTopAd(elements);
+  return { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd };
 }
 
 export function applySettings(
@@ -125,9 +170,13 @@ export function applySettings(
   elements: HTMLElements,
   settings: Settings,
 ) {
-  const { verticalConstraint, align } = settings;
-  const { applyConstraint, applyAlignment, applyLiveUpdate } = createApplyFunctions(ctx, elements);
+  const { verticalConstraint, align, hideTopAd } = settings;
+  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = createApplyFunctions(
+    ctx,
+    elements,
+  );
   applyConstraint(verticalConstraint);
   applyAlignment(align);
   applyLiveUpdate(verticalConstraint.liveUpdate);
+  applyHideTopAd(hideTopAd);
 }

@@ -6,11 +6,14 @@ import { useContentSettings } from "./store";
 export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElements) {
   const unsubs: (() => void)[] = [];
 
-  const { applyConstraint, applyAlignment, applyLiveUpdate } = createApplyFunctions(ctx, elements);
+  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = createApplyFunctions(
+    ctx,
+    elements,
+  );
 
   if (import.meta.env.DEV)
     console.log(
-      "[content:subscriptions] log: wiring up verticalConstraint, align, liveUpdate subscriptions",
+      "[content:subscriptions] log: wiring up verticalConstraint, align, liveUpdate, hideTopAd subscriptions",
     );
 
   unsubs.push(
@@ -45,6 +48,17 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
         if (import.meta.env.DEV)
           console.log(`[content:subscriptions] log: liveUpdate changed - ${JSON.stringify(value)}`);
         applyLiveUpdate(value);
+      },
+    ),
+  );
+  unsubs.push(
+    useContentSettings.subscribe(
+      (state) => state.data?.hideTopAd,
+      (value) => {
+        if (value === undefined) return;
+        if (import.meta.env.DEV)
+          console.log(`[content:subscriptions] log: hideTopAd changed - ${value}`);
+        applyHideTopAd(value);
       },
     ),
   );

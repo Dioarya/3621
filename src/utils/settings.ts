@@ -12,6 +12,7 @@ export type VerticalConstraint = {
   liveUpdate: LiveUpdate;
 };
 export type Align = "left" | "center" | "right";
+export type HideTopAd = boolean;
 
 export type PartialSettings = DeepPartial<Settings>;
 
@@ -26,4 +27,5 @@ export class Settings {
     },
   };
   align: Align = "center";
+  hideTopAd: HideTopAd = false;
 }

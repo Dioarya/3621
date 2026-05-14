@@ -13,6 +13,7 @@ const PostSection = (_props: PostSectionProps) => {
       liveUpdate: { enabled: liveUpdate, debounce: liveUpdateDebounce },
     },
     align,
+    hideTopAd,
   } = useSettingsControls();
 
   return (
@@ -101,6 +102,16 @@ const PostSection = (_props: PostSectionProps) => {
                 { label: "Right", value: "right" },
               ]}
             />
+          </Setting.Input>
+        </Setting>
+
+        <Setting>
+          <Setting.Label>Hide Top Ad</Setting.Label>
+          <Setting.Description>
+            Moves the top leaderboard ad to be next to the bottom leaderboard ad.
+          </Setting.Description>
+          <Setting.Input>
+            <Toggle checked={hideTopAd.value} onChange={hideTopAd.update} />
           </Setting.Input>
         </Setting>
       </Section.Content.Page.Section>

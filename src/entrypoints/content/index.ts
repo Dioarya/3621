@@ -10,7 +10,7 @@ import { getScriptTitle } from "@/utils/hello";
 import { markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
-import { applySettings } from "./apply";
+import { applySettings, type HTMLElements } from "./apply";
 import { setupLifetime } from "./lifetime";
 import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
@@ -43,11 +43,17 @@ async function init(ctx: ContentScriptContext) {
   const image = await waitForElement("#image");
   const imageContainer = await waitForElement("#image-container");
   const alignContainer = await waitForElement("#image-and-nav");
+  const adTop = await waitForElement("#ad-leaderboard-top");
+  const adBottom = await waitForElement("#ad-leaderboard-bottom");
+  const adScape = await waitForElement(".adscape");
 
-  const elements = {
+  const elements: HTMLElements = {
     image,
     imageContainer,
     alignContainer,
+    adTop,
+    adBottom,
+    adScape,
   };
 
   const style = document.createElement("style");
