@@ -125,9 +125,9 @@ export function applySettings(
   elements: HTMLElements,
   settings: Settings,
 ) {
-  const { verticalConstraint, align, liveUpdate } = settings;
+  const { verticalConstraint, align } = settings;
   const { applyConstraint, applyAlignment, applyLiveUpdate } = createApplyFunctions(ctx, elements);
   applyConstraint(verticalConstraint);
   applyAlignment(align);
-  applyLiveUpdate(liveUpdate);
+  applyLiveUpdate(verticalConstraint.liveUpdate);
 }

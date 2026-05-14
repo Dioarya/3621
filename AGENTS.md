@@ -58,6 +58,7 @@ src/
 - CSS classes shall always use kebab-case
 - Never use direct px sizing inside CSS, use the conversion factor 16px = 1em to use em instead.
 - Always update type definitions when changing implementation details that add/change the shape, even if nobody asked.
+- CSS modules' selectors shall be nested whenever possible. Use ampersand notation instead of repeating a previous selector
 
 ## Settings flow
 

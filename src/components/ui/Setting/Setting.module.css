@@ -28,16 +28,12 @@
     }
 
     .arrow {
-      --svg-size: 0.75em;
+      --svg-size: 0.55em;
 
       flex-shrink: 0;
       width: var(--svg-size);
       height: var(--svg-size);
       fill: var(--color-surface-primary-500);
     }
-  }
-
-  &.nested {
-    padding-left: 0.5em;
   }
 }

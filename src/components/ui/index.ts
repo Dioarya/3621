@@ -11,3 +11,5 @@ export {
   createSegmentedControl,
 } from "./SegmentedControl/SegmentedControl";
 export { default as Dropdown } from "./Dropdown/Dropdown";
+export { default as Select } from "./Select/Select";
+export { default as Slider } from "./Slider/Slider";

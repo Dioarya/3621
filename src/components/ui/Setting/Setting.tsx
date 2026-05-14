@@ -32,7 +32,7 @@ const Input = ({ children }: SettingInputProps) => {
 
 type SettingProps = Omit<React.ComponentPropsWithoutRef<"span">, "children"> & {
   children: SettingChild | SettingChild[];
-  nested?: boolean;
+  nested?: number;
 };
 
 const Setting = ({ children, className, nested }: SettingProps) => {
@@ -42,13 +42,14 @@ const Setting = ({ children, className, nested }: SettingProps) => {
   const description = childArray.find((c) => c.type === Description);
   const input = childArray.find((c) => c.type === Input);
 
-  const combinedClassName = clsx(style.setting, className, {
-    [style.nested]: nested,
-  });
+  const combinedClassName = clsx(style.setting, className);
   return (
-    <span className={combinedClassName}>
+    <span
+      className={combinedClassName}
+      style={nested ? { paddingLeft: `${0.5 * nested}em` } : undefined}
+    >
       <div className={style.nameplate}>
-        {nested && <ArrowRight className={style.arrow} />}
+        {!!nested && <ArrowRight className={style.arrow} />}
         {label}
         {description}
       </div>

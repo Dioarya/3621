@@ -19,15 +19,17 @@ type ToggleProps = Omit<
 const Toggle = ({ checked, onChange: propOnChange, svg, className, ...props }: ToggleProps) => {
   const onChange = propOnChange ? () => propOnChange(!checked) : undefined;
 
-  const combinedClassName = clsx(style.toggle, className, svg ? style["has-svg"] : undefined);
+  const combinedClassName = clsx(style.toggle, className, svg && style["has-svg"]);
   return (
     <label className={combinedClassName}>
-      {svg && (
-        <span className={style.knob}>
-          <span className={style["svg-off"]}>{svg.off}</span>
-          <span className={style["svg-on"]}>{svg.on}</span>
-        </span>
-      )}
+      <span className={style.knob}>
+        {svg && (
+          <>
+            <span className={style["svg-off"]}>{svg.off}</span>
+            <span className={style["svg-on"]}>{svg.on}</span>
+          </>
+        )}
+      </span>
       <input
         {...props}
         role="switch"

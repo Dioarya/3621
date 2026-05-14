@@ -1,4 +1,4 @@
-import { createSegmentedControl, Section, Setting } from "@/components";
+import { Section, Select, Setting, Slider, Toggle } from "@/components";
 import { useSettingsControls } from "@/hooks/useSettings";
 
 type PostSectionProps = {
@@ -7,9 +7,12 @@ type PostSectionProps = {
 
 const PostSection = (_props: PostSectionProps) => {
   const {
-    verticalConstraint: { type: verticalConstraint, margin: verticalConstraintMargin },
+    verticalConstraint: {
+      type: verticalConstraint,
+      margin: verticalConstraintMargin,
+      liveUpdate: { enabled: liveUpdate, debounce: liveUpdateDebounce },
+    },
     align,
-    liveUpdate: { enabled: liveUpdate, debounce: liveUpdateDebounce },
   } = useSettingsControls();
 
   return (
@@ -17,32 +20,68 @@ const PostSection = (_props: PostSectionProps) => {
       <Section.Content.Page.Section label="Post">
         <Setting>
           <Setting.Label>Vertical Constraint</Setting.Label>
-          <Setting.Description>Constrain the image height within the viewport.</Setting.Description>
+          <Setting.Description>
+            Controls how the image fits vertically. Off applies no constraint (native scroll). Full
+            constrains the image to viewport height. Margined constrains the image with a gap around
+            it.
+          </Setting.Description>
           <Setting.Input>
-            {createSegmentedControl(verticalConstraint.value, verticalConstraint.update, [
-              { label: "Off", value: "off" },
-              { label: "Full", value: "full" },
-              { label: "Margined", value: "margined" },
-            ])}
+            <Select
+              value={verticalConstraint.value}
+              onChange={verticalConstraint.update}
+              options={[
+                { label: "Off", value: "off" },
+                { label: "Full", value: "full" },
+                { label: "Margined", value: "margined" },
+              ]}
+            />
           </Setting.Input>
         </Setting>
 
         {verticalConstraint.value === "margined" && (
-          <Setting nested>
+          <Setting nested={1}>
             <Setting.Label>Space</Setting.Label>
             <Setting.Description>
-              Space between the image and viewport edges in Margined mode.
+              Gap between the image and viewport edges in Margined mode.
             </Setting.Description>
             <Setting.Input>
-              {createSegmentedControl(
-                verticalConstraintMargin.value,
-                verticalConstraintMargin.update,
-                [
-                  { label: "5px", value: 5 },
-                  { label: "10px", value: 10 },
-                  { label: "30px", value: 30 },
-                ],
-              )}
+              <Slider
+                value={verticalConstraintMargin.value}
+                onChange={verticalConstraintMargin.update}
+                min={0}
+                max={50}
+              />
+            </Setting.Input>
+          </Setting>
+        )}
+
+        {verticalConstraint.value !== "off" && (
+          <Setting nested={1}>
+            <Setting.Label>Live Update</Setting.Label>
+            <Setting.Description>
+              Continuously recalculates the constraint during scroll and resize events to keep the
+              image positioned correctly.
+            </Setting.Description>
+            <Setting.Input>
+              <Toggle checked={liveUpdate.value} onChange={liveUpdate.update} />
+            </Setting.Input>
+          </Setting>
+        )}
+
+        {liveUpdate.value === true && verticalConstraint.value !== "off" && (
+          <Setting nested={2}>
+            <Setting.Label>Debounce</Setting.Label>
+            <Setting.Description>
+              Interval in ms between recalculations. Lower values update more frequently for
+              smoother motion but use more CPU.
+            </Setting.Description>
+            <Setting.Input>
+              <Slider
+                value={liveUpdateDebounce.value}
+                onChange={liveUpdateDebounce.update}
+                min={0}
+                max={200}
+              />
             </Setting.Input>
           </Setting>
         )}
@@ -50,45 +89,20 @@ const PostSection = (_props: PostSectionProps) => {
         <Setting>
           <Setting.Label>Align</Setting.Label>
           <Setting.Description>
-            Horizontal alignment of the image in the viewport.
+            Horizontal position of the image relative to the viewport.
           </Setting.Description>
           <Setting.Input>
-            {createSegmentedControl(align.value, align.update, [
-              { label: "Left", value: "left" },
-              { label: "Center", value: "center" },
-              { label: "Right", value: "right" },
-            ])}
+            <Select
+              value={align.value}
+              onChange={align.update}
+              options={[
+                { label: "Left", value: "left" },
+                { label: "Center", value: "center" },
+                { label: "Right", value: "right" },
+              ]}
+            />
           </Setting.Input>
         </Setting>
-
-        <Setting>
-          <Setting.Label>Live Update</Setting.Label>
-          <Setting.Description>
-            Reapply constraints dynamically while scrolling and resizing.
-          </Setting.Description>
-          <Setting.Input>
-            {createSegmentedControl(liveUpdate.value, liveUpdate.update, [
-              { label: "Off", value: false },
-              { label: "On", value: true },
-            ])}
-          </Setting.Input>
-        </Setting>
-
-        {liveUpdate.value === true && (
-          <Setting nested>
-            <Setting.Label>Debounce</Setting.Label>
-            <Setting.Description>
-              How often the constraint recalculates. Higher is smoother but more CPU.
-            </Setting.Description>
-            <Setting.Input>
-              {createSegmentedControl(liveUpdateDebounce.value, liveUpdateDebounce.update, [
-                { label: "10fps", value: 1000 / 10 },
-                { label: "30fps", value: 1000 / 30 },
-                { label: "60fps", value: 1000 / 60 },
-              ])}
-            </Setting.Input>
-          </Setting>
-        )}
       </Section.Content.Page.Section>
     </>
   );

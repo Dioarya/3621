@@ -39,7 +39,7 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
   );
   unsubs.push(
     useContentSettings.subscribe(
-      (state) => state.data?.liveUpdate,
+      (state) => state.data?.verticalConstraint?.liveUpdate,
       (value) => {
         if (!value) return;
         if (import.meta.env.DEV)
