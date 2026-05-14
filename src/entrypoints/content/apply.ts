@@ -19,7 +19,7 @@ export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
   function applyConstraint(verticalConstraint: VerticalConstraint) {
     if (import.meta.env.DEV)
       console.log(`[content:apply] log: verticalConstraint=${verticalConstraint}`);
-    switch (verticalConstraint) {
+    switch (verticalConstraint.type) {
       case "off": {
         image.style.maxHeight = "";
         break;
@@ -33,7 +33,7 @@ export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
 
       case "margined": {
         const parentTop = imageContainer.getBoundingClientRect().top;
-        image.style.maxHeight = `calc(100vh - ${parentTop}px - 10px)`;
+        image.style.maxHeight = `calc(100vh - ${parentTop}px - ${verticalConstraint.margin}px)`;
         break;
       }
     }
@@ -61,21 +61,23 @@ export function createApplyLiveUpdate(
     if (import.meta.env.DEV) console.log(`[content:apply] log: liveUpdate=${liveUpdate}`);
     // Can't use lodash's throttle, because Function() calls break CSP
     const createThrottle = () => {
-      return throttle(
-        1000 / 60,
-        () => {
-          const verticalConstraint = useContentSettings.getState().verticalConstraint;
-          applyConstraint(verticalConstraint);
-        },
-        { noTrailing: true },
-      );
+      return throttle(liveUpdate.debounce, () => {
+        const verticalConstraint = useContentSettings.getState().data?.verticalConstraint;
+        if (verticalConstraint) applyConstraint(verticalConstraint);
+      });
     };
 
-    if (liveUpdate) {
-      if (runtimeObject.throttleHandler) return; // LiveUpdate is already set-up
+    if (liveUpdate.enabled) {
+      if (runtimeObject.throttleHandler) {
+        runtimeObject.throttleHandler.cancel();
+      }
 
       const throttleHandler = createThrottle();
       runtimeObject.throttleHandler = throttleHandler;
+
+      if (runtimeObject.eventCleanups) {
+        runtimeObject.eventCleanups.forEach((cleanup) => cleanup());
+      }
 
       const signal = ctx.signal;
 

@@ -12,22 +12,25 @@ import { fetchSettingsStore } from "@/utils/store";
 import { SettingsView } from "@/views";
 
 export default function App() {
-  void fetchSettingsStore(usePopupSettings);
-  const ready = usePopupSettings((state) => state.ready);
+  const status = usePopupSettings((state) => state.status);
   const { isDark } = useTheme();
   const icon = isDark ? iconDark : iconLight;
   const releaseLink = repository.url + `/releases/tag/v${version}`;
   const [scrollElement, setScrollElement] = useState<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    void fetchSettingsStore(usePopupSettings);
+  }, []);
+
   if (import.meta.env.DEV) {
     const error = usePopupSettings((state) => state.error);
     useEffect(() => {
-      if (ready) console.log("[popup] log: settings ready, rendering app");
+      if (status === "success") console.log("[popup] log: settings ready, rendering app");
       if (error) console.error("[popup] error: settings failed to load", error);
-    }, [ready, error]);
+    }, [status, error]);
   }
 
-  if (!ready) {
+  if (status !== "success") {
     return <Spinner />;
   }
 

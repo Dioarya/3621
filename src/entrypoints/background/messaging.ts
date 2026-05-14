@@ -1,10 +1,11 @@
 import type { RemoveListenerCallback } from "@webext-core/messaging";
 
-import type { MultiKey } from "@/utils/multi";
 import type { Settings } from "@/utils/settings";
 
 import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging";
+import { traverseSet, type MultiKeyFlat, type MultiValue } from "@/utils/multi";
 import { settingsStorageItems } from "@/utils/storage";
+import { DeepPartial } from "@/utils/types";
 
 import type { Lifetime } from "./object";
 
@@ -12,14 +13,18 @@ import { broadcastToMarkedTabs } from "./broadcast";
 import { setupAcknowledgementExpiry, setupLifetimeMessaging } from "./lifetime";
 
 async function getAllSettings() {
-  const entries = Object.entries(settingsStorageItems) as [keyof Settings, any][];
-  const resolvedEntries = await Promise.all(
-    entries.map(async ([key, item]) => [key, await item.getValue()] as const),
-  );
-  return Object.fromEntries(resolvedEntries) as Settings;
+  const keys = settingsStorageItems.keys;
+  const settings = {} as Settings;
+
+  for (const key of keys) {
+    const value = await settingsStorageItems.item(key).getValue();
+    traverseSet(settings, key, value, { parents: true });
+  }
+
+  return settings;
 }
 
-function createGetAndSet(prop: MultiKey<Settings>, options?: { get?: boolean; set?: boolean }) {
+function createGetAndSet(prop: MultiKeyFlat<Settings>, options?: { get?: boolean; set?: boolean }) {
   const get = options?.get ?? true;
   const set = options?.set ?? true;
 
@@ -40,7 +45,7 @@ function createGetAndSet(prop: MultiKey<Settings>, options?: { get?: boolean; se
     const setterMessage = `${prop}.set` as keyof ProtocolMap;
     result.set = onMessage(setterMessage, async ({ data }) => {
       const item = settingsStorageItems.item(prop);
-      await item.setValue(data as any);
+      await item.setValue(data as MultiValue<Settings, typeof prop>);
       await item.setMeta({ lastModified: Date.now(), version: 1 });
     });
   }
@@ -48,9 +53,10 @@ function createGetAndSet(prop: MultiKey<Settings>, options?: { get?: boolean; se
   return result;
 }
 
-function createWatch(lifetime: Lifetime, prop: MultiKey<Settings>) {
+function createWatch(lifetime: Lifetime, prop: MultiKeyFlat<Settings>) {
   return settingsStorageItems.item(prop).watch(async (newValue) => {
-    const update = { [prop]: newValue };
+    const update = {} as DeepPartial<Settings>;
+    traverseSet(update as unknown as Settings, prop, newValue, { parents: true });
 
     if (import.meta.env.DEV)
       console.log(`[background:messaging] log: setting changed: ${prop}=`, newValue);

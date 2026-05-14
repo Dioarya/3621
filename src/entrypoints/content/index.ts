@@ -4,7 +4,8 @@ import type { ContentScriptContext } from "wxt/utils/content-script-context";
 import { name as scriptName } from "@@/package.json";
 import { defineContentScript } from "wxt/utils/define-content-script";
 
-import { disposableAddEventListener } from "@/utils/event";
+import type { disposableAddEventListener } from "@/utils/event";
+
 import { getScriptTitle } from "@/utils/hello";
 import { markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
@@ -54,7 +55,8 @@ async function init(ctx: ContentScriptContext) {
   document.head.appendChild(style);
   if (import.meta.env.DEV) console.log("[content] log: styles injected into document head");
 
-  applySettings(ctx, elements, useContentSettings.getState());
+  const settings = useContentSettings.getState().data;
+  if (settings) applySettings(ctx, elements, settings);
   const cleanupLifetime = await setupLifetime(ctx);
   const unsubs = setupSubscriptions(ctx, elements);
 

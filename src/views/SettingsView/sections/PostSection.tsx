@@ -7,13 +7,9 @@ type PostSectionProps = {
 
 const PostSection = (_props: PostSectionProps) => {
   const {
-    verticalConstraint,
+    verticalConstraint: { type: verticalConstraint, margin: verticalConstraintMargin },
     align,
-    liveUpdate: {
-      enabled: liveUpdateEnabled,
-      debounce: liveUpdateDebounce,
-      space: liveUpdateSpace,
-    },
+    liveUpdate: { enabled: liveUpdate, debounce: liveUpdateDebounce },
   } = useSettingsControls();
 
   return (
@@ -28,6 +24,22 @@ const PostSection = (_props: PostSectionProps) => {
               { label: "Full", value: "full" },
               { label: "Margined", value: "margined" },
             ])}
+          </Setting.Input>
+        </Setting>
+
+        <Setting>
+          <Setting.Label>Vertical Constraint Space</Setting.Label>
+          <Setting.Description>It's a vertical constraint... r u fr</Setting.Description>
+          <Setting.Input>
+            {createSegmentedControl(
+              verticalConstraintMargin.value,
+              verticalConstraintMargin.update,
+              [
+                { label: "5px", value: 5 },
+                { label: "10px", value: 10 },
+                { label: "30px", value: 30 },
+              ],
+            )}
           </Setting.Input>
         </Setting>
 
@@ -47,7 +59,7 @@ const PostSection = (_props: PostSectionProps) => {
           <Setting.Label>Live Update</Setting.Label>
           <Setting.Description>It's a live update... r u fr</Setting.Description>
           <Setting.Input>
-            {createSegmentedControl(liveUpdateEnabled.value, liveUpdateEnabled.update, [
+            {createSegmentedControl(liveUpdate.value, liveUpdate.update, [
               { label: "Off", value: false },
               { label: "On", value: true },
             ])}
@@ -62,18 +74,6 @@ const PostSection = (_props: PostSectionProps) => {
               { label: "10fps", value: 1000 / 10 },
               { label: "30fps", value: 1000 / 30 },
               { label: "60fps", value: 1000 / 60 },
-            ])}
-          </Setting.Input>
-        </Setting>
-
-        <Setting>
-          <Setting.Label>Live Update Space</Setting.Label>
-          <Setting.Description>It's a live update... r u fr</Setting.Description>
-          <Setting.Input>
-            {createSegmentedControl(liveUpdateSpace.value, liveUpdateSpace.update, [
-              { label: "5px", value: 5 },
-              { label: "10px", value: 10 },
-              { label: "30px", value: 30 },
             ])}
           </Setting.Input>
         </Setting>

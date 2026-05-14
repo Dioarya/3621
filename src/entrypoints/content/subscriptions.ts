@@ -15,8 +15,9 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
 
   unsubs.push(
     useContentSettings.subscribe(
-      (state) => state.verticalConstraint,
+      (state) => state.data?.verticalConstraint,
       (value) => {
+        if (!value) return;
         if (import.meta.env.DEV)
           console.log(`[content:subscriptions] log: verticalConstraint changed - ${value}`);
         applyConstraint(value);
@@ -25,8 +26,9 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
   );
   unsubs.push(
     useContentSettings.subscribe(
-      (state) => state.align,
+      (state) => state.data?.align,
       (value) => {
+        if (!value) return;
         if (import.meta.env.DEV)
           console.log(`[content:subscriptions] log: align changed - ${value}`);
         applyAlignment(value);
@@ -35,8 +37,9 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
   );
   unsubs.push(
     useContentSettings.subscribe(
-      (state) => state.liveUpdate,
+      (state) => state.data?.liveUpdate,
       (value) => {
+        if (!value) return;
         if (import.meta.env.DEV)
           console.log(`[content:subscriptions] log: liveUpdate changed - ${value}`);
         applyLiveUpdate(value);
