@@ -4,19 +4,24 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  padding: 0.25em 0;
   font-size: var(--text-label);
+
+  & + & {
+    margin-top: 0.5em;
+  }
 
   .nameplate {
     display: flex;
     flex-direction: row;
-    gap: 0.375em;
+    gap: 0.5em;
     align-items: center;
     color: var(--color-text-primary);
     text-align: start;
 
     .indent {
       flex-shrink: 0;
-      height: 0.0625em;
+      height: 0.125em;
       background-color: var(--color-text-primary-muted);
     }
 

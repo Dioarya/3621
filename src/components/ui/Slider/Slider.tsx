@@ -1,6 +1,9 @@
 import clsx from "clsx";
 import { useRef, useState } from "react";
 
+import Minus from "@/assets/Math/minus.svg?react";
+import Plus from "@/assets/Math/plus.svg?react";
+
 import style from "./Slider.module.css";
 
 type SliderProps = {
@@ -82,7 +85,7 @@ const Slider = ({ value, onChange, className, min = 0, max = 100, step = 1 }: Sl
   return (
     <span className={clsx(style.container, className)}>
       <button type="button" onClick={decrement} className={style.btn} aria-label="Decrease">
-        −
+        <Minus />
       </button>
       <span
         className={style["track-wrap"]}
@@ -101,7 +104,7 @@ const Slider = ({ value, onChange, className, min = 0, max = 100, step = 1 }: Sl
         </span>
       </span>
       <button type="button" onClick={increment} className={style.btn} aria-label="Increase">
-        +
+        <Plus />
       </button>
     </span>
   );

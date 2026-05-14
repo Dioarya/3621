@@ -145,6 +145,7 @@
         .content {
           width: 100%;
           height: max-content;
+          padding: 0.5em;
 
           &.closed {
             display: none;
