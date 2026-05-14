@@ -1,3 +1,4 @@
+import reactScan from "@react-scan/vite-plugin-react-scan";
 import { execSync } from "node:child_process";
 import { resolve } from "node:path";
 import svgr from "vite-plugin-svgr";
@@ -40,7 +41,7 @@ export default defineConfig({
   },
 
   vite: () => ({
-    plugins: [icong(), svgr()],
+    plugins: [icong(), svgr(), reactScan()],
     define: {
       __VERSION__: JSON.stringify(gitVersion),
     },
