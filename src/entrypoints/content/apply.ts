@@ -157,24 +157,29 @@ export function createApplyHideTopAd({ adTop, adBottom, adScape }: HTMLElements)
   return applyHideTopAd;
 }
 
+export type ApplyFunctions = {
+  applyConstraint: ReturnType<typeof createApplyConstraint>;
+  applyAlignment: ReturnType<typeof createApplyAlignment>;
+  applyLiveUpdate: ReturnType<typeof createApplyLiveUpdate>;
+  applyHideTopAd: ReturnType<typeof createApplyHideTopAd>;
+};
+
 export function createApplyFunctions(ctx: ContentScriptContext, elements: HTMLElements) {
   const applyConstraint = createApplyConstraint(elements);
   const applyAlignment = createApplyAlignment(elements);
   const applyLiveUpdate = createApplyLiveUpdate(ctx, applyConstraint);
   const applyHideTopAd = createApplyHideTopAd(elements);
-  return { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd };
+  return {
+    applyConstraint,
+    applyAlignment,
+    applyLiveUpdate,
+    applyHideTopAd,
+  } satisfies ApplyFunctions;
 }
 
-export function applySettings(
-  ctx: ContentScriptContext,
-  elements: HTMLElements,
-  settings: Settings,
-) {
+export function applySettings(settings: Settings, fns: ApplyFunctions) {
   const { verticalConstraint, align, hideTopAd } = settings;
-  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = createApplyFunctions(
-    ctx,
-    elements,
-  );
+  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = fns;
   applyConstraint(verticalConstraint);
   applyAlignment(align);
   applyLiveUpdate(verticalConstraint.liveUpdate);

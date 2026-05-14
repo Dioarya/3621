@@ -10,7 +10,7 @@ import { getScriptTitle } from "@/utils/hello";
 import { markAsInjected } from "@/utils/marker";
 import { fetchSettingsStore } from "@/utils/store";
 
-import { applySettings, type HTMLElements } from "./apply";
+import { applySettings, createApplyFunctions, type HTMLElements } from "./apply";
 import { setupLifetime } from "./lifetime";
 import { useContentSettings } from "./store";
 import injectStyle from "./style.css?inline";
@@ -61,10 +61,11 @@ async function init(ctx: ContentScriptContext) {
   document.head.appendChild(style);
   if (import.meta.env.DEV) console.log("[content] log: styles injected into document head");
 
+  const fns = createApplyFunctions(ctx, elements);
   const settings = useContentSettings.getState().data;
-  if (settings) applySettings(ctx, elements, settings);
+  if (settings) applySettings(settings, fns);
   const cleanupLifetime = await setupLifetime(ctx);
-  const unsubs = setupSubscriptions(ctx, elements);
+  const unsubs = setupSubscriptions(ctx, fns);
 
   ctx.onInvalidated(() => {
     if (import.meta.env.DEV) console.log("[content] log: context invalidated, cleaning up");

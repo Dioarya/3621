@@ -1,15 +1,12 @@
 import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
-import { createApplyFunctions, type HTMLElements } from "./apply";
+import { type ApplyFunctions } from "./apply";
 import { useContentSettings } from "./store";
 
-export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElements) {
+export function setupSubscriptions(_ctx: ContentScriptContext, fns: ApplyFunctions) {
   const unsubs: (() => void)[] = [];
 
-  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = createApplyFunctions(
-    ctx,
-    elements,
-  );
+  const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = fns;
 
   if (import.meta.env.DEV)
     console.log(
