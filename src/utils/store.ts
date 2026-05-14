@@ -5,16 +5,16 @@ import type { PartialSettings, Settings } from "./settings";
 
 import { onMessage, sendMessage } from "./messaging";
 
-export type SettingsStatus = "pending" | "success" | "error";
+type SettingsStatus = "pending" | "success" | "error";
 
-export type SettingsStore = {
+type SettingsStore = {
   data: Settings | null;
   status: SettingsStatus;
   error: Error | null;
 };
 
 function deepMerge(target: Settings, source: PartialSettings): Settings {
-  const result: Record<string, unknown> = { ...target };
+  const result: Record<string, unknown> = { ...(target as unknown as Record<string, unknown>) };
 
   for (const key of Object.keys(source)) {
     const val = (source as unknown as Record<string, unknown>)[key];

@@ -1,6 +1,6 @@
 import type { GetReturnType } from "@webext-core/messaging";
 
-import type { MultiKeyFlat, MultiValue } from "@/utils/multi";
+import type { MultiKey, MultiValue } from "@/utils/multi";
 
 import { type ProtocolMap, sendMessage } from "@/utils/messaging";
 import { mapMulti, traverse } from "@/utils/multi";
@@ -13,7 +13,7 @@ type MessageInput<K extends keyof ProtocolMap> = Parameters<typeof sendMessage<K
 
 type SetProtocolKey<K extends string> = Extract<`${K}.set`, keyof ProtocolMap>;
 
-type Control<Root extends object, K extends MultiKeyFlat<Root> & string> = {
+type Control<Root extends object, K extends MultiKey<Root> & string> = {
   value: MultiValue<Root, K>;
   update: (
     value: MessageInput<SetProtocolKey<K>>,
@@ -23,11 +23,11 @@ type Control<Root extends object, K extends MultiKeyFlat<Root> & string> = {
 type Controls<T extends object, Root extends object = T, Prefix extends string = ""> = {
   [K in keyof T & string]: T[K] extends object
     ? Controls<T[K], Root, `${Prefix}${K}.`>
-    : Control<Root, Extract<MultiKeyFlat<Root> & string, `${Prefix}${K}`>>;
+    : Control<Root, Extract<MultiKey<Root> & string, `${Prefix}${K}`>>;
 };
 
 export function useSettingsControls(): Controls<Settings> {
-  const createControl = <K extends MultiKeyFlat<Settings> & string>(prop: K) => {
+  const createControl = <K extends MultiKey<Settings>>(prop: K) => {
     type SetKey = SetProtocolKey<K>;
     type GetValue = MultiValue<Settings, K>;
     type SetValue = MessageInput<SetKey>;
@@ -49,6 +49,6 @@ export function useSettingsControls(): Controls<Settings> {
   };
 
   return mapMulti(new Settings(), (prop) =>
-    createControl(prop as MultiKeyFlat<Settings> & string),
+    createControl(prop as MultiKey<Settings>),
   ) as Controls<Settings>;
 }

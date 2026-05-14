@@ -4,7 +4,7 @@ export type PageInfo = {
   label: string;
 };
 
-export type UseStateSetter<T, K extends keyof T> = React.Dispatch<
+type UseStateSetter<T, K extends keyof T> = React.Dispatch<
   React.SetStateAction<Exclude<T[K], undefined>>
 >;
 

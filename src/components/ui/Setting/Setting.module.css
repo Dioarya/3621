@@ -8,13 +8,36 @@
 
   .nameplate {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 0.375em;
+    align-items: center;
     color: var(--color-text-primary);
     text-align: start;
 
-    .description {
-      font-size: var(--text-label-sub);
-      color: var(--color-text-primary-muted);
+    .question-mark {
+      color: var(--color-brand-primary);
+      text-decoration: underline;
+      text-underline-offset: 0.125em;
+      cursor: help;
+      opacity: 0.5;
+      transition: opacity 0.15s ease;
     }
+
+    .question-mark:hover {
+      opacity: 1;
+    }
+
+    .arrow {
+      --svg-size: 0.75em;
+
+      flex-shrink: 0;
+      width: var(--svg-size);
+      height: var(--svg-size);
+      fill: var(--color-surface-primary-500);
+    }
+  }
+
+  &.nested {
+    padding-left: 0.5em;
   }
 }

@@ -1,44 +1,31 @@
 export type PlainObject = Record<string, unknown>;
 
-export type StringKey<T> = Extract<keyof T, string>;
-export type DotlessStringKey<T> = Exclude<StringKey<T>, `${string}.${string}`>;
-
-export type AssertNoDotKeys<T extends object> =
+type StringKey<T> = Extract<keyof T, string>;
+type AssertNoDotKeys<T extends object> =
   Extract<StringKey<T>, `${string}.${string}`> extends never ? T : never;
 
 export type MultiKey<T extends object> = _MultiKey<AssertNoDotKeys<T>, "">;
-export type MultiKeyFlat<T extends object> = _MultiKeyFlat<AssertNoDotKeys<T>, "">;
 
 type _MultiKey<T extends object, Prefix extends string = ""> = {
   [K in StringKey<T>]: T[K] extends PlainObject
     ? _MultiKey<AssertNoDotKeys<T[K]>, `${Prefix}${K}.`>
     : `${Prefix}${K}`;
-};
-
-type _MultiKeyFlat<T extends object, Prefix extends string = ""> = {
-  [K in StringKey<T>]: T[K] extends PlainObject
-    ? _MultiKeyFlat<AssertNoDotKeys<T[K]>, `${Prefix}${K}.`>
-    : `${Prefix}${K}`;
-}[StringKey<T>];
-
-export type KeyPathTuple<T extends PlainObject> = {
-  [K in StringKey<T>]: T[K] extends PlainObject ? [K] | [K, ...KeyPathTuple<T[K]>] : [K];
 }[StringKey<T>];
 
 export type MultiValue<
   T extends object,
-  Path extends MultiKeyFlat<T> & string,
+  Path extends MultiKey<T> & string,
 > = Path extends `${infer Head}.${infer Rest}`
   ? Head extends StringKey<T>
     ? T[Head] extends PlainObject
-      ? MultiValue<T[Head], Extract<Rest, MultiKeyFlat<T[Head]>>>
+      ? MultiValue<T[Head], Extract<Rest, MultiKey<T[Head]>>>
       : never
     : never
   : Path extends StringKey<T>
     ? T[Path]
     : never;
 
-export function isPlainObject(value: unknown): value is PlainObject {
+function isPlainObject(value: unknown): value is PlainObject {
   return (
     typeof value === "object" &&
     value !== null &&
@@ -47,13 +34,13 @@ export function isPlainObject(value: unknown): value is PlainObject {
   );
 }
 
-export function segments<T extends object, K extends MultiKeyFlat<T> & string>(
+function segments<T extends object, K extends MultiKey<T> & string>(
   path: K,
 ): [StringKey<T>, ...string[]] {
   return path.split(".") as unknown as [StringKey<T>, ...string[]];
 }
 
-export function traverse<T extends object, K extends MultiKeyFlat<T> & string>(
+export function traverse<T extends object, K extends MultiKey<T> & string>(
   target: T,
   path: K,
 ): MultiValue<T, K> {
@@ -66,7 +53,7 @@ export function traverse<T extends object, K extends MultiKeyFlat<T> & string>(
   return current as MultiValue<T, K>;
 }
 
-export function traverseSet<T extends object, K extends MultiKeyFlat<T> & string>(
+export function traverseSet<T extends object, K extends MultiKey<T> & string>(
   target: T,
   path: K,
   value: MultiValue<T, K>,
@@ -112,12 +99,12 @@ export function getKeys<T extends object>(ctor: new () => T) {
 }
 
 function _getKeys<T extends object>(prefix = "", source: T) {
-  const out: MultiKeyFlat<T>[] = [];
+  const out: MultiKey<T>[] = [];
   for (const [key, value] of Object.entries(source)) {
-    const fullKey = `${prefix}${key}` as MultiKeyFlat<T>;
+    const fullKey = `${prefix}${key}` as MultiKey<T>;
 
     if (isPlainObject(value)) {
-      out.push(...(_getKeys(`${fullKey}.`, value) as MultiKeyFlat<T>[]));
+      out.push(...(_getKeys(`${fullKey as string}.`, value) as MultiKey<T>[]));
     } else {
       out.push(fullKey);
     }

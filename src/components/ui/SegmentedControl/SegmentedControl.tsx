@@ -110,7 +110,7 @@ function useSegmentedControlContext() {
   return ctx;
 }
 
-export type SegmentedControlRadio<T> = {
+type SegmentedControlRadio<T> = {
   label: string;
   value: T;
 };

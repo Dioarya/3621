@@ -48,11 +48,16 @@ src/
 
 - `@/` → `src/`, `@@/` → package root (e.g. `@@/package.json`)
 - CSS Modules for components (`Page.module.css`); global styles in `global.css`
+- CSS Modules are only used inside that specific component through `import style from "./[...].module.css`
+- CSS Modules' css classes are used using dot notation (`style.class`) if possible, otherwise use index notation (`style["kebab-class"]`)
 - Content script injects styles via `style.css?inline` into document `<head>`
 - Popup wraps `<React.StrictMode>` only in dev (`import.meta.env.PROD` check in `main.tsx:16`)
 - Dev-only logging guarded by `if (import.meta.env.DEV)`
 - SVG imports via `vite-plugin-svgr` (types in `src/env.d.ts`)
 - Messaging via `@webext-core/messaging` with typed protocol in `src/utils/messaging.ts`
+- CSS classes shall always use kebab-case
+- Never use direct px sizing inside CSS, use the conversion factor 16px = 1em to use em instead.
+- Always update type definitions when changing implementation details that add/change the shape, even if nobody asked.
 
 ## Settings flow
 

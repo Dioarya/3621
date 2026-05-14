@@ -19,7 +19,9 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
       (value) => {
         if (!value) return;
         if (import.meta.env.DEV)
-          console.log(`[content:subscriptions] log: verticalConstraint changed - ${value}`);
+          console.log(
+            `[content:subscriptions] log: verticalConstraint changed - ${JSON.stringify(value)}`,
+          );
         applyConstraint(value);
       },
     ),
@@ -41,7 +43,7 @@ export function setupSubscriptions(ctx: ContentScriptContext, elements: HTMLElem
       (value) => {
         if (!value) return;
         if (import.meta.env.DEV)
-          console.log(`[content:subscriptions] log: liveUpdate changed - ${value}`);
+          console.log(`[content:subscriptions] log: liveUpdate changed - ${JSON.stringify(value)}`);
         applyLiveUpdate(value);
       },
     ),

@@ -1,11 +1,11 @@
 import { storage, type WxtStorageItem } from "wxt/utils/storage";
 
-import type { MultiKeyFlat, MultiValue, PlainObject } from "./multi";
+import type { MultiKey, MultiValue, PlainObject } from "./multi";
 
 import { getKeys, mapMulti, traverse } from "./multi";
 import { Settings } from "./settings";
 
-export type StorageItems<T extends object> = {
+type StorageItems<T extends object> = {
   [K in keyof T]: T[K] extends PlainObject ? StorageItems<T[K]> : WxtItem<T[K]>;
 };
 
@@ -21,11 +21,9 @@ function build<T extends object>(ctor: new () => T) {
 
 class Storage<T extends object> {
   items: StorageItems<T>;
-  keys: MultiKeyFlat<T>[];
+  keys: MultiKey<T>[];
 
-  item<K extends MultiKeyFlat<T> & string>(
-    key: MultiKeyFlat<StorageItems<T>>,
-  ): WxtItem<MultiValue<T, K>> {
+  item<K extends MultiKey<T> & string>(key: MultiKey<StorageItems<T>>): WxtItem<MultiValue<T, K>> {
     return traverse(this.items, key) as WxtItem<MultiValue<T, K>>;
   }
 

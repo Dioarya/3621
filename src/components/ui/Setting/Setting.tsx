@@ -1,6 +1,8 @@
 import clsx from "clsx";
 import React, { type ReactNode } from "react";
 
+import ArrowRight from "@/assets/Arrows/right.svg?react";
+
 import style from "./Setting.module.css";
 
 type SettingLabelProps = { children: string };
@@ -17,7 +19,11 @@ const Label = ({ children }: SettingLabelProps) => {
 };
 
 const Description = ({ children }: SettingDescriptionProps) => {
-  return <span className={style.description}>{children}</span>;
+  return (
+    <span className={style["question-mark"]} title={children}>
+      ?
+    </span>
+  );
 };
 
 const Input = ({ children }: SettingInputProps) => {
@@ -26,19 +32,23 @@ const Input = ({ children }: SettingInputProps) => {
 
 type SettingProps = Omit<React.ComponentPropsWithoutRef<"span">, "children"> & {
   children: SettingChild | SettingChild[];
+  nested?: boolean;
 };
 
-const Setting = ({ children, className }: SettingProps) => {
+const Setting = ({ children, className, nested }: SettingProps) => {
   const childArray = React.Children.toArray(children) as React.ReactElement[];
 
   const label = childArray.find((c) => c.type === Label);
   const description = childArray.find((c) => c.type === Description);
   const input = childArray.find((c) => c.type === Input);
 
-  const combinedClassName = clsx(style.setting, className);
+  const combinedClassName = clsx(style.setting, className, {
+    [style.nested]: nested,
+  });
   return (
     <span className={combinedClassName}>
       <div className={style.nameplate}>
+        {nested && <ArrowRight className={style.arrow} />}
         {label}
         {description}
       </div>

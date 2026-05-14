@@ -1,15 +1,15 @@
 import { defineExtensionMessaging } from "@webext-core/messaging";
 
 import type { Acknowledgement } from "./lifetime";
-import type { MultiKeyFlat, MultiValue } from "./multi";
+import type { MultiKey, MultiValue } from "./multi";
 import type { PartialSettings, Settings } from "./settings";
 
 // creates *.get and *.set protocols for each key inside Settings,
 // such as theme.get & theme.set and liveUpdate.get & liveUpdate.set
 type StorageProtocol<T extends object> = {
-  [K in MultiKeyFlat<T> as `${K}.get`]: () => MultiValue<T, K>;
+  [K in MultiKey<T> as `${K}.get`]: () => MultiValue<T, K>;
 } & {
-  [K in MultiKeyFlat<T> as `${K}.set`]: (data: MultiValue<T, K>) => void;
+  [K in MultiKey<T> as `${K}.set`]: (data: MultiValue<T, K>) => void;
 };
 
 type SettingsProtocol = StorageProtocol<Settings>;

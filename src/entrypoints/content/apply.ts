@@ -15,10 +15,10 @@ export type HTMLElements = {
   alignContainer: HTMLElement;
 };
 
-export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
+function createApplyConstraint({ image, imageContainer }: HTMLElements) {
   function applyConstraint(verticalConstraint: VerticalConstraint) {
     if (import.meta.env.DEV)
-      console.log(`[content:apply] log: verticalConstraint=${verticalConstraint}`);
+      console.log(`[content:apply] log: verticalConstraint=${JSON.stringify(verticalConstraint)}`);
     switch (verticalConstraint.type) {
       case "off": {
         image.style.maxHeight = "";
@@ -41,7 +41,7 @@ export function createApplyConstraint({ image, imageContainer }: HTMLElements) {
   return applyConstraint;
 }
 
-export function createApplyAlignment({ alignContainer }: HTMLElements) {
+function createApplyAlignment({ alignContainer }: HTMLElements) {
   function applyAlignment(align: Align) {
     if (import.meta.env.DEV) console.log(`[content:apply] log: align=${align}`);
     type AlignCSS = `align-${Align}`;
@@ -53,12 +53,13 @@ export function createApplyAlignment({ alignContainer }: HTMLElements) {
   return applyAlignment;
 }
 
-export function createApplyLiveUpdate(
+function createApplyLiveUpdate(
   ctx: ContentScriptContext,
   applyConstraint: ReturnType<typeof createApplyConstraint>,
 ) {
   function applyLiveUpdate(liveUpdate: LiveUpdate) {
-    if (import.meta.env.DEV) console.log(`[content:apply] log: liveUpdate=${liveUpdate}`);
+    if (import.meta.env.DEV)
+      console.log(`[content:apply] log: liveUpdate=${JSON.stringify(liveUpdate)}`);
     // Can't use lodash's throttle, because Function() calls break CSP
     const createThrottle = () => {
       return throttle(liveUpdate.debounce, () => {

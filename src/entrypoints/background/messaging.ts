@@ -3,7 +3,7 @@ import type { RemoveListenerCallback } from "@webext-core/messaging";
 import type { Settings } from "@/utils/settings";
 
 import { onMessage, sendMessageSafe, type ProtocolMap } from "@/utils/messaging";
-import { traverseSet, type MultiKeyFlat, type MultiValue } from "@/utils/multi";
+import { traverseSet, type MultiKey, type MultiValue } from "@/utils/multi";
 import { settingsStorageItems } from "@/utils/storage";
 import { DeepPartial } from "@/utils/types";
 
@@ -24,7 +24,7 @@ async function getAllSettings() {
   return settings;
 }
 
-function createGetAndSet(prop: MultiKeyFlat<Settings>, options?: { get?: boolean; set?: boolean }) {
+function createGetAndSet(prop: MultiKey<Settings>, options?: { get?: boolean; set?: boolean }) {
   const get = options?.get ?? true;
   const set = options?.set ?? true;
 
@@ -53,7 +53,7 @@ function createGetAndSet(prop: MultiKeyFlat<Settings>, options?: { get?: boolean
   return result;
 }
 
-function createWatch(lifetime: Lifetime, prop: MultiKeyFlat<Settings>) {
+function createWatch(lifetime: Lifetime, prop: MultiKey<Settings>) {
   return settingsStorageItems.item(prop).watch(async (newValue) => {
     const update = {} as DeepPartial<Settings>;
     traverseSet(update as unknown as Settings, prop, newValue, { parents: true });

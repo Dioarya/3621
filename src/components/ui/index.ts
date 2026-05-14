@@ -9,5 +9,5 @@ export { default as Section } from "./Section";
 export {
   default as SegmentedControl,
   createSegmentedControl,
-} from "./SegmentedControl/SegmentedControl.tsx";
+} from "./SegmentedControl/SegmentedControl";
 export { default as Dropdown } from "./Dropdown/Dropdown";

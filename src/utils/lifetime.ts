@@ -46,7 +46,7 @@ export interface Tab {
   frames: Frame[] | null;
 }
 
-export interface Frame {
+interface Frame {
   /** The ID of the frame. 0 indicates that this is the main frame; a positive value indicates the ID of a subframe. */
   frameId: number;
 }
