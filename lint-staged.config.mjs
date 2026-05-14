@@ -1,7 +1,7 @@
 export default {
   "*.{ts,tsx,js,jsx}": (stagedFiles) => {
     if (stagedFiles.length > 0) {
-      return ["oxlint src/"];
+      return ["oxlint src/", "depcruise --config .dependency-cruiser.js src"];
     }
     return [];
   },
