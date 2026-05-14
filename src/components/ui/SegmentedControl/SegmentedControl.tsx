@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import React, { useEffect, useRef } from "react";
-import { createContext, useContext } from "react";
+import React, { createContext, useContext } from "react";
 
 import style from "./SegmentedControl.module.css";
 
@@ -12,7 +11,7 @@ type SegmentedControlContextType<T = any> = {
 const segmentedControlContext = createContext<SegmentedControlContextType | null>(null);
 
 type SegmentedControlRadioProps<T> = Omit<
-  React.ComponentPropsWithoutRef<"span">,
+  React.ComponentPropsWithoutRef<"label">,
   "children" | "value"
 > & {
   children: React.ReactNode;
@@ -27,20 +26,11 @@ type SegmentedControlChild<T> = SegmentedControlRadioElement<T>;
 
 const Radio = <T,>({ children, value, ...props }: SegmentedControlRadioProps<T>) => {
   const ctx = useSegmentedControlContext();
-  const wrapCombinedClassName = clsx(style.wrap, { [style.selected]: ctx.value === value });
-  const segmentCombinedClassName = clsx(style.segment, { [style.selected]: ctx.value === value });
+  const cn = clsx(style.segment, { [style.selected]: ctx.value === value });
   return (
-    <span className={wrapCombinedClassName}>
-      <label className={segmentCombinedClassName}>
-        <input
-          type="radio"
-          checked={ctx.value === value}
-          onChange={() => ctx.onChange(value)}
-          {...props}
-        />
-        {children}
-      </label>
-    </span>
+    <label className={cn} onClick={() => ctx.onChange(value)} {...props}>
+      {children}
+    </label>
   );
 };
 
@@ -64,34 +54,9 @@ const SegmentedControl = <T,>({
   const radios = childArray.filter((c) => c.type === Radio) as SegmentedControlRadioElement<T>[];
   const combinedClassName = clsx(style["segmented-control"], className);
 
-  const fieldsetRef = useRef<HTMLFieldSetElement>(null);
-
-  useEffect(() => {
-    const container = fieldsetRef.current;
-    if (!container) return;
-
-    function fillRows() {
-      container!.querySelectorAll(`.${style["row-spacer"]}`).forEach((s) => s.remove());
-      const children = Array.from(container!.children) as HTMLElement[];
-      const rows = Map.groupBy(children, (child) => child.offsetTop);
-
-      rows.forEach((row) => {
-        const spacer = document.createElement("span");
-        spacer.className = style["row-spacer"];
-        row[row.length - 1].insertAdjacentElement("afterend", spacer);
-      });
-    }
-
-    const observer = new ResizeObserver(fillRows);
-    observer.observe(container);
-    fillRows();
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <segmentedControlContext.Provider value={{ onChange, value }}>
-      <fieldset className={combinedClassName} ref={fieldsetRef} {...props}>
+      <fieldset className={combinedClassName} {...props}>
         {radios}
       </fieldset>
     </segmentedControlContext.Provider>

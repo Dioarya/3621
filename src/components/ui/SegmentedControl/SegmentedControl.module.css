@@ -1,69 +1,42 @@
 .segmented-control {
-  --border-thickness: 0.125em;
-  --padding: calc(var(--border-thickness) * 2);
-  --gap-items: 0.0625em;
-  --gap-inner: 0.25em;
-  --border-radius: 0.5em;
+  --bg: var(--color-surface-primary-200);
   --color-border: var(--color-surface-primary-400);
-  --color-background: var(--color-surface-primary-200);
-  --color-item-gap: var(--color-surface-primary-600);
-  --color-item-selected-background: var(--color-brand-primary-active);
-  --color-item-selected-text: var(--color-brand-primary-text);
-  --color-hover-overlay: rgb(from var(--color-surface-primary-500) r g b / 20%);
-  --color-active-overlay: rgb(from var(--color-surface-primary-500) r g b / 40%);
-  --overlay-hover: linear-gradient(var(--color-hover-overlay), var(--color-hover-overlay));
-  --overlay-active: linear-gradient(var(--color-active-overlay), var(--color-active-overlay));
+  --selected-bg: var(--color-brand-primary-active);
+  --selected-text: var(--color-brand-primary-text);
+  --radius: 0.375em;
 
   display: flex;
   flex-wrap: wrap;
-  gap: var(--gap-items);
+  gap: 0.125em;
   width: fit-content;
-  padding: var(--padding);
+  padding: 0.125em;
   user-select: none;
-  outline: var(--padding) solid var(--color-background);
-  outline-offset: calc(-1 * var(--border-thickness) + -1 * var(--padding));
-  background-color: var(--color-item-gap);
-  border-radius: var(--border-radius);
-  box-shadow: inset 0 0 0 var(--border-thickness) var(--color-border);
+  outline: 0.0625em solid var(--color-border);
+  outline-offset: -0.0625em;
+  background-color: var(--bg);
+  border-radius: var(--radius);
 
-  .row-spacer {
-    flex: 1;
-    background-color: var(--color-background);
-  }
-
-  .wrap {
+  .segment {
     display: flex;
     align-items: center;
-    padding: var(--gap-inner);
-    background-color: var(--color-background);
+    padding: 0.25em 0.625em;
+    line-height: 1;
+    cursor: pointer;
+    border-radius: calc(var(--radius) - 0.125em);
 
-    .segment {
-      display: flex;
-      align-items: center;
-      padding: 0 var(--padding);
-      line-height: 1;
-      cursor: pointer;
-      border-radius: var(--padding);
+    &:hover {
+      background-image: linear-gradient(
+        rgb(from var(--color-surface-primary-500) r g b / 10%),
+        rgb(from var(--color-surface-primary-500) r g b / 10%)
+      );
+    }
 
-      & input {
-        width: 0;
-        height: 0;
-        padding: 0;
-        margin: 0;
-        appearance: none;
-      }
+    &.selected {
+      color: var(--selected-text);
+      background-color: var(--selected-bg);
 
       &:hover {
-        background-image: var(--overlay-hover);
-      }
-
-      &.selected {
-        color: var(--color-item-selected-text);
-        background-color: var(--color-item-selected-background);
-
-        &:hover {
-          background-image: var(--overlay-hover);
-        }
+        background-image: linear-gradient(rgb(from white r g b / 15%), rgb(from white r g b / 15%));
       }
     }
   }
