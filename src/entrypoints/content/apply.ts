@@ -2,7 +2,7 @@ import type { ContentScriptContext } from "wxt/utils/content-script-context";
 
 import { throttle } from "throttle-debounce";
 
-import type { VerticalConstraint, Align, LiveUpdate, Settings, HideTopAd } from "@/utils/settings";
+import type { VerticalConstraint, Align, Settings, HideTopAd } from "@/utils/settings";
 
 import { disposableAddEventListener } from "@/utils/event";
 
@@ -60,7 +60,7 @@ function createApplyLiveUpdate(
   ctx: ContentScriptContext,
   applyConstraint: ReturnType<typeof createApplyConstraint>,
 ) {
-  function applyLiveUpdate(liveUpdate: LiveUpdate) {
+  function applyLiveUpdate(liveUpdate: VerticalConstraint["liveUpdate"]) {
     if (import.meta.env.DEV)
       console.log(`[content:apply] log: liveUpdate=${JSON.stringify(liveUpdate)}`);
     // Can't use lodash's throttle, because Function() calls break CSP
@@ -180,8 +180,8 @@ export function createApplyFunctions(ctx: ContentScriptContext, elements: HTMLEl
 export function applySettings(settings: Settings, fns: ApplyFunctions) {
   const { verticalConstraint, align, hideTopAd } = settings;
   const { applyConstraint, applyAlignment, applyLiveUpdate, applyHideTopAd } = fns;
+  applyHideTopAd(hideTopAd);
   applyConstraint(verticalConstraint);
   applyAlignment(align);
   applyLiveUpdate(verticalConstraint.liveUpdate);
-  applyHideTopAd(hideTopAd);
 }

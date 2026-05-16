@@ -1,15 +1,13 @@
 import type { DeepPartial, Milliseconds, Pixels } from "./types";
 
 export type Theme = "system" | "dark" | "light";
-export type LiveUpdate = {
-  enabled: boolean;
-  debounce: Milliseconds;
-};
-
 export type VerticalConstraint = {
   type: "off" | "full" | "margined";
   margin: Pixels;
-  liveUpdate: LiveUpdate;
+  liveUpdate: {
+    enabled: boolean;
+    debounce: Milliseconds;
+  };
 };
 export type Align = "left" | "center" | "right";
 export type HideTopAd = boolean;

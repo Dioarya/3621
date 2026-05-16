@@ -56,6 +56,8 @@ export function setupSubscriptions(_ctx: ContentScriptContext, fns: ApplyFunctio
         if (import.meta.env.DEV)
           console.log(`[content:subscriptions] log: hideTopAd changed - ${value}`);
         applyHideTopAd(value);
+        const vc = useContentSettings.getState().data?.verticalConstraint;
+        if (vc) applyConstraint(vc);
       },
     ),
   );
